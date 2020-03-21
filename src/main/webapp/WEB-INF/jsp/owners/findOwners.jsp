@@ -13,7 +13,7 @@
     <h2>Find Owners</h2>
 
     
-    <form:form modelAttribute="owner" action="/owners" method="get" class="form-horizontal"
+    <form:form modelAttribute="owner" action="/petclinic/owners" method="get" class="form-horizontal"
                id="search-owner-form">
         <div class="form-group">
             <div class="control-group" id="lastName">
