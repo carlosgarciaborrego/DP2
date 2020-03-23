@@ -13,14 +13,26 @@
         <c:if test="${vet['new']}">New </c:if> Vet
     </h2>
     <form:form modelAttribute="vet" class="form-horizontal" id="add-owner-form">
+         <security:authorize access="hasAuthority('admin')">
         <div class="form-group has-feedback">
         <form:hidden path="id" />
-            <petclinic:inputField label="First Name" name="firstName" readonly="!hasAuthority('admin')"/>
-            <petclinic:inputField label="Last Name" name="lastName" readonly="!hasAuthority('admin')"/>
-            <petclinic:inputField label="Address" name="address" readonly="!hasAuthority('admin')"/>
-            <petclinic:inputField label="City" name="city" readonly="!hasAuthority('admin')"/>
-            <petclinic:inputField label="Telephone" name="telephone" readonly="!hasAuthority('admin')"/>
+            <petclinic:inputField label="First Name" name="firstName" />
+            <petclinic:inputField label="Last Name" name="lastName" />
+            <petclinic:inputField label="Address" name="address" />
+            <petclinic:inputField label="City" name="city" />
+            <petclinic:inputField label="Telephone" name="telephone" />
         </div>
+        </security:authorize>
+        <security:authorize access="hasAuthority('owner')">
+        <div class="form-group has-feedback">
+        <form:hidden path="id" />
+            <petclinic:inputFieldDisabled label="First Name" name="firstName" />
+            <petclinic:inputFieldDisabled label="Last Name" name="lastName" />
+            <petclinic:inputFieldDisabled label="Address" name="address" />
+            <petclinic:inputFieldDisabled label="City" name="city" />
+            <petclinic:inputFieldDisabled label="Telephone" name="telephone" />
+        </div>
+        </security:authorize>
         <security:authorize access="hasAuthority('admin')">
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
