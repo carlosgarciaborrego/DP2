@@ -31,12 +31,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	DataSource dataSource;
 	
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	protected void configure(final HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				.antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/","/oups").permitAll()
 				.antMatchers("/users/new").permitAll()
+				.antMatchers("/hotels/").permitAll()
+				.antMatchers("/hotels/**").permitAll()
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
+				.antMatchers("/vet/delete/**").hasAnyAuthority("admin")
+				.antMatchers("/vet/show/**").permitAll()
 				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
 				.antMatchers("/vets/**").authenticated()
 				.anyRequest().denyAll()
@@ -56,9 +60,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	@Override
-	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+	public void configure(final AuthenticationManagerBuilder auth) throws Exception {
 		auth.jdbcAuthentication()
-	      .dataSource(dataSource)
+	      .dataSource(this.dataSource)
 	      .usersByUsernameQuery(
 	       "select username,password,enabled "
 	        + "from users "
@@ -67,7 +71,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	       "select username, authority "
 	        + "from authorities "
 	        + "where username = ?")	      	      
-	      .passwordEncoder(passwordEncoder());	
+	      .passwordEncoder(this.passwordEncoder());	
 	}
 	
 	@Bean
