@@ -24,7 +24,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Vets;
-import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -46,9 +45,10 @@ public class VetController {
 	private final VetService	vetService;
 	private static final String	VIEWS_VET_CREATE_OR_UPDATE_FORM	= "vet/createOrUpdateVetForm";
 
-	@Autowired
-	private UserService			userService;
 
+	//	@Autowired
+	//	private UserService			userService;
+	//
 
 	@Autowired
 	public VetController(final VetService clinicService) {
