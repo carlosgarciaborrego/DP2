@@ -10,16 +10,25 @@
 
         <form:form modelAttribute="hotel" class="form-horizontal" action="../../petclinic/hotels/save">
             <div class="form-group has-feedback">
+            	<form:hidden path="id"/>
                 <petclinic:inputField label="Name" name="name"/>
                 <petclinic:inputField label="Location" name="location"/>
-                 <petclinic:inputField label="Capacity" name="capacity"/>
-                 <petclinic:inputField label="Count" name="count"/>
+                <petclinic:inputField label="Count" name="count"/>
+                <petclinic:inputField label="Capacity" name="capacity"/>
             </div>
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <input type="hidden" name="petId" value="${hotel.id}"/>
-                    <button class="btn btn-default" type="submit">Add Hotel</button>
+                    
+                     <c:choose>
+                    <c:when test="${hotel['new']}">
+                    	<input type="hidden" name="petId" value="${hotel.id}"/>
+                      <button class="btn btn-default" type="submit">Add Hotel</button>
+                    </c:when>
+                    <c:otherwise>
+                        <button class="btn btn-default" type="submit">Update Vet</button>
+                    </c:otherwise>
+                </c:choose>
                 </div>
             </div>
         </form:form>

@@ -8,6 +8,12 @@
 <petclinic:layout pageName="hotels">
     <h2>Hoteles</h2>
 
+   
+
+
+
+
+
     <table id="hotelsTable" class="table table-striped">
         <thead>
         <tr>
@@ -22,7 +28,6 @@
         <c:forEach items="${hotel}" var="hotel">
             <tr>
                 <td>
-               
                    <c:out value="${hotel.name}"/>
                 </td>
                 <td>
@@ -44,6 +49,11 @@
                         <spring:param name="hotelId" value="${hotel.id}"/>
                     </spring:url>
                 	<a href="${fn:escapeXml(hotelUrl)}">Update</a>
+                	<br>
+                	<spring:url value="/hotels/{hotelId}" var="hotelUrl">
+                        <spring:param name="hotelId" value="${hotel.id}"/>
+                    </spring:url>
+                	<a href="${fn:escapeXml(hotelUrl)}">Show</a>
                 </td>
             </tr>
         </c:forEach>

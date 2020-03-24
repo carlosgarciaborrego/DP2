@@ -1,6 +1,7 @@
 
 package org.springframework.samples.petclinic.web;
 
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -68,7 +69,7 @@ public class HotelController {
 		return view;
 	}
 
-	@GetMapping(path = "/hotels/{hotelsId}/edit")
+	@GetMapping(path = "/{hotelsId}/edit")
 	public String actualizarHotel(@PathVariable("hotelId") final int hotelId, final ModelMap modelMap) {
 		String view = "hotels/editHotel";
 		Optional<Hotel> hotel = this.hotelService.findHotelById(hotelId);
@@ -76,7 +77,7 @@ public class HotelController {
 		return view;
 	}
 
-	@PostMapping(value = "/hotels/{hotelId}/edit")
+	@PostMapping(value = "/{hotelId}/edit")
 	public String actualizarHotelPost(@Valid final Hotel hotel, final BindingResult result, @PathVariable("hoteId") final int hotelId) {
 		String view = "hotels/editHotel";
 		if (result.hasErrors()) {
@@ -85,6 +86,28 @@ public class HotelController {
 			hotel.setId(hotelId);
 			this.hotelService.save(hotel);
 			return "redirect:/hotels/{hotelId}";
+		}
+	}
+
+	@GetMapping(value = "/{hotelId}")
+	public String showHotel(@PathVariable("hotelId") final Integer hotelId, final Map<String, Object> model) {
+		Hotel hotel = new Hotel();
+		Optional<Hotel> hotels = this.hotelService.findHotelById(hotelId);
+		if (hotels.isPresent()) {
+			hotel = hotels.get();
+		}
+		model.put("hotel", hotel);
+		return "hotels/hotelDetails";
+	}
+
+	@PostMapping(value = "/{hotelId}")
+	public String showHotel(@Valid final Hotel hotel, final BindingResult result, final Map<String, Object> model) {
+		if (result.hasErrors()) {
+			return "hotels/editHotel";
+		} else {
+			this.hotelService.save(hotel);
+			;
+			return "redirect:/show/{hotelId}";
 		}
 	}
 
