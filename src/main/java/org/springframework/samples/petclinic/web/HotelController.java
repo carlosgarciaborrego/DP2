@@ -97,7 +97,7 @@ public class HotelController {
 			hotel = hotels.get();
 		}
 		model.put("hotel", hotel);
-		return "hotels/hotelDetails";
+		return "hotels/editHotel";
 	}
 
 	@PostMapping(value = "/{hotelId}")

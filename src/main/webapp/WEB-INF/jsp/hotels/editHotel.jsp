@@ -26,7 +26,7 @@
                       <button class="btn btn-default" type="submit">Add Hotel</button>
                     </c:when>
                     <c:otherwise>
-                        <button class="btn btn-default" type="submit">Update Vet</button>
+                        <button class="btn btn-default" type="submit">Update Hotel</button>
                     </c:otherwise>
                 </c:choose>
                 </div>

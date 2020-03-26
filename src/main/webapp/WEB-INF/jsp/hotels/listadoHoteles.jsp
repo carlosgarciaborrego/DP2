@@ -39,11 +39,6 @@
                     </spring:url>
                 	<a href="${fn:escapeXml(hotelUrl)}">Delete</a>
                 	<br>
-                	<spring:url value="/hotels/{hotelId}/edit" var="hotelUrl">
-                        <spring:param name="hotelId" value="${hotel.id}"/>
-                    </spring:url>
-                	<a href="${fn:escapeXml(hotelUrl)}">Update</a>
-                	<br>
                 	<spring:url value="/hotels/{hotelId}" var="hotelUrl">
                         <spring:param name="hotelId" value="${hotel.id}"/>
                     </spring:url>
