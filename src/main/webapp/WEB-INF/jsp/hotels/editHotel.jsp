@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="security"
+  uri="http://www.springframework.org/security/tags" %>
 
 <petclinic:layout pageName="hotels">
     <jsp:body>
@@ -16,7 +18,7 @@
                 <petclinic:inputField label="Count" name="count"/>
                 <petclinic:inputField label="Capacity" name="capacity"/>
             </div>
-
+			<security:authorize access="hasAuthority('admin')">
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     
@@ -31,6 +33,7 @@
                 </c:choose>
                 </div>
             </div>
+            </security:authorize>
         </form:form>
     </jsp:body>
 
