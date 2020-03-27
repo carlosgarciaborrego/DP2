@@ -4,9 +4,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="security"
+  uri="http://www.springframework.org/security/tags" %>
 
 <petclinic:layout pageName="hotels">
     <h2>Hoteles</h2>
+
 
     <table id="hotelsTable" class="table table-striped">
         <thead>
@@ -34,21 +37,25 @@
                     <c:out value="${hotel.capacity}"/>
                 </td>
                 <td>
-                	<spring:url value="/hotels/delete/{hotelId}" var="hotelUrl">
-                        <spring:param name="hotelId" value="${hotel.id}"/>
-                    </spring:url>
-                	<a href="${fn:escapeXml(hotelUrl)}">Delete</a>
-                	<br>
                 	<spring:url value="/hotels/{hotelId}" var="hotelUrl">
                         <spring:param name="hotelId" value="${hotel.id}"/>
                     </spring:url>
                 	<a href="${fn:escapeXml(hotelUrl)}">Show</a>
+                	<br>
+                	<security:authorize access="hasAuthority('admin')">
+	                	<spring:url value="/hotels/delete/{hotelId}" var="hotelUrl">
+	                        <spring:param name="hotelId" value="${hotel.id}"/>
+	                    </spring:url>
+	                	<a href="${fn:escapeXml(hotelUrl)}">Delete</a>
+                	</security:authorize>  
                 </td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
+     <security:authorize access="hasAuthority('admin')">
      <div class="form-group">
             <a class="btn btn-default" href='<spring:url value="/hotels/new" htmlEscape="true"/>'>New Hotel</a>
         </div>
+ 	</security:authorize>  
 </petclinic:layout>

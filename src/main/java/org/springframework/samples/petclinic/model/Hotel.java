@@ -28,6 +28,7 @@ public class Hotel extends NamedEntity {
 	private Integer		count;
 
 	@Column(name = "capacity")
+	@Range(min = 0)
 	private Integer		capacity;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel")
