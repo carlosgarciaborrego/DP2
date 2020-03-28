@@ -120,7 +120,6 @@ class ValidatorTests {
 		Validator validator = this.createValidator();
 		Set<ConstraintViolation<Hotel>> constraintViolations = validator.validate(hotel);
 		Assertions.assertThat(constraintViolations.size()).isEqualTo(0);
-
 	}
 
 }
