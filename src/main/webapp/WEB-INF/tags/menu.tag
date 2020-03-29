@@ -1,3 +1,4 @@
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
@@ -27,13 +28,13 @@
 					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 					<span>Home</span>
 				</petclinic:menuItem>
-
+				<security:authorize access="hasAuthority('owner') or hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
 					title="find owners">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Find owners</span>
 				</petclinic:menuItem>
-
+				</security:authorize>
 				<petclinic:menuItem active="${name eq 'vets'}" url="/vets"
 					title="veterinarians">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
@@ -85,6 +86,12 @@
 												<a href="<c:url value="/logout" />"
 													class="btn btn-primary btn-block btn-sm">Logout</a>
 											</p>
+											  <security:authorize access="hasAuthority('veterinarian')">
+											<p class="text-left">
+												<a href="<c:url value="/vet/profile" />"
+													class="btn btn-primary btn-block btn-sm">Vet Profile</a>
+											</p>
+											   </security:authorize>
 										</div>
 									</div>
 								</div>

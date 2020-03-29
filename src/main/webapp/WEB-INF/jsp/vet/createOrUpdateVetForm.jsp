@@ -21,11 +21,14 @@
             <petclinic:inputField label="Address" name="address" />
             <petclinic:inputField label="City" name="city" />
             <petclinic:inputField label="Telephone" name="telephone" />
+            <petclinic:inputField label="Username" name="user.username"/>
+            <petclinic:inputField label="Password" name="user.password"/>
         </div>
         </security:authorize>
         <security:authorize access="hasAuthority('owner')">
         <div class="form-group has-feedback">
         <form:hidden path="id" />
+            <petclinic:inputFieldDisabled label="Username" name="user.username"/>
             <petclinic:inputFieldDisabled label="First Name" name="firstName" />
             <petclinic:inputFieldDisabled label="Last Name" name="lastName" />
             <petclinic:inputFieldDisabled label="Address" name="address" />

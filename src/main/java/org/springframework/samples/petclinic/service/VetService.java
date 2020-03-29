@@ -17,10 +17,12 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.repository.SpecialtyRepository;
@@ -60,6 +62,9 @@ public class VetService {
 		//creating owner
 		this.vetRepository.save(owner);
 		//creating user
+		this.userService.saveUser(owner.getUser());
+		//creating authorities
+		this.authoritiesService.saveAuthorities(owner.getUser().getUsername(), "veterinarian");
 	}
 
 	public void delete(final int vetId) {
@@ -70,6 +75,16 @@ public class VetService {
 
 	public Optional<Vet> findVetById(final int vetId) {
 		Optional<Vet> optional = this.vetRepository.findById(vetId);
+		return optional;
+	}
+
+	public List<Pet> findPetsByVetId(final Integer vetId) {
+		List<Pet> optional = this.vetRepository.findPetsByVetId(vetId);
+		return optional;
+	}
+
+	public List<Vet> findVetByUserId(final String username) {
+		List<Vet> optional = this.vetRepository.findVetByUserId(username);
 		return optional;
 	}
 

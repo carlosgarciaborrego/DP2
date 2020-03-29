@@ -66,6 +66,10 @@ public class Pet extends NamedEntity {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
 	private Set<Visit>	visits;
 
+	@ManyToOne
+	@JoinColumn(name = "vet_id")
+	private Vet			vet;
+
 
 	public void setBirthDate(final LocalDate birthDate) {
 		this.birthDate = birthDate;
@@ -123,6 +127,14 @@ public class Pet extends NamedEntity {
 
 	public void setVisits(final Set<Visit> visits) {
 		this.visits = visits;
+	}
+
+	public Vet getVet() {
+		return this.vet;
+	}
+
+	public void setVet(final Vet vet) {
+		this.vet = vet;
 	}
 
 }

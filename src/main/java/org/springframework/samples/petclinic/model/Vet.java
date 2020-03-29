@@ -22,12 +22,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
@@ -66,6 +68,11 @@ public class Vet extends Person {
 	@NotEmpty
 	@Digits(fraction = 0, integer = 10)
 	private String			telephone;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "username", referencedColumnName = "username")
+	private User			user;
+	//
 
 
 	protected Set<Specialty> getSpecialtiesInternal() {
@@ -124,6 +131,14 @@ public class Vet extends Person {
 
 	public void setSpecialties(final Set<Specialty> specialties) {
 		this.specialties = specialties;
+	}
+
+	public User getUser() {
+		return this.user;
+	}
+
+	public void setUser(final User user) {
+		this.user = user;
 	}
 
 	@Override
