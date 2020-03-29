@@ -17,10 +17,13 @@
 package org.springframework.samples.petclinic.repository;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Vet;
 
 /**
@@ -52,6 +55,13 @@ public interface VetRepository extends CrudRepository<Vet, Integer> {
 	 * @return
 	 * @see BaseEntity#isNew
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	Vet save(Vet vet) throws DataAccessException;
+
+	@Query("SELECT p FROM Pet p where p.vet.id =:id")
+	List<Pet> findPetsByVetId(Integer id);
+
+	@Query("SELECT p FROM Vet p where p.user.username =:username")
+	List<Vet> findVetByUserId(String username);
 }

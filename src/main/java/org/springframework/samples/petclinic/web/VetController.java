@@ -16,15 +16,20 @@
 
 package org.springframework.samples.petclinic.web;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Vets;
 import org.springframework.samples.petclinic.service.VetService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -96,6 +101,17 @@ public class VetController {
 		}
 		model.put("vet", vet);
 		return VetController.VIEWS_VET_CREATE_OR_UPDATE_FORM;
+	}
+
+	@GetMapping(value = "/vet/profile")
+	public String showVetPrpfile(final Map<String, Object> model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User currentPrincipalName = (User) authentication.getPrincipal();
+		Vet v = this.vetService.findVetByUserId(currentPrincipalName.getUsername()).get(0);
+		List<Pet> pets = this.vetService.findPetsByVetId(v.getId());
+		model.put("pets", pets);
+		model.put("vet", v);
+		return "pets/petList";
 	}
 
 	@PostMapping(value = "/vet/show/{vetId}")

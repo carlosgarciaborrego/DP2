@@ -32,12 +32,6 @@
                 </td>
                 
    			    <td>
-   			    <security:authorize access="hasAuthority('admin')">
-                   <spring:url value="vet/delete/{vetId}" var="deleteUrl">
-				        <spring:param name="vetId" value="${vet.id}"/>
-				    </spring:url>
-				    <a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Delete</a>
-				</security:authorize>
 				    <spring:url value="vet/show/{vetId}" var="showUrl">
 				        <spring:param name="vetId" value="${vet.id}"/>
 				    </spring:url>
