@@ -9,6 +9,8 @@ import javax.validation.Validator;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
@@ -41,7 +43,7 @@ class ValidatorTests {
 		Assertions.assertThat(violation.getMessage()).isEqualTo("must not be empty");
 	}
 
-	//Hotels
+	// ----------------------------- Hotels ------------------------------------------------
 
 	//Negative Causes
 	@Test
@@ -120,6 +122,61 @@ class ValidatorTests {
 		Validator validator = this.createValidator();
 		Set<ConstraintViolation<Hotel>> constraintViolations = validator.validate(hotel);
 		Assertions.assertThat(constraintViolations.size()).isEqualTo(0);
+	}
+
+	//------------------------------------ Specialty ---------------------------------
+
+	//Negative Cause
+
+	@Test
+	void nonValidateWithNameIsEmpty() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Specialty specialty = new Specialty();
+		specialty.setName("");
+
+		Validator validator = this.createValidator();
+		Set<ConstraintViolation<Specialty>> constraintViolations = validator.validate(specialty);
+
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
+		ConstraintViolation<Specialty> violation = constraintViolations.iterator().next();
+		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("name");
+		Assertions.assertThat(violation.getMessage()).isEqualTo("size must be between 3 and 50");
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+		"AE", "Odontología especial y Cirugía Maxilofacial Veterinarias"
+	})
+	void nonValidateWithNameLower3AndHigher50Words(final String argumento) {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Specialty specialty = new Specialty();
+		specialty.setName(argumento);
+
+		Validator validator = this.createValidator();
+		Set<ConstraintViolation<Specialty>> constraintViolations = validator.validate(specialty);
+
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
+		ConstraintViolation<Specialty> violation = constraintViolations.iterator().next();
+		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("name");
+		Assertions.assertThat(violation.getMessage()).isEqualTo("size must be between 3 and 50");
+	}
+
+	// Positive Cause
+
+	@ParameterizedTest
+	@ValueSource(strings = {
+		"Ont", "Dentristy", "Odontologías y Cirugías Maxilofaciales Veterinaria"
+	})
+	void ValidateWithNameHigher3AndLower50Words(final String argumento) {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Specialty specialty = new Specialty();
+		specialty.setName(argumento);
+
+		Validator validator = this.createValidator();
+		Set<ConstraintViolation<Specialty>> constraintViolations = validator.validate(specialty);
+
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(0);
+
 	}
 
 }
