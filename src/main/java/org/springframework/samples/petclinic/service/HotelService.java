@@ -12,9 +12,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class HotelService {
 
-	@Autowired
+	//	@Autowired
+	//	private HotelRepository hotelRepository;
+
 	private HotelRepository hotelRepository;
 
+
+	@Autowired
+	public HotelService(final HotelRepository hotelRepository) {
+		this.hotelRepository = hotelRepository;
+	}
 
 	@Transactional
 	public int hotelCount() {
