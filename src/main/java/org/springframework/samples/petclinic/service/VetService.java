@@ -21,7 +21,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
+import org.springframework.samples.petclinic.repository.SpecialtyRepository;
 import org.springframework.samples.petclinic.repository.VetRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +39,9 @@ public class VetService {
 
 	@Autowired
 	private VetRepository		vetRepository;
+
+	@Autowired(required = true)
+	private SpecialtyRepository	specialtyRepository;
 
 	@Autowired
 	private UserService			userService;
@@ -68,4 +73,26 @@ public class VetService {
 		return optional;
 	}
 
+	@Transactional
+	public void deleteById(final int vetId) throws DataAccessException {
+		this.vetRepository.deleteById(vetId);
+
+	}
+
+	@Transactional
+	public Specialty saveSpecialty(final Specialty specialty) throws DataAccessException {
+
+		return this.specialtyRepository.save(specialty);
+	}
+
+	@Transactional
+	public void deleteSpecialty(final Specialty specialty) throws DataAccessException {
+		this.specialtyRepository.delete(specialty);
+	}
+
+	@Transactional
+	public Optional<Specialty> findSpecialtyById(final int specialtyId) {
+		Optional<Specialty> optional = this.specialtyRepository.findById(specialtyId);
+		return optional;
+	}
 }
