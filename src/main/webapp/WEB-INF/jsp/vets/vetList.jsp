@@ -8,7 +8,7 @@
   uri="http://www.springframework.org/security/tags" %>
 
 <petclinic:layout pageName="vets">
-    <h2>Veterinarians</h2>
+    <h2>Veterinarios</h2>
 
     <table id="vetsTable" class="table table-striped">
         <thead>
@@ -30,35 +30,53 @@
                     </c:forEach>
                     <c:if test="${vet.nrOfSpecialties == 0}">none</c:if>
                 </td>
+               <td>
+               <security:authorize access="hasAuthority('admin')">
+                   <spring:url value="vet/delete/{vetId}" var="deleteUrl">
+				        <spring:param name="vetId" value="${vet.id}"/>
+				    </spring:url>
+				    <a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Delete</a>
+				</security:authorize>
+              
+            
+                 <spring:url value="/vet/{vetId}/specialty/new" htmlEscape="true" var="addSpecialtyUrl">
+                <spring:param name="vetId" value="${vet.id}"/>
+                </spring:url>
+                 <a class="btn btn-default" href='${addSpecialtyUrl}'>Agregar especialidad</a>
                 
-   			    <td>
-				    <spring:url value="vet/show/{vetId}" var="showUrl">
+                
+                 	<spring:url value="vet/show/{vetId}" var="showUrl">
 				        <spring:param name="vetId" value="${vet.id}"/>
 				    </spring:url>
 				    <a href="${fn:escapeXml(showUrl)}" class="btn btn-default">Show</a>
-                </td>
-			
-                
+                 </td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
-        <security:authorize access="hasAuthority('admin')">
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10" style="text-align: right;">
 
-               <spring:url value="vet/new" var="newUrl">
-				    </spring:url>
-				    <a href="${fn:escapeXml(newUrl)}" class="btn btn-default">New vet</a>
- 
-            </div>
-        </div>
-        </security:authorize>
+				<security:authorize access="hasAuthority('admin')">
+				        <div class="form-group">
+				            <div class="col-sm-offset-2 col-sm-10" style="text-align: right;">
+				
+				               <spring:url value="vet/new" var="newUrl">
+								    </spring:url>
+								    <a href="${fn:escapeXml(newUrl)}" class="btn btn-default">New vet</a>
+				 
+				            </div>
+				        </div>
+				        </security:authorize>
+
     <table class="table-buttons">
         <tr>
             <td>
-                <a href="<spring:url value="/vets.xml" htmlEscape="true" />">View as XML</a>
-            </td>            
+                <a href="<spring:url value="/vets.xml" htmlEscape="true" />">Ver como XML</a>
+            </td>
+            <td>
+                <a href="<spring:url value="/vets.json" htmlEscape="true" />">Ver como JSON</a>
+            </td>
         </tr>
     </table>
+    
+    
 </petclinic:layout>

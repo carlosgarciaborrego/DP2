@@ -1,16 +1,8 @@
 
 package org.springframework.samples.petclinic.web;
 
-import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.is;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
 import org.assertj.core.util.Lists;
+import org.hamcrest.Matchers;
 import org.hamcrest.xml.HasXPath;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,15 +31,15 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 class VetControllerTests {
 
 	@Autowired
-	private VetController	vetController;
+	private VetController		vetController;
 
 	@MockBean
-	private VetService		clinicService;
+	private VetService			clinicService;
 
 	@Autowired
-	private MockMvc			mockMvc;
-	
-	private static final int TEST_VET_ID = 1;
+	private MockMvc				mockMvc;
+
+	private static final int	TEST_VET_ID	= 1;
 
 
 	@BeforeEach
@@ -103,59 +95,57 @@ class VetControllerTests {
 			.andExpect(MockMvcResultMatchers.view().name("vet/createOrUpdateVetForm"));
 	}
 
-
 	@WithMockUser(value = "spring")
 	@Test
 	void testInitUpdateVetForm() throws Exception {
-		mockMvc.perform(post("/vet/show/{vetId}", TEST_VET_ID)).andExpect(status().isOk())
-				.andExpect(model().attributeExists("vet"))
-				.andExpect(model().attribute("vet", hasProperty("lastName", is("Carter"))))
-				.andExpect(model().attribute("vet", hasProperty("firstName", is("James"))))
-				.andExpect(model().attribute("vet", hasProperty("address", is("110 W. Liberty St."))))
-				.andExpect(model().attribute("vet", hasProperty("city", is("Madison"))))
-				.andExpect(model().attribute("vet", hasProperty("telephone", is("6085551023"))))
-				.andExpect(view().name("vet/createOrUpdateVetForm"));
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/vet/show/{vetId}", VetControllerTests.TEST_VET_ID)).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("vet"))
+			.andExpect(MockMvcResultMatchers.model().attribute("vet", Matchers.hasProperty("lastName", Matchers.is("Carter")))).andExpect(MockMvcResultMatchers.model().attribute("vet", Matchers.hasProperty("firstName", Matchers.is("James"))))
+			.andExpect(MockMvcResultMatchers.model().attribute("vet", Matchers.hasProperty("address", Matchers.is("110 W. Liberty St.")))).andExpect(MockMvcResultMatchers.model().attribute("vet", Matchers.hasProperty("city", Matchers.is("Madison"))))
+			.andExpect(MockMvcResultMatchers.model().attribute("vet", Matchers.hasProperty("telephone", Matchers.is("6085551023")))).andExpect(MockMvcResultMatchers.view().name("vet/createOrUpdateVetForm"));
 	}
 
-        @WithMockUser(value = "spring")
+	@WithMockUser(value = "spring")
 	@Test
 	void testProcessUpdateVetFormSuccess() throws Exception {
-		mockMvc.perform(post("/vet/show/{vetId}", TEST_VET_ID)
-							.with(csrf())
-							.param("firstName", "Joe")
-							.param("lastName", "Bloggs")
-							.param("address", "123 Caramel Street")
-							.param("city", "London")
-							.param("telephone", "01616291589"))
-				.andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/vet/show/{vetId}"));
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/vet/show/{vetId}", VetControllerTests.TEST_VET_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("firstName", "Joe").param("lastName", "Bloggs").param("address", "123 Caramel Street")
+			.param("city", "London").param("telephone", "01616291589")).andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/vet/show/{vetId}"));
 	}
 
-        @WithMockUser(value = "spring")
+	@WithMockUser(value = "spring")
 	@Test
 	void testProcessUpdateVetFormHasErrors() throws Exception {
-		mockMvc.perform(post("/vet/show/{vetId}", TEST_VET_ID)
-							.with(csrf())
-							.param("firstName", "Joe")
-							.param("lastName", "Bloggs")
-							.param("city", "London"))
-				.andExpect(status().isOk())
-				.andExpect(model().attributeHasErrors("vet"))
-				.andExpect(model().attributeHasFieldErrors("vet", "address"))
-				.andExpect(model().attributeHasFieldErrors("vet", "telephone"))
-				.andExpect(view().name("vet/createOrUpdateVetForm"));
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/vet/show/{vetId}", VetControllerTests.TEST_VET_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("firstName", "Joe").param("lastName", "Bloggs").param("city", "London"))
+			.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeHasErrors("vet")).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("vet", "address"))
+			.andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("vet", "telephone")).andExpect(MockMvcResultMatchers.view().name("vet/createOrUpdateVetForm"));
 	}
 
-        @WithMockUser(value = "spring")
+	@WithMockUser(value = "spring")
 	@Test
 	void testShowVet() throws Exception {
-    		mockMvc.perform(get("/vet/show/{vetId}", TEST_VET_ID)).andExpect(status().isOk())
-			.andExpect(model().attributeExists("vet"))
-			.andExpect(model().attribute("vet", hasProperty("lastName", is("Carter"))))
-			.andExpect(model().attribute("vet", hasProperty("firstName", is("James"))))
-			.andExpect(model().attribute("vet", hasProperty("address", is("110 W. Liberty St."))))
-			.andExpect(model().attribute("vet", hasProperty("city", is("Madison"))))
-			.andExpect(model().attribute("vet", hasProperty("telephone", is("6085551023"))))
-			.andExpect(view().name("vet/createOrUpdateVetForm"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/vet/show/{vetId}", VetControllerTests.TEST_VET_ID)).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("vet"))
+			.andExpect(MockMvcResultMatchers.model().attribute("vet", Matchers.hasProperty("lastName", Matchers.is("Carter")))).andExpect(MockMvcResultMatchers.model().attribute("vet", Matchers.hasProperty("firstName", Matchers.is("James"))))
+			.andExpect(MockMvcResultMatchers.model().attribute("vet", Matchers.hasProperty("address", Matchers.is("110 W. Liberty St.")))).andExpect(MockMvcResultMatchers.model().attribute("vet", Matchers.hasProperty("city", Matchers.is("Madison"))))
+			.andExpect(MockMvcResultMatchers.model().attribute("vet", Matchers.hasProperty("telephone", Matchers.is("6085551023")))).andExpect(MockMvcResultMatchers.view().name("vet/createOrUpdateVetForm"));
+	}
+
+	// Test de Specialty
+	@WithMockUser(value = "spring")
+	@Test
+	void testInitAddSpecialtyForm() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/vet/{vetId}/specialty/new")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("vet"))
+			.andExpect(MockMvcResultMatchers.view().name("vets/updateSpecialties"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessAddSpecialtyFormSuccess() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/vet/{vetId}/specialty/new").param("name", "Dentista").with(SecurityMockMvcRequestPostProcessors.csrf())).andExpect(MockMvcResultMatchers.status().is3xxRedirection());
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessCreationAddSpecialtyFormHasErrors() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/vet/{vetId}/specialty/new").with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "Dentista")).andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.model().attributeHasErrors("vet")).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("specialty", "name")).andExpect(MockMvcResultMatchers.view().name("vets/updateSpecialties"));
 	}
 }

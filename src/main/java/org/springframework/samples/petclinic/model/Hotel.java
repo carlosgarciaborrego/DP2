@@ -1,12 +1,8 @@
 
 package org.springframework.samples.petclinic.model;
 
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
@@ -17,22 +13,22 @@ import org.hibernate.validator.constraints.Range;
 public class Hotel extends NamedEntity {
 
 	@Column(name = "name")
-	private String		name;
+	private String	name;
 
 	@Column(name = "location")
 	@NotEmpty
-	private String		location;
+	private String	location;
 
 	@Column(name = "count")
 	@Range(min = 0)
-	private Integer		count;
+	private Integer	count;
 
 	@Column(name = "capacity")
 	@Range(min = 0)
-	private Integer		capacity;
+	private Integer	capacity;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel")
-	private Set<Pet>	pets;
+	//	@OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel")
+	//	private Set<Pet>	pets;
 
 
 	@Override
@@ -69,12 +65,12 @@ public class Hotel extends NamedEntity {
 		this.capacity = capacity;
 	}
 
-	public Set<Pet> getPets() {
-		return this.pets;
-	}
-
-	public void setPets(final Set<Pet> pets) {
-		this.pets = pets;
-	}
+	//	public Set<Pet> getPets() {
+	//		return this.pets;
+	//	}
+	//
+	//	public void setPets(final Set<Pet> pets) {
+	//		this.pets = pets;
+	//	}
 
 }

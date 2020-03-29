@@ -101,6 +101,10 @@ public class Vet extends Person {
 		this.getSpecialtiesInternal().add(specialty);
 	}
 
+	public void deleteSpecialty(final Specialty specialty) {
+		this.getSpecialtiesInternal().remove(specialty);
+	}
+
 	public String getAddress() {
 		return this.address;
 	}

@@ -24,6 +24,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Pet;
+import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Vets;
 import org.springframework.samples.petclinic.service.VetService;
@@ -120,7 +121,7 @@ public class VetController {
 			return VetController.VIEWS_VET_CREATE_OR_UPDATE_FORM;
 		} else {
 			this.vetService.saveVet(vet);
-			return "redirect:/vet/show/{vetId}";
+			return "redirect:/vets";
 		}
 	}
 
@@ -146,7 +147,55 @@ public class VetController {
 			model.put("message", "This vet don't exist");
 		}
 
-		return "redirect:/vets/";
+		return "redirect:/vets";
+	}
+
+	//Add specialty to a Vet
+
+	@GetMapping(value = "/vet/{vetId}/specialty/new")
+	public String initAddSpecialtytForm(final ModelMap modelMap, @PathVariable("vetId") final int vetId) {
+		Specialty specialty = new Specialty();
+		List<Specialty> specialties = this.vetService.findVetById(vetId).get().getSpecialties();
+		Vet vet = this.vetService.findVetById(vetId).get();
+		modelMap.put("vet", vet);
+		modelMap.put("specialty", specialty);
+		modelMap.put("specialties", specialties);
+		return "vets/updateSpecialties";
+	}
+
+	@PostMapping(value = "/vet/{vetId}/specialty/new")
+	public String initAddSpecialtytForm(@Valid final Specialty specialty, final BindingResult result, @PathVariable("vetId") final int vetId) {
+		if (result.hasErrors()) {
+			return "vets/updateSpecialties";
+		} else {
+			Specialty newSpecialty = this.vetService.saveSpecialty(specialty);
+			Vet vet = this.vetService.findVetById(vetId).get();
+			vet.addSpecialty(newSpecialty);
+			this.vetService.saveVet(vet);
+			return "redirect:/vets";
+		}
+	}
+
+	@GetMapping(value = "/vet/{vetId}/specialty/delete/{specialtyId}")
+	public String deleteSpecialty(@PathVariable("vetId") final Integer vetId, @PathVariable("specialtyId") final Integer specialtyId, final ModelMap model) {
+		Optional<Vet> vet = this.vetService.findVetById(vetId);
+		List<Specialty> specialties = vet.get().getSpecialties();
+		Specialty res = new Specialty();
+		for (Specialty spe : specialties) {
+			if (spe.equals(this.vetService.findSpecialtyById(specialtyId).get())) {
+				res = spe;
+			}
+		}
+
+		if (vet.isPresent()) {
+			vet.get().deleteSpecialty(res);
+			this.vetService.saveVet(vet.get());
+
+		} else {
+			model.put("message", "This specialty don't exist");
+		}
+
+		return "redirect:/vets";
 	}
 
 }
