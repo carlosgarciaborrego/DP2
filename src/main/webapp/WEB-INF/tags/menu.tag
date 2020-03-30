@@ -28,7 +28,7 @@
 					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 					<span>Home</span>
 				</petclinic:menuItem>
-				<security:authorize access="hasAuthority('owner') or hasAuthority('admin')">
+				<security:authorize access="hasAuthority('veterinarian') or hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
 					title="find owners">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -40,12 +40,13 @@
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Veterinarians</span>
 				</petclinic:menuItem>
-
+				<security:authorize access="hasAuthority('veterinarian') or hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'hotels'}" url="/hotels"
 					title="hotels">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Hotels</span>
 				</petclinic:menuItem>
+				</security:authorize>
 
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">

@@ -3,9 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="security"
+  uri="http://www.springframework.org/security/tags" %>
 
 <petclinic:layout pageName="vets">
     <jsp:body>
+    <security:authorize access="hasAuthority('admin')">
         <h2>
             <c:if test="${vet['new']}">Nuevo </c:if> Veterinario
         </h2>
@@ -32,5 +35,6 @@
         </form:form>
         <c:if test="${!vet['new']}">
         </c:if>
+      </security:authorize>  
     </jsp:body>
 </petclinic:layout>
