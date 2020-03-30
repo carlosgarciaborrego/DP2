@@ -41,11 +41,14 @@
 					<span>Veterinarians</span>
 				</petclinic:menuItem>
 				
+				<security:authorize access="hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'causes'}" url="/causes"
 					title="causes">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Causes</span>
 				</petclinic:menuItem>
+				</security:authorize>
+				
 				
 				<security:authorize access="hasAuthority('veterinarian') or hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'hotels'}" url="/hotels"
