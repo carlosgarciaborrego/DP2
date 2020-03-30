@@ -38,7 +38,7 @@ public class CauseController {
 			Double amount = 0.0;
 			List<Donation> donations = donationService.findByIdCause(cause);
 			
-			if (donations.isEmpty()) {
+			if (!donations.isEmpty()) {
 				for (Donation d : donations) {
 					amount = amount + d.getAmount();
 				}
