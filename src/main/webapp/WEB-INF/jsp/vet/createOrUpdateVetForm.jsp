@@ -25,7 +25,7 @@
             <petclinic:inputField label="Password" name="user.password"/>
         </div>
         </security:authorize>
-        <security:authorize access="hasAuthority('owner')">
+        <security:authorize access="hasAuthority('owner') or hasAuthority('veterinarian') ">
         <div class="form-group has-feedback">
         <form:hidden path="id" />
             <petclinic:inputFieldDisabled label="Username" name="user.username"/>
