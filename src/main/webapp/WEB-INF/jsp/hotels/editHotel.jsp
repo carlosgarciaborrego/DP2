@@ -10,6 +10,7 @@
     <jsp:body>
         <h2><c:if test="${hotel['new']}">New </c:if>Hotel</h2>
 
+	<security:authorize access="hasAuthority('admin')">
         <form:form modelAttribute="hotel" class="form-horizontal" action="../../petclinic/hotels/save">
             <div class="form-group has-feedback">
             	<form:hidden path="id"/>
@@ -18,7 +19,7 @@
                 <petclinic:inputField label="Count" name="count"/>
                 <petclinic:inputField label="Capacity" name="capacity"/>
             </div>
-			<security:authorize access="hasAuthority('admin')">
+			
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     
@@ -33,8 +34,21 @@
                 </c:choose>
                 </div>
             </div>
-            </security:authorize>
         </form:form>
+     </security:authorize>
+     
+  	<security:authorize access="hasAuthority('veterinarian')">
+         <form:form modelAttribute="hotel" class="form-horizontal" action="../../petclinic/hotels/save">
+            <div class="form-group has-feedback">
+            	<form:hidden path="id"/>
+                <petclinic:inputFieldDisabled label="Name" name="name"/>
+                <petclinic:inputFieldDisabled label="Location" name="location"/>
+                <petclinic:inputFieldDisabled label="Count" name="count"/>
+                <petclinic:inputFieldDisabled label="Capacity" name="capacity"/>
+            </div>
+        </form:form>
+     </security:authorize>
+        
     </jsp:body>
 
 </petclinic:layout>

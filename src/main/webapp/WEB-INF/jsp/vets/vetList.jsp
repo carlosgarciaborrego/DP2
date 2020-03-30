@@ -38,17 +38,19 @@
 				    <a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Delete</a>
 				</security:authorize>
               
-            
+            	<security:authorize access="hasAuthority('admin')">
                  <spring:url value="/vet/{vetId}/specialty/new" htmlEscape="true" var="addSpecialtyUrl">
                 <spring:param name="vetId" value="${vet.id}"/>
                 </spring:url>
                  <a class="btn btn-default" href='${addSpecialtyUrl}'>Agregar especialidad</a>
+                </security:authorize>
                 
-                
+                <security:authorize access="!hasAuthority('owner')">
                  	<spring:url value="vet/show/{vetId}" var="showUrl">
 				        <spring:param name="vetId" value="${vet.id}"/>
 				    </spring:url>
 				    <a href="${fn:escapeXml(showUrl)}" class="btn btn-default">Show</a>
+				</security:authorize>    
                  </td>
             </tr>
         </c:forEach>
