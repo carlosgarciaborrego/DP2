@@ -53,3 +53,22 @@ CREATE TABLE IF NOT EXISTS visits (
   description VARCHAR(255),
   FOREIGN KEY (pet_id) REFERENCES pets(id)
 ) engine=InnoDB;
+
+CREATE TABLE IF NOT EXISTS cause (
+  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(30),
+  description VARCHAR(255),
+  organisation VARCHAR(255),
+  budgetTarget DOUBLE(8),
+  budgetAchieved DOUBLE(8), 
+  INDEX(name) 
+) engine=InnoDB;
+
+CREATE TABLE IF NOT EXISTS donations (
+  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  cause_id INT(4) UNSIGNED NOT NULL,
+  amount DOUBLE(8),
+  FOREIGN KEY (cause_id) REFERENCES cause(id),
+  INDEX(name) 
+) engine=InnoDB;
+
