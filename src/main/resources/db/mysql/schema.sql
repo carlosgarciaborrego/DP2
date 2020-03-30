@@ -63,3 +63,12 @@ CREATE TABLE IF NOT EXISTS cause (
   budgetAchieved DOUBLE(8), 
   INDEX(name) 
 ) engine=InnoDB;
+
+CREATE TABLE IF NOT EXISTS donations (
+  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  cause_id INT(4) UNSIGNED NOT NULL,
+  amount DOUBLE(8),
+  FOREIGN KEY (cause_id) REFERENCES cause(id),
+  INDEX(name) 
+) engine=InnoDB;
+

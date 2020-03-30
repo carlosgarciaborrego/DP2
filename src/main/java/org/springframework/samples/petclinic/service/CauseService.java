@@ -31,12 +31,12 @@ public class CauseService {
 	}
 
 	@Transactional
-	public void save(final Cause hotel) {
-		this.causeRepository.save(hotel);
+	public void save(final Cause cause) {
+		this.causeRepository.save(cause);
 	}
 
 	@Transactional
-	public void delete(final Cause hotel) {
-		this.causeRepository.delete(hotel);
+	public void delete(final Cause cause) {
+		this.causeRepository.delete(cause);
 	}
 }

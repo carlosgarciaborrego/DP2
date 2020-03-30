@@ -31,16 +31,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	DataSource dataSource;
 	
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	protected void configure(final HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				.antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/","/oups").permitAll()
 				.antMatchers("/users/new").permitAll()
-				.antMatchers("/causes/").permitAll() 
-				.antMatchers("/causes/**").permitAll() 
+				.antMatchers("/hotels/").hasAnyAuthority("veterinarian","admin")
+				.antMatchers("/hotels/**").hasAnyAuthority("veterinarian","admin")
+				.antMatchers("/causes/").hasAnyAuthority("admin")
+				.antMatchers("/causes/**").hasAnyAuthority("admin")
+				.antMatchers("/vet/**").hasAnyAuthority("veterinarian")
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
+				.antMatchers("/vet/delete/**").hasAnyAuthority("admin")
+				.antMatchers("/vet/show/**").permitAll()
 				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
 				.antMatchers("/vets/**").authenticated()
+				.antMatchers("/vet/**").authenticated()
 				.anyRequest().denyAll()
 				.and()
 				 	.formLogin()
@@ -56,7 +62,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 http.csrf().ignoringAntMatchers("/h2-console/**");
                 http.headers().frameOptions().sameOrigin();
 	}
-
+	
+	
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.jdbcAuthentication()

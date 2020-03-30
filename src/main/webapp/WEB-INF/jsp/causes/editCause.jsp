@@ -15,7 +15,7 @@
                 <petclinic:inputField label="Description" name="description"/>
                 <petclinic:inputField label="Organisation" name="organisation"/>
                 <petclinic:inputField label="BudgetTarget" name="budgetTarget"/>
-                <petclinic:inputField label="BudgetArchivied" name="budgetArchivied"/>
+                
             </div>
 
             <div class="form-group">
@@ -24,6 +24,7 @@
                      <c:choose>
                     <c:when test="${cause['new']}">
                     	<input type="hidden" name="causeId" value="${cause.id}"/>
+                    	<input type="hidden" name=budgetArchivied value="0.0"/>
                       <button class="btn btn-default" type="submit">Add Cause</button>
                     </c:when>
                     <c:otherwise>

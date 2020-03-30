@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -7,7 +8,9 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cause;
+import org.springframework.samples.petclinic.model.Donation;
 import org.springframework.samples.petclinic.service.CauseService;
+import org.springframework.samples.petclinic.service.DonationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -23,11 +26,26 @@ public class CauseController {
 	@Autowired
 	private CauseService causeService;
 
+	@Autowired
+	private DonationService donationService;
 
 	@GetMapping()
 	public String listadoCauses(final ModelMap modelMap) {
 		String vista = "causes/listadoCauses";
 		Iterable<Cause> causes = this.causeService.findAll();
+
+		for (Cause cause:causes) {
+			Double amount = 0.0;
+			List<Donation> donations = donationService.findByIdCause(cause);
+			
+			if (donations.isEmpty()) {
+				for (Donation d : donations) {
+					amount = amount + d.getAmount();
+				}
+			}
+			cause.setBudgetArchivied(amount);
+		}
+		
 		modelMap.addAttribute("cause", causes);
 		return vista;
 	}
@@ -39,8 +57,6 @@ public class CauseController {
 		return view;
 	}
 	
-	
-
 	@PostMapping(path = "/save")
 	public String salvarCause(@Valid final Cause cause, final BindingResult result, final ModelMap modelMap) {
 		String view = "causes/listadoCauses";
@@ -48,6 +64,7 @@ public class CauseController {
 			modelMap.addAttribute("cause", cause);
 			return "causes/editCause";
 		} else {
+			
 			this.causeService.save(cause);
 			modelMap.addAttribute("message", "Cause  successfully saved!");
 			view = this.listadoCauses(modelMap);
@@ -103,7 +120,18 @@ public class CauseController {
 		if (causes.isPresent()) {
 			cause = causes.get();
 		}
+		
+		Double amount = 0.0;
+		List<Donation> donations = donationService.findByIdCause(cause);
+		
+		if (donations.isEmpty()) {
+			for (Donation d : donations) {
+				amount = amount + d.getAmount();
+			}
+		}
+		cause.setBudgetArchivied(amount);
 		model.put("cause", cause);
+//		model.put("", amount);
 		return "causes/editCause";
 	}
 
