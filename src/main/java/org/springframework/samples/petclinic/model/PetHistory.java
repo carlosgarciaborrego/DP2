@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -15,9 +16,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class PetHistory extends BaseEntity {
 
 	@Column(name = "summary")
+	@NotEmpty
 	private String		summary;
 
 	@Column(name = "details")
+	@NotEmpty
 	private String		details;
 
 	@Column(name = "date")

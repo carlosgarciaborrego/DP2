@@ -1,6 +1,7 @@
 
 package org.springframework.samples.petclinic.model;
 
+import java.time.LocalDate;
 import java.util.Locale;
 import java.util.Set;
 
@@ -177,6 +178,101 @@ class ValidatorTests {
 
 		Assertions.assertThat(constraintViolations.size()).isEqualTo(0);
 
+	}
+
+	@Test
+	void shouldNotValidateWhenAdressVetEmpty() {
+
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Vet v = new Vet();
+		v.setFirstName("Estefan");
+		v.setCity("Barcelona");
+		v.setLastName("Gonzalez");
+		v.setTelephone("666666666");
+		v.setAddress("");
+
+		Validator validator = this.createValidator();
+		Set<ConstraintViolation<Vet>> constraintViolations = validator.validate(v);
+
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
+		ConstraintViolation<Vet> violation = constraintViolations.iterator().next();
+		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("address");
+		Assertions.assertThat(violation.getMessage()).isEqualTo("must not be empty");
+	}
+
+	@Test
+	void shouldNotValidateWhenTelephoneVetEmpty() {
+
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Vet v = new Vet();
+		v.setFirstName("Estefan");
+		v.setCity("Barcelona");
+		v.setLastName("Gonzalez");
+		v.setTelephone("");
+		v.setAddress("La botica");
+
+		Validator validator = this.createValidator();
+		Set<ConstraintViolation<Vet>> constraintViolations = validator.validate(v);
+
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(2);
+		ConstraintViolation<Vet> violation = constraintViolations.iterator().next();
+		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("telephone");
+	}
+
+	@Test
+	void shouldNotValidateWhenTelephoneLongVetEmpty() {
+
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Vet v = new Vet();
+		v.setFirstName("Estefan");
+		v.setCity("Barcelona");
+		v.setLastName("Gonzalez");
+		v.setTelephone("666666666666");
+		v.setAddress("La botica");
+
+		Validator validator = this.createValidator();
+		Set<ConstraintViolation<Vet>> constraintViolations = validator.validate(v);
+
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
+		ConstraintViolation<Vet> violation = constraintViolations.iterator().next();
+		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("telephone");
+		Assertions.assertThat(violation.getMessage()).isEqualTo("numeric value out of bounds (<10 digits>.<0 digits> expected)");
+	}
+
+	@Test
+	void shouldNotValidateWhenSummaryEmpty() {
+
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		PetHistory petHist = new PetHistory();
+		petHist.setDate(LocalDate.now());
+		petHist.setSummary("");
+		petHist.setDetails("details");
+
+		Validator validator = this.createValidator();
+		Set<ConstraintViolation<PetHistory>> constraintViolations = validator.validate(petHist);
+
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
+		ConstraintViolation<PetHistory> violation = constraintViolations.iterator().next();
+		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("summary");
+		Assertions.assertThat(violation.getMessage()).isEqualTo("must not be empty");
+	}
+
+	@Test
+	void shouldNotValidateWhenDetailsEmpty() {
+
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		PetHistory petHist = new PetHistory();
+		petHist.setDate(LocalDate.now());
+		petHist.setSummary("summary");
+		petHist.setDetails("");
+
+		Validator validator = this.createValidator();
+		Set<ConstraintViolation<PetHistory>> constraintViolations = validator.validate(petHist);
+
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
+		ConstraintViolation<PetHistory> violation = constraintViolations.iterator().next();
+		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("details");
+		Assertions.assertThat(violation.getMessage()).isEqualTo("must not be empty");
 	}
 
 }
