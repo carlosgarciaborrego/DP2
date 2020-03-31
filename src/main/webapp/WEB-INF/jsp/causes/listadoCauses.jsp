@@ -13,10 +13,10 @@
         <thead>
         <tr>
             <th style="width: 150px;">Name</th>
-            <th style="width: 200px;">description</th>
-            <th>organisation</th>
-            <th>budgetTarget</th>
-            <th>budgetArchivied</th>
+            <th style="width: 200px;">Description</th>
+            <th>Organisation</th>
+            <th>Target</th>
+            <th>Archivied</th>
             <th>Actions</th>
         </tr>
         </thead>

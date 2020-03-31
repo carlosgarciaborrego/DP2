@@ -1,3 +1,4 @@
+
 package org.springframework.samples.petclinic.web;
 
 import java.util.List;
@@ -24,28 +25,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CauseController {
 
 	@Autowired
-	private CauseService causeService;
+	private CauseService	causeService;
 
 	@Autowired
-	private DonationService donationService;
+	private DonationService	donationService;
+
 
 	@GetMapping()
 	public String listadoCauses(final ModelMap modelMap) {
 		String vista = "causes/listadoCauses";
 		Iterable<Cause> causes = this.causeService.findAll();
 
-		for (Cause cause:causes) {
+		for (Cause cause : causes) {
 			Double amount = 0.0;
-			List<Donation> donations = donationService.findByIdCause(cause);
-			
-			if (donations.isEmpty()) {
+			List<Donation> donations = this.donationService.findByIdCause(cause);
+
+			if (!donations.isEmpty()) {
 				for (Donation d : donations) {
 					amount = amount + d.getAmount();
 				}
 			}
 			cause.setBudgetArchivied(amount);
 		}
-		
+
 		modelMap.addAttribute("cause", causes);
 		return vista;
 	}
@@ -56,7 +58,7 @@ public class CauseController {
 		modelMap.addAttribute("cause", new Cause());
 		return view;
 	}
-	
+
 	@PostMapping(path = "/save")
 	public String salvarCause(@Valid final Cause cause, final BindingResult result, final ModelMap modelMap) {
 		String view = "causes/listadoCauses";
@@ -64,7 +66,7 @@ public class CauseController {
 			modelMap.addAttribute("cause", cause);
 			return "causes/editCause";
 		} else {
-			
+
 			this.causeService.save(cause);
 			modelMap.addAttribute("message", "Cause  successfully saved!");
 			view = this.listadoCauses(modelMap);
@@ -94,12 +96,6 @@ public class CauseController {
 		modelMap.addAttribute(cause);
 		return view;
 	}
-	
-	
-	
-	
-	
-	
 
 	@PostMapping(value = "/{causeId}/edit")
 	public String actualizarCausePost(@Valid final Cause cause, final BindingResult result, @PathVariable("causeId") final int causeId) {
@@ -120,10 +116,10 @@ public class CauseController {
 		if (causes.isPresent()) {
 			cause = causes.get();
 		}
-		
+
 		Double amount = 0.0;
-		List<Donation> donations = donationService.findByIdCause(cause);
-		
+		List<Donation> donations = this.donationService.findByIdCause(cause);
+
 		if (donations.isEmpty()) {
 			for (Donation d : donations) {
 				amount = amount + d.getAmount();
@@ -131,7 +127,7 @@ public class CauseController {
 		}
 		cause.setBudgetArchivied(amount);
 		model.put("cause", cause);
-//		model.put("", amount);
+		//		model.put("", amount);
 		return "causes/editCause";
 	}
 
