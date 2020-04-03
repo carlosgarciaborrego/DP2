@@ -2,7 +2,6 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.Map;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -57,22 +56,17 @@ public class HotelController {
 	@GetMapping(path = "/delete/{hotelId}")
 	public String borrarHotel(@PathVariable("hotelId") final int hotelId, final ModelMap modelMap) {
 		String view = "hotels/listadoHoteles";
-		Optional<Hotel> hotel = this.hotelService.findHotelById(hotelId);
-		if (hotel.isPresent()) {
-			this.hotelService.delete(hotel.get());
-			modelMap.addAttribute("message", "Hotel successfully deleted!");
-			view = this.listadoHoteles(modelMap);
-		} else {
-			modelMap.addAttribute("message", "Hotel not found!");
-			view = this.listadoHoteles(modelMap);
-		}
+		Hotel hotel = this.hotelService.findHotelById(hotelId);
+		this.hotelService.delete(hotel);
+		modelMap.addAttribute("message", "Hotel successfully deleted!");
+		view = this.listadoHoteles(modelMap);
 		return view;
 	}
 
 	@GetMapping(path = "/{hotelsId}/edit")
 	public String actualizarHotel(@PathVariable("hotelId") final int hotelId, final ModelMap modelMap) {
 		String view = "hotels/editHotel";
-		Optional<Hotel> hotel = this.hotelService.findHotelById(hotelId);
+		Hotel hotel = this.hotelService.findHotelById(hotelId);
 		modelMap.addAttribute(hotel);
 		return view;
 	}
@@ -91,11 +85,7 @@ public class HotelController {
 
 	@GetMapping(value = "/{hotelId}")
 	public String showHotel(@PathVariable("hotelId") final Integer hotelId, final Map<String, Object> model) {
-		Hotel hotel = new Hotel();
-		Optional<Hotel> hotels = this.hotelService.findHotelById(hotelId);
-		if (hotels.isPresent()) {
-			hotel = hotels.get();
-		}
+		Hotel hotel = this.hotelService.findHotelById(hotelId);
 		model.put("hotel", hotel);
 		return "hotels/editHotel";
 	}
