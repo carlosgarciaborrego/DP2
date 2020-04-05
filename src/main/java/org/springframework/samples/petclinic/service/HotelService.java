@@ -1,8 +1,6 @@
 
 package org.springframework.samples.petclinic.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Hotel;
 import org.springframework.samples.petclinic.repository.HotelRepository;
@@ -34,8 +32,8 @@ public class HotelService {
 	}
 
 	@Transactional(readOnly = true)
-	public Optional<Hotel> findHotelById(final int id) {
-		return this.hotelRepository.findById(id);
+	public Hotel findHotelById(final int id) {
+		return this.hotelRepository.findHotelById(id);
 	}
 
 	@Transactional
