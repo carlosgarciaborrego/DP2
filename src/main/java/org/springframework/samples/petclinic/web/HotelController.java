@@ -63,7 +63,7 @@ public class HotelController {
 		return view;
 	}
 
-	@GetMapping(path = "/{hotelsId}/edit")
+	@GetMapping(path = "/{hotelId}/edit")
 	public String actualizarHotel(@PathVariable("hotelId") final int hotelId, final ModelMap modelMap) {
 		String view = "hotels/editHotel";
 		Hotel hotel = this.hotelService.findHotelById(hotelId);
