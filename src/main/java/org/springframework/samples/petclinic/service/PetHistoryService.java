@@ -15,9 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PetHistoryService {
 
-	@Autowired
 	private PetHistoryRepository petHistoryRepository;
 
+
+	@Autowired
+	public PetHistoryService(final PetHistoryRepository petHistoryRepository) {
+		this.petHistoryRepository = petHistoryRepository;
+	}
 
 	@Transactional(readOnly = true)
 	public Collection<PetHistory> findPetHistories() throws DataAccessException {

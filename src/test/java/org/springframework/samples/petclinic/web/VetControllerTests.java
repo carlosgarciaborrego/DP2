@@ -34,7 +34,7 @@ class VetControllerTests {
 	private VetController		vetController;
 
 	@MockBean
-	private VetService			clinicService;
+	private VetService			vetService;
 
 	@Autowired
 	private MockMvc				mockMvc;
@@ -57,7 +57,7 @@ class VetControllerTests {
 		radiology.setId(1);
 		radiology.setName("radiology");
 		helen.addSpecialty(radiology);
-		BDDMockito.given(this.clinicService.findVets()).willReturn(Lists.newArrayList(james, helen));
+		BDDMockito.given(this.vetService.findVets()).willReturn(Lists.newArrayList(james, helen));
 	}
 
 	@WithMockUser(value = "spring")

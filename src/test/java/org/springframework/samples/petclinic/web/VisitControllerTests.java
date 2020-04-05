@@ -38,14 +38,14 @@ class VisitControllerTests {
 	private VisitController visitController;
 
 	@MockBean
-	private PetService clinicService;
+	private PetService petService;
 
 	@Autowired
 	private MockMvc mockMvc;
 
 	@BeforeEach
 	void setup() {
-		given(this.clinicService.findPetById(TEST_PET_ID)).willReturn(new Pet());
+		given(this.petService.findPetById(TEST_PET_ID)).willReturn(new Pet());
 	}
 
         @WithMockUser(value = "spring")
