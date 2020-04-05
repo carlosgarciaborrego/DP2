@@ -76,7 +76,7 @@ public class HotelControllerTests {
 	void testProcessUpdateHotelFormSuccess() throws Exception {
 		this.mockMvc
 			.perform(
-				MockMvcRequestBuilders.post("/hotels/{hotelsId}/edit", HotelControllerTests.TEST_HOTEL_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "Clinica").param("capacity", "15").param("count", "1").param("location", "Cadiz"))
+				MockMvcRequestBuilders.post("/hotels/{hotelId}/edit", HotelControllerTests.TEST_HOTEL_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "Clinica").param("capacity", "15").param("count", "1").param("location", "Cadiz"))
 			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("redirect:/hotels/{hotelId}"));
 	}
 

@@ -68,7 +68,7 @@ public class HotelController {
 		return view;
 	}
 
-	@GetMapping(path = "/{hotelsId}/edit")
+	@GetMapping(path = "/{hotelId}/edit")
 	public String actualizarHotel(@PathVariable("hotelId") final int hotelId, final ModelMap modelMap) {
 		String view = "hotels/editHotel";
 		Hotel hotel = this.hotelService.findHotelById(hotelId);
@@ -77,7 +77,7 @@ public class HotelController {
 	}
 
 	@PostMapping(value = "/{hotelId}/edit")
-	public String actualizarHotelPost(@Valid final Hotel hotel, final BindingResult result, @PathVariable("hoteId") final int hotelId) {
+	public String actualizarHotelPost(@Valid final Hotel hotel, final BindingResult result, @PathVariable("hotelId") final int hotelId) {
 		String view = "hotels/editHotel";
 		if (result.hasErrors()) {
 			return view;
