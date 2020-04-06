@@ -77,9 +77,10 @@ public class HotelController {
 	}
 
 	@PostMapping(value = "/{hotelId}/edit")
-	public String actualizarHotelPost(@Valid final Hotel hotel, final BindingResult result, @PathVariable("hotelId") final int hotelId) {
+	public String actualizarHotelPost(@Valid final Hotel hotel, final BindingResult result, @PathVariable("hotelId") final int hotelId, final ModelMap modelMap) {
 		String view = "hotels/editHotel";
 		if (result.hasErrors()) {
+			modelMap.addAttribute("hotel", hotel);
 			return view;
 		} else {
 			hotel.setId(hotelId);

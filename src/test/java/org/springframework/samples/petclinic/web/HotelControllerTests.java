@@ -77,14 +77,14 @@ public class HotelControllerTests {
 		this.mockMvc
 			.perform(
 				MockMvcRequestBuilders.post("/hotels/{hotelId}/edit", HotelControllerTests.TEST_HOTEL_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "Clinica").param("capacity", "15").param("count", "1").param("location", "Cadiz"))
-			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("redirect:/hotels/{hotelId}"));
+			.andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/hotels/{hotelId}"));
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessUpdateHotelFormHasErrors() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/hotels/owners/{ownerId}/edit", HotelControllerTests.TEST_HOTEL_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "Clinica").param("count", "1").param("location", "Cadiz"))
-			.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeHasErrors("hotel")).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("hotel", "capacity"))
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/hotels/{hotelId}/edit", HotelControllerTests.TEST_HOTEL_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "Clinica").param("count", "1").param("location", ""))
+			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.model().attributeHasErrors("hotel")).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("hotel", "location"))
 			.andExpect(MockMvcResultMatchers.view().name("hotels/editHotel"));
 	}
 

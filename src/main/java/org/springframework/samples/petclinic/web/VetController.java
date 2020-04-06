@@ -57,8 +57,8 @@ public class VetController {
 	//
 
 	@Autowired
-	public VetController(final VetService clinicService) {
-		this.vetService = clinicService;
+	public VetController(final VetService vetService) {
+		this.vetService = vetService;
 	}
 
 	@GetMapping(value = {
@@ -155,8 +155,13 @@ public class VetController {
 	@GetMapping(value = "/vet/{vetId}/specialty/new")
 	public String initAddSpecialtytForm(final ModelMap modelMap, @PathVariable("vetId") final int vetId) {
 		Specialty specialty = new Specialty();
-		List<Specialty> specialties = this.vetService.findVetById(vetId).get().getSpecialties();
-		Vet vet = this.vetService.findVetById(vetId).get();
+		Vet vet = new Vet();
+		Optional<Vet> vets = this.vetService.findVetById(vetId);
+		if (vets.isPresent()) {
+			vet = this.vetService.findVetById(vetId).get();
+		}
+		List<Specialty> specialties = vet.getSpecialties();
+
 		modelMap.put("vet", vet);
 		modelMap.put("specialty", specialty);
 		modelMap.put("specialties", specialties);
