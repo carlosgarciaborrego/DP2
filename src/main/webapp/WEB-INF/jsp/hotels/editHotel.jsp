@@ -5,6 +5,7 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="security"
   uri="http://www.springframework.org/security/tags" %>
+  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <petclinic:layout pageName="hotels">
     <jsp:body>
@@ -48,6 +49,37 @@
             </div>
         </form:form>
      </security:authorize>
+        
+        
+        <h1>Pets</h1>
+      <table class="table table-striped">
+         	<thead>
+        		<tr>
+		            <th style="width: 150px;">Registration Date</th>
+		            <th style="width: 200px;">Motive</th>
+		            <th>Actions</th>
+		        </tr>
+		    </thead>
+          <c:forEach var="visit" items="${hotel.visits}">
+              <tr>
+                  <td><petclinic:localDate date="${visit.date}" pattern="yyyy-MM-dd"/></td>
+                  <td><c:out value="${visit.description}"/></td>
+                  <td>
+	                  <spring:url value="/hotels/{hotelId}/delete/{visitId}" var="deleteUrl">
+					        <spring:param name="hotelId" value="${hotel.id}"/>
+					        <spring:param name="visitId" value="${visit.id}"/>
+					    </spring:url>
+					    <a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Delete</a>
+				   </td>
+              </tr>
+          </c:forEach>
+	   
+    </table>
+        
+        
+        
+        
+        
         
     </jsp:body>
 

@@ -8,5 +8,4 @@ import org.springframework.samples.petclinic.model.Hotel;
 public interface HotelRepository extends CrudRepository<Hotel, Integer> {
 
 	Hotel findHotelById(int id) throws DataAccessException;
-
 }
