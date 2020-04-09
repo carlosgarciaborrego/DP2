@@ -60,7 +60,6 @@ public class HotelServiceTests {
 		Hotel hotel = new Hotel();
 		hotel.setName("Calle Betis");
 		hotel.setCapacity(8);
-		hotel.setCount(0);
 		hotel.setLocation("Estepa");
 		
 		this.hotelService.save(hotel);
@@ -81,16 +80,13 @@ public class HotelServiceTests {
 		Hotel hotel2 = EntityUtils.getById(nuevaLista, Hotel.class, 1);
 		String newLocation = "Herrera";
 		Integer newCapacity = 5;
-		Integer newCount = 0;
 		hotel1.setLocation(newLocation);
 		hotel1.setCapacity(newCapacity);
-		hotel1.setCount(newCount);
 		
 		this.hotelService.save(hotel1);
 		
 		assertThat(hotel2.getLocation()).isEqualTo(hotel1.getLocation());
 		assertThat(hotel2.getCapacity()).isEqualTo(hotel1.getCapacity());
-		assertThat(hotel2.getCount()).isEqualTo(hotel1.getCount());
 	}
 	
 	@Test

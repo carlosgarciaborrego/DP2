@@ -60,11 +60,7 @@ public class Hotel extends NamedEntity {
 	}
 
 	public Integer getCount() {
-		return this.count;
-	}
-
-	public void setCount(final Integer count) {
-		this.count = count;
+		return this.getVisits().size();
 	}
 
 	public Integer getCapacity() {

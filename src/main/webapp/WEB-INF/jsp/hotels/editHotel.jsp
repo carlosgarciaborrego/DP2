@@ -17,7 +17,7 @@
             	<form:hidden path="id"/>
                 <petclinic:inputField label="Name" name="name"/>
                 <petclinic:inputField label="Location" name="location"/>
-                <petclinic:inputField label="Count" name="count"/>
+                <petclinic:inputFieldDisabled label="Count" name="count"/>
                 <petclinic:inputField label="Capacity" name="capacity"/>
             </div>
 			
@@ -57,6 +57,8 @@
         		<tr>
 		            <th style="width: 150px;">Registration Date</th>
 		            <th style="width: 200px;">Motive</th>
+		            <th style="width: 200px;">Pet Name</th>
+		            <th style="width: 200px;">Owner</th>
 		            <th>Actions</th>
 		        </tr>
 		    </thead>
@@ -64,10 +66,13 @@
               <tr>
                   <td><petclinic:localDate date="${visit.date}" pattern="yyyy-MM-dd"/></td>
                   <td><c:out value="${visit.description}"/></td>
+                  <td><c:out value="${visit.pet.name}"/></td>
+                  <td><c:out value="${visit.pet.owner.firstName} ${visit.pet.owner.lastName}"/></td>
                   <td>
 	                  <spring:url value="/hotels/{hotelId}/delete/{visitId}" var="deleteUrl">
 					        <spring:param name="hotelId" value="${hotel.id}"/>
 					        <spring:param name="visitId" value="${visit.id}"/>
+					        
 					    </spring:url>
 					    <a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Delete</a>
 				   </td>

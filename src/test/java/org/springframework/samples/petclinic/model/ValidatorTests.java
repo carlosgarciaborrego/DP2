@@ -53,7 +53,6 @@ class ValidatorTests {
 		Hotel hotel = new Hotel();
 		hotel.setLocation("Sevilla");
 		hotel.setCapacity(-1);
-		hotel.setCount(0);
 
 		Validator validator = this.createValidator();
 		Set<ConstraintViolation<Hotel>> constraintViolations = validator.validate(hotel);
@@ -69,7 +68,6 @@ class ValidatorTests {
 		Hotel hotel = new Hotel();
 		hotel.setLocation("");
 		hotel.setCapacity(10);
-		hotel.setCount(5);
 
 		Validator validator = this.createValidator();
 		Set<ConstraintViolation<Hotel>> constraintViolations = validator.validate(hotel);
@@ -85,7 +83,6 @@ class ValidatorTests {
 		Hotel hotel = new Hotel();
 		hotel.setLocation("Sevilla");
 		hotel.setCapacity(-1);
-		hotel.setCount(0);
 
 		Validator validator = this.createValidator();
 		Set<ConstraintViolation<Hotel>> constraintViolations = validator.validate(hotel);
@@ -118,7 +115,6 @@ class ValidatorTests {
 		Hotel hotel = new Hotel();
 		hotel.setLocation("Sevilla");
 		hotel.setCapacity(10);
-		hotel.setCount(3);
 
 		Validator validator = this.createValidator();
 		Set<ConstraintViolation<Hotel>> constraintViolations = validator.validate(hotel);
