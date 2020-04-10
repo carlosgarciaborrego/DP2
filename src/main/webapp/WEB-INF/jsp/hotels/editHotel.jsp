@@ -10,7 +10,7 @@
 <petclinic:layout pageName="hotels">
     <jsp:body>
         <h2><c:if test="${hotel['new']}">New </c:if>Hotel</h2>
-
+     
 	<security:authorize access="hasAuthority('admin')">
         <form:form modelAttribute="hotel" class="form-horizontal" action="../../petclinic/hotels/save">
             <div class="form-group has-feedback">
@@ -18,7 +18,14 @@
                 <petclinic:inputField label="Name" name="name"/>
                 <petclinic:inputField label="Location" name="location"/>
                 <petclinic:inputFieldDisabled label="Count" name="count"/>
-                <petclinic:inputField label="Capacity" name="capacity"/>
+                <c:set var="contar" value="${hotel.count}"/>
+                 <c:if test="${contar < 1}">
+                	<petclinic:inputField label="Capacity" name="capacity"/>
+                </c:if>
+                 <c:if test="${contar > 0}">
+                	<petclinic:inputFieldDisabled label="Capacity" name="capacity"/>
+                </c:if>
+               
             </div>
 			
             <div class="form-group">
