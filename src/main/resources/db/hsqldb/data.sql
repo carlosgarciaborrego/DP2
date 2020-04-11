@@ -18,13 +18,14 @@ INSERT INTO authorities VALUES ('vet5','veterinarian');
 INSERT INTO users(username,password,enabled) VALUES ('vet6','v3t',TRUE);
 INSERT INTO authorities VALUES ('vet6','veterinarian');
 
+INSERT INTO clinic VALUES (1, 'clinica1', 50,'Sevilla', '955910011', '665544331', 'clinic1@gmail.com');
 
-INSERT INTO vets VALUES (1, 'James', 'Carter', '110 W. Liberty St.', 'Madison', '6085551023', 'vet1');
-INSERT INTO vets VALUES (2, 'Helen', 'Leary', '110 W. Liberty St.', 'Madison', '6085551023', 'vet2');
-INSERT INTO vets VALUES (3, 'Linda', 'Douglas', '110 W. Liberty St.', 'Madison', '6085551023', 'vet3');
-INSERT INTO vets VALUES (4, 'Rafael', 'Ortega', '110 W. Liberty St.', 'Madison', '6085551023', 'vet4');
-INSERT INTO vets VALUES (5, 'Henry', 'Stevens', '110 W. Liberty St.', 'Madison', '6085551023', 'vet5');
-INSERT INTO vets VALUES (6, 'Sharon', 'Jenkins', '110 W. Liberty St.', 'Madison', '6085551023', 'vet6');
+INSERT INTO vets VALUES (1, 'James', 'Carter', '110 W. Liberty St.', 'Madison', '6085551023', 1,'vet1');
+INSERT INTO vets VALUES (2, 'Helen', 'Leary', '110 W. Liberty St.', 'Madison', '6085551023', 1, 'vet2');
+INSERT INTO vets VALUES (3, 'Linda', 'Douglas', '110 W. Liberty St.', 'Madison', '6085551023', 1, 'vet3');
+INSERT INTO vets VALUES (4, 'Rafael', 'Ortega', '110 W. Liberty St.', 'Madison', '6085551023', 1, 'vet4');
+INSERT INTO vets VALUES (5, 'Henry', 'Stevens', '110 W. Liberty St.', 'Madison', '6085551023', 1, 'vet5');
+INSERT INTO vets VALUES (6, 'Sharon', 'Jenkins', '110 W. Liberty St.', 'Madison', '6085551023', 1, 'vet6');
 
 INSERT INTO specialties VALUES (1, 'radiology');
 INSERT INTO specialties VALUES (2, 'surgery');
@@ -82,3 +83,5 @@ INSERT INTO pet_history VALUES (3, '2012-09-07',  'details', 'summary 3', 1);
 INSERT INTO cause VALUES (1, 'NombreCause', 0.0, 1000.0, 'Description Cause', 'Organisation Cause'); 
  
 INSERT INTO donations VALUES (1, 'Donacion Prueba', 100.0, 1); 
+
+INSERT INTO reservations(id,telephone,reservation_date,status,response_Clinic,response_Client,owner_id,clinic_id) VALUES (1,'664455667','2020-06-24','pending','hola','adios',1,1);

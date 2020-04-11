@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2013 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.samples.petclinic.model;
 
@@ -29,6 +14,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
@@ -72,7 +58,9 @@ public class Vet extends Person {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "username", referencedColumnName = "username")
 	private User			user;
-	//
+
+	@ManyToOne(optional = true)
+	private Clinic			clinic;
 
 
 	protected Set<Specialty> getSpecialtiesInternal() {
@@ -141,10 +129,19 @@ public class Vet extends Person {
 		this.user = user;
 	}
 
+	public Clinic getClinic() {
+		return this.clinic;
+	}
+
+	public void setClinic(final Clinic clinic) {
+		this.clinic = clinic;
+	}
+
 	@Override
 	public String toString() {
 		return new ToStringCreator(this)
 
 			.append("id", this.getId()).append("new", this.isNew()).append("lastName", this.getLastName()).append("firstName", this.getFirstName()).append("address", this.address).append("city", this.city).append("telephone", this.telephone).toString();
 	}
+
 }

@@ -48,7 +48,7 @@ public class HotelController {
 		} else {
 			this.hotelService.save(hotel);
 			modelMap.addAttribute("message", "Hotel successfully saved!");
-			view = this.listadoHoteles(modelMap);
+			view = "redirect:/hotels/";
 		}
 		return view;
 	}

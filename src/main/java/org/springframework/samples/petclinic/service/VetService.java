@@ -110,4 +110,9 @@ public class VetService {
 		Optional<Specialty> optional = this.specialtyRepository.findById(specialtyId);
 		return optional;
 	}
+
+	public List<Vet> findVetByClinicId(final Integer username) {
+		List<Vet> optional = this.vetRepository.findVetByClinicId(username);
+		return optional;
+	}
 }
