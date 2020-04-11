@@ -35,9 +35,9 @@
             <petclinic:inputFieldDisabled label="Email" name="email"/>
         </div>
         </security:authorize>
-        <security:authorize access="hasAuthority('admin')">
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
+             <security:authorize access="hasAuthority('admin')">
      
                 <c:choose>
                     <c:when test="${clinic['new']}">
@@ -47,8 +47,16 @@
                         <button class="btn btn-default" type="submit">Update Clinic</button>
                     </c:otherwise>
                 </c:choose>
-            </div>
+              </security:authorize>
+                 </div>
+                 <div class="col-sm-offset-2 col-sm-10" style="text-align: right;">         
+	   				 <spring:url value="/clinic/{clinicId}/vets" var="showUrl">
+					 	<spring:param name="clinicId" value="${clinic.id}"/>
+					 </spring:url>
+					 <a href="${fn:escapeXml(showUrl)}" class="btn btn-default">Show vets</a>
+                 </div>
+           
         </div>
-        </security:authorize>
+
     </form:form>
 </petclinic:layout>

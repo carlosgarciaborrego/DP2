@@ -16,6 +16,7 @@
 
 package org.springframework.samples.petclinic.web;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -23,10 +24,12 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Vets;
+import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,6 +38,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -50,15 +54,22 @@ public class VetController {
 
 	private final VetService	vetService;
 	private static final String	VIEWS_VET_CREATE_OR_UPDATE_FORM	= "vet/createOrUpdateVetForm";
+	private final ClinicService	clinicService;
 
 
 	//	@Autowired
 	//	private UserService			userService;
 	//
 
+	@ModelAttribute("clinics")
+	public Collection<Clinic> populatePetTypes() {
+		return this.clinicService.findAll();
+	}
+
 	@Autowired
-	public VetController(final VetService vetService) {
+	public VetController(final VetService vetService, final ClinicService clinicService) {
 		this.vetService = vetService;
+		this.clinicService = clinicService;
 	}
 
 	@GetMapping(value = {
@@ -100,6 +111,7 @@ public class VetController {
 		if (vets.isPresent()) {
 			vet = vets.get();
 		}
+
 		model.put("vet", vet);
 		return VetController.VIEWS_VET_CREATE_OR_UPDATE_FORM;
 	}

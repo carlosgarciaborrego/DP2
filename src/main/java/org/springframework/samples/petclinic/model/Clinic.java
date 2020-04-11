@@ -92,4 +92,9 @@ public class Clinic extends NamedEntity {
 		this.email = email;
 	}
 
+	@Override
+	public String toString() {
+		return "Clinic " + this.name;
+	}
+
 }

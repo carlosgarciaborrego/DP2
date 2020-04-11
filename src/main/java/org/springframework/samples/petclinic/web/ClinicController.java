@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Vet;
+import org.springframework.samples.petclinic.model.Vets;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.stereotype.Controller;
@@ -67,7 +68,8 @@ public class ClinicController {
 
 	@GetMapping(value = "/{clinicId}/vets")
 	public String showClinicVets(@PathVariable("clinicId") final Integer clinicId, final Map<String, Object> model) {
-		List<Vet> vets = this.vetService.findVetByClinicId(clinicId);
+		Vets vets = new Vets();
+		vets.getVetList().addAll(this.vetService.findVetByClinicId(clinicId));
 		model.put("vets", vets);
 		return "vets/vetList";
 	}
@@ -99,6 +101,13 @@ public class ClinicController {
 		Optional<Clinic> c = this.clinicService.findClinicById(clinicId);
 		if (c.isPresent()) {
 			clinic = c.get();
+			List<Vet> vets = this.vetService.findVetByClinicId(clinicId);
+			if (vets != null && !vets.isEmpty()) {
+				for (Vet v : vets) {
+					v.setClinic(null);
+					this.vetService.saveVet(v);
+				}
+			}
 			this.clinicService.delete(clinic.getId());
 		} else {
 			model.put("message", "This vet don't exist");
