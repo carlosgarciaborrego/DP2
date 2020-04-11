@@ -44,9 +44,7 @@ public class PetHistoryServiceTests {
 	@Test
 	void shouldFindPetHistoryWithCorrectId() {
 		Optional<PetHistory> hotel1 = this.petHistoryService.findPetHistoryById(1);
-		if (hotel1.isPresent()) {
 
-		}
 		Assertions.assertThat(hotel1.isPresent());
 		Assertions.assertThat(hotel1.get().getDate().toString()).isEqualTo("2010-09-07");
 		Assertions.assertThat(hotel1.get().getDetails()).isEqualTo("details");
@@ -55,7 +53,7 @@ public class PetHistoryServiceTests {
 	}
 
 	@Test
-	void shouldInsertHotel() {
+	void shouldInsertPetHistory() {
 		PetHistory history = new PetHistory();
 		history.setDate(LocalDate.now());
 		history.setDetails("Esto son unos detalles");

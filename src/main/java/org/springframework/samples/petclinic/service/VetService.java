@@ -39,18 +39,23 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class VetService {
 
-	@Autowired
 	private VetRepository		vetRepository;
 
-	@Autowired(required = true)
 	private SpecialtyRepository	specialtyRepository;
 
-	@Autowired
 	private UserService			userService;
 
-	@Autowired
 	private AuthoritiesService	authoritiesService;
 
+
+	@Autowired
+	public VetService(final VetRepository vetRepository, final SpecialtyRepository specialtyRepository, final UserService userService, final AuthoritiesService authoritiesService) {
+		super();
+		this.vetRepository = vetRepository;
+		this.specialtyRepository = specialtyRepository;
+		this.userService = userService;
+		this.authoritiesService = authoritiesService;
+	}
 
 	@Transactional(readOnly = true)
 	public Collection<Vet> findVets() throws DataAccessException {
@@ -108,6 +113,11 @@ public class VetService {
 	@Transactional
 	public Optional<Specialty> findSpecialtyById(final int specialtyId) {
 		Optional<Specialty> optional = this.specialtyRepository.findById(specialtyId);
+		return optional;
+	}
+
+	public List<Vet> findVetByClinicId(final Integer username) {
+		List<Vet> optional = this.vetRepository.findVetByClinicId(username);
 		return optional;
 	}
 }

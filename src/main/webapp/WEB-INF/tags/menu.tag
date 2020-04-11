@@ -47,6 +47,13 @@
 					<span>Causes</span>
 				</petclinic:menuItem>
 				
+				<petclinic:menuItem active="${name eq 'clinic'}" url="/clinic"
+					title="clinic">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Clinics</span>
+				</petclinic:menuItem>
+				
+				
 				<security:authorize access="hasAuthority('veterinarian') or hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'hotels'}" url="/hotels"
 					title="hotels">

@@ -19,12 +19,22 @@ INSERT INTO users(username,password,enabled) VALUES ('vet6','v3t',TRUE);
 INSERT INTO authorities VALUES ('vet6','veterinarian');
 
 
-INSERT INTO vets VALUES (1, 'James', 'Carter', '110 W. Liberty St.', 'Madison', '6085551023', 'vet1');
-INSERT INTO vets VALUES (2, 'Helen', 'Leary', '110 W. Liberty St.', 'Madison', '6085551023', 'vet2');
-INSERT INTO vets VALUES (3, 'Linda', 'Douglas', '110 W. Liberty St.', 'Madison', '6085551023', 'vet3');
-INSERT INTO vets VALUES (4, 'Rafael', 'Ortega', '110 W. Liberty St.', 'Madison', '6085551023', 'vet4');
-INSERT INTO vets VALUES (5, 'Henry', 'Stevens', '110 W. Liberty St.', 'Madison', '6085551023', 'vet5');
-INSERT INTO vets VALUES (6, 'Sharon', 'Jenkins', '110 W. Liberty St.', 'Madison', '6085551023', 'vet6');
+INSERT INTO clinic VALUES (1, 'clinica1', 50,'clinic1@gmail.com', '665544331', 'Sevilla', '955910011');
+INSERT INTO clinic VALUES (2, 'George Clinic', 30,'clinic1@gmail.com', '665544331', 'Sevilla', '955910011');
+INSERT INTO clinic VALUES (3, 'Snt Paul Clinic', 10,'clinic1@gmail.com', '665544331', 'Sevilla', '955910011');
+INSERT INTO clinic VALUES (4, 'Care Clinic', 60,'clinic1@gmail.com', '665544331', 'Sevilla', '955910011');
+INSERT INTO clinic VALUES (5, 'Pet Clinic', 50,'clinic1@gmail.com', '665544331', 'Sevilla', '955910011');
+INSERT INTO clinic VALUES (6, 'Holy Pet Clinic', 40,'clinic1@gmail.com', '665544331', 'Sevilla', '955910011');
+INSERT INTO clinic VALUES (7, 'Petisuit Clinic', 30,'clinic1@gmail.com', '665544331', 'Sevilla', '955910011');
+
+
+
+INSERT INTO vets VALUES (1, 'James', 'Carter', '110 W. Liberty St.', 'Madison', '6085551023', 1,'vet1');
+INSERT INTO vets VALUES (2, 'Helen', 'Leary', '110 W. Liberty St.', 'Madison', '6085551023', 1,'vet2');
+INSERT INTO vets VALUES (3, 'Linda', 'Douglas', '110 W. Liberty St.', 'Madison', '6085551023', 1,'vet3');
+INSERT INTO vets VALUES (4, 'Rafael', 'Ortega', '110 W. Liberty St.', 'Madison', '6085551023',2, 'vet4');
+INSERT INTO vets VALUES (5, 'Henry', 'Stevens', '110 W. Liberty St.', 'Madison', '6085551023', 3,'vet5');
+INSERT INTO vets VALUES (6, 'Sharon', 'Jenkins', '110 W. Liberty St.', 'Madison', '6085551023',4, 'vet6');
 
 INSERT INTO specialties VALUES (1, 'radiology');
 INSERT INTO specialties VALUES (2, 'surgery');

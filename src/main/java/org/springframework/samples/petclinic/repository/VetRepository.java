@@ -64,4 +64,8 @@ public interface VetRepository extends CrudRepository<Vet, Integer> {
 
 	@Query("SELECT p FROM Vet p where p.user.username =:username")
 	List<Vet> findVetByUserId(String username);
+
+	@Query("SELECT p FROM Vet p where p.clinic.id =:id")
+	List<Vet> findVetByClinicId(Integer id);
+
 }

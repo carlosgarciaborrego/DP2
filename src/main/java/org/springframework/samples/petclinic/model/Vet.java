@@ -29,6 +29,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
@@ -72,7 +73,11 @@ public class Vet extends Person {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "username", referencedColumnName = "username")
 	private User			user;
-	//
+
+	@ManyToOne(cascade = {
+		CascadeType.ALL
+	}, optional = true)
+	private Clinic			clinic;
 
 
 	protected Set<Specialty> getSpecialtiesInternal() {
@@ -141,10 +146,19 @@ public class Vet extends Person {
 		this.user = user;
 	}
 
+	public Clinic getClinic() {
+		return this.clinic;
+	}
+
+	public void setClinic(final Clinic clinic) {
+		this.clinic = clinic;
+	}
+
 	@Override
 	public String toString() {
 		return new ToStringCreator(this)
 
 			.append("id", this.getId()).append("new", this.isNew()).append("lastName", this.getLastName()).append("firstName", this.getFirstName()).append("address", this.address).append("city", this.city).append("telephone", this.telephone).toString();
 	}
+
 }

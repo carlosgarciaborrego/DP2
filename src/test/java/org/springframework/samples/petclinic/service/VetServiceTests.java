@@ -16,7 +16,9 @@
 
 package org.springframework.samples.petclinic.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Specialty;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.stereotype.Service;
@@ -74,6 +77,57 @@ class VetServiceTests {
 		Assertions.assertThat(vet.getNrOfSpecialties()).isEqualTo(2);
 		Assertions.assertThat(vet.getSpecialties().get(0).getName()).isEqualTo("dentistry");
 		Assertions.assertThat(vet.getSpecialties().get(1).getName()).isEqualTo("surgery");
+	}
+
+	@Test
+	void shouldFindVetWithCorrectId() {
+		Optional<Vet> hotel1 = this.vetService.findVetById(1);
+
+		Assertions.assertThat(hotel1.isPresent());
+		Assertions.assertThat(hotel1.get().getAddress()).isEqualTo("110 W. Liberty St.");
+		Assertions.assertThat(hotel1.get().getCity()).isEqualTo("Madison");
+		Assertions.assertThat(hotel1.get().getFirstName()).isEqualTo("James");
+		Assertions.assertThat(hotel1.get().getLastName()).isEqualTo("Carter");
+	}
+
+	@Test
+	void shouldInsertVet() {
+		Vet history = new Vet();
+		history.setAddress("Adress");
+		history.setCity("City");
+		history.setFirstName("First name");
+		history.setTelephone("666666666");
+		history.setLastName("last name");
+		User user = new User();
+		user.setPassword("333333");
+		user.setUsername("vet7");
+		history.setUser(user);
+
+		this.vetService.saveVet(history);
+		Assertions.assertThat(history.getId().longValue()).isEqualTo(7);
+	}
+
+	@Test
+	void shouldUpdateVet() {
+		Iterable<Vet> hotels = this.vetService.findVets();
+		Collection<Vet> nuevaLista = new ArrayList<Vet>();
+
+		for (Vet h : hotels) {
+			nuevaLista.add(h);
+		}
+
+		Vet hotel1 = EntityUtils.getById(nuevaLista, Vet.class, 1);
+		Vet hotel2 = EntityUtils.getById(nuevaLista, Vet.class, 1);
+		hotel1.setAddress("adress");
+		hotel1.setCity("city");
+		hotel1.setFirstName("Esto es un nuevo nombre");
+		hotel1.setTelephone("666666666");
+
+		this.vetService.saveVet(hotel1);
+
+		Assertions.assertThat(hotel2.getAddress()).isEqualTo(hotel1.getAddress());
+		Assertions.assertThat(hotel2.getCity()).isEqualTo(hotel1.getCity());
+		Assertions.assertThat(hotel2.getFirstName()).isEqualTo(hotel1.getFirstName());
 	}
 
 	@Test
