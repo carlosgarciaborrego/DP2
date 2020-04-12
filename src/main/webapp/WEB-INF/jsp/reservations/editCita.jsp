@@ -26,11 +26,11 @@
             <div class="form-group has-feedback">
             	<form:hidden path="id"/>
             	<form:hidden path="owner.id"/>
-            	
+            	<form:hidden path="status"/>
                 <petclinic:inputField label="Telephone" name="telephone"/>
                 <petclinic:inputField label="Reservation Date" name="reservationDate"/>
-                <petclinic:inputField label="Status" name="status" />
-                <petclinic:inputField label="Response Clinic" name="responseClinic"/>
+                <petclinic:inputFieldDisabled label="Status" name="status" />
+                <petclinic:inputFieldDisabled label="Response Clinic" name="responseClinic"/>
                <petclinic:inputField label="Response Client" name="responseClient"/>
 				<petclinic:selectField name="clinic" label="Clinics " names="${clinics}" size="3"/>
             </div>

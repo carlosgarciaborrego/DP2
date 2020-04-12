@@ -55,10 +55,7 @@ public class ReservationController {
 	@GetMapping(path = "/accepted/{reservationId}")
 	public String aceptarCita(final ModelMap model, @PathVariable("reservationId") final int reservationId) {
 		Reservation reservation = this.reservationService.findReservationById(reservationId);
-		//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		//		User currentPrincipalName = (User) authentication.getPrincipal();
-		//		Owner owner = this.reservationService.findOwnerByUserId(currentPrincipalName.getUsername()).get(0);
-		//		reservation.setOwner(owner);
+
 		reservation.setStatus("accepted");
 		this.reservationService.save(reservation);
 		return "redirect:/reservations";
@@ -67,10 +64,7 @@ public class ReservationController {
 	@GetMapping(path = "/rejected/{reservationId}")
 	public String rechazarCita(final ModelMap model, @PathVariable("reservationId") final int reservationId) {
 		Reservation reservation = this.reservationService.findReservationById(reservationId);
-		//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		//		User currentPrincipalName = (User) authentication.getPrincipal();
-		//		Owner owner = this.reservationService.findOwnerByUserId(currentPrincipalName.getUsername()).get(0);
-		//		reservation.setOwner(owner);
+
 		reservation.setStatus("rejected");
 		this.reservationService.save(reservation);
 		return "redirect:/reservations";
@@ -84,6 +78,7 @@ public class ReservationController {
 		Owner owner = this.reservationService.findOwnerByUserId(currentPrincipalName.getUsername()).get(0);
 		Reservation res = new Reservation();
 		res.setOwner(owner);
+		res.setStatus("pending");
 		modelMap.addAttribute("reservation", res);
 
 		return view;
@@ -92,6 +87,7 @@ public class ReservationController {
 	@PostMapping(path = "/save")
 	public String salvarCita(@Valid final Reservation reservation, final BindingResult result, final ModelMap modelMap) {
 		String view = "reservations/listadoCitas";
+
 		if (result.hasErrors()) {
 			modelMap.addAttribute("reservation", reservation);
 			return "reservations/editCita";

@@ -51,10 +51,12 @@
                     </spring:url>
                 	<a href="${fn:escapeXml(reservationUrl)}">Show</a>
                 	<br>
+                	<c:if test="${reservation.status == 'pending'}">
 	                	<spring:url value="/reservations/delete/{reservationId}" var="reservationUrl">
 	                        <spring:param name="reservationId" value="${reservation.id}"/>
 	                    </spring:url>
 	                	<a href="${fn:escapeXml(reservationUrl)}">Delete</a>
+	                </c:if> 	
 	               </security:authorize>
 		                <security:authorize access="hasAuthority('veterinarian')">
 		               <spring:url value="/reservations/accepted/{reservationId}" var="reservationUrl">
@@ -74,8 +76,10 @@
         </tbody>
     </table>
     <security:authorize access="hasAuthority('owner')">
-     <div class="form-group">
+    
+     	<div class="form-group">
             <a class="btn btn-default" href='<spring:url value="/reservations/new" htmlEscape="true"/>'>New Reservation</a>
         </div>
+       
     </security:authorize>    
 </petclinic:layout>
