@@ -22,11 +22,13 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Hotel;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.service.HotelService;
 import org.springframework.samples.petclinic.service.PetService;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -104,8 +106,8 @@ public class VisitController {
 		return "visitList";
 	}
 
-	@GetMapping(value = "/hotels/{hotelId}/delete/{visitId}")
-	public String deleteVisit(@PathVariable("hotelId") final Integer hotelId, @PathVariable("visitId") final Integer visitId, final ModelMap model) {
+	@GetMapping(value = "/hotels/{hotelId}/delete/pets/{petId}/visits/{visitId}")
+	public String deleteVisit(@PathVariable("hotelId") final Integer hotelId, @PathVariable("visitId") final Integer visitId, @PathVariable("petId") final Integer petId, final ModelMap model) throws DataAccessException, DuplicatedPetNameException {
 		Hotel hotel = this.hotelService.findHotelById(hotelId);
 		List<Visit> visits = hotel.getVisits();
 		Visit res = new Visit();
@@ -114,7 +116,9 @@ public class VisitController {
 				res = v;
 			}
 		}
-
+		Pet p = this.petService.findPetById(petId);
+		p.removeVisit(res);
+		this.petService.savePet(p);
 		hotel.removeVisit(res);
 		this.hotelService.save(hotel);
 

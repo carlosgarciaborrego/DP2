@@ -59,7 +59,9 @@ public class Vet extends Person {
 	@JoinColumn(name = "username", referencedColumnName = "username")
 	private User			user;
 
-	@ManyToOne(optional = true)
+	@ManyToOne(cascade = {
+		CascadeType.ALL
+	}, optional = true)
 	private Clinic			clinic;
 
 

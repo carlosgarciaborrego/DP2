@@ -136,4 +136,9 @@ public class Clinic extends NamedEntity {
 		this.reservations = reservations;
 	}
 
+	@Override
+	public String toString() {
+		return "Clinic " + this.name;
+	}
+
 }

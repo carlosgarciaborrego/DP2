@@ -76,10 +76,13 @@
                   <td><c:out value="${visit.pet.name}"/></td>
                   <td><c:out value="${visit.pet.owner.firstName} ${visit.pet.owner.lastName}"/></td>
                   <td>
-	                  <spring:url value="/hotels/{hotelId}/delete/{visitId}" var="deleteUrl">
+                  h:${hotel.id}
+                  v:${visit.id}
+                  p:${visit.pet.id}
+	                  <spring:url value="/hotels/{hotelId}/delete/pets/{petId}/visits/{visitId}" var="deleteUrl">
 					        <spring:param name="hotelId" value="${hotel.id}"/>
 					        <spring:param name="visitId" value="${visit.id}"/>
-					        
+					        <spring:param name="petId" value="${visit.pet.id}"/>
 					    </spring:url>
 					    <a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Delete</a>
 				   </td>

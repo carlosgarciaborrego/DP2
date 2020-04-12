@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
@@ -37,7 +38,7 @@ public class Hotel extends NamedEntity {
 	@Range(min = 0)
 	private Integer		capacity;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel", fetch = FetchType.EAGER)
 	private Set<Visit>	visits;
 
 

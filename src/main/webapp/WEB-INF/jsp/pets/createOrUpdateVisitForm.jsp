@@ -44,10 +44,10 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
+         
                     <input type="hidden" name="petId" value="${visit.pet.id}"/>
                 
                    	<button class="btn btn-default" type="submit">Add Visit</button>
-                   		
                 </div>
             </div>
         </form:form>
