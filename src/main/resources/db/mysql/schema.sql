@@ -61,7 +61,6 @@ CREATE TABLE IF NOT EXISTS cause (
   organisation VARCHAR(255),
   budgetTarget DOUBLE(8),
   budgetAchieved DOUBLE(8), 
-  INDEX(name) 
 ) engine=InnoDB;
 
 CREATE TABLE IF NOT EXISTS donations (

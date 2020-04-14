@@ -42,11 +42,11 @@ public class CauseServiceTests {
 	
 	@Test
 	void shouldFindCauseWithCorrectId(){
-		Optional<Cause> cause1 = this.causeService.findCauseById(1); 
-		Assertions.assertThat(cause1.get().getName().toString()).isEqualTo("NombreCause"); 
-		Assertions.assertThat(cause1.get().getBudgetTarget()).isEqualTo(1000.0); 
-		Assertions.assertThat(cause1.get().getDescription()).isEqualTo("Description Cause"); 
-		Assertions.assertThat(cause1.get().getOrganisation()).isEqualTo("Organisation Cause"); 
+		Cause cause1 = this.causeService.findCauseById(1); 
+		Assertions.assertThat(cause1.getName().toString()).isEqualTo("NombreCause"); 
+		Assertions.assertThat(cause1.getBudgetTarget()).isEqualTo(1000.0); 
+		Assertions.assertThat(cause1.getDescription()).isEqualTo("Description Cause"); 
+		Assertions.assertThat(cause1.getOrganisation()).isEqualTo("Organisation Cause"); 
 	}
 
 	@Test

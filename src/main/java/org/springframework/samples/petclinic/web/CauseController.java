@@ -23,12 +23,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/causes")
 public class CauseController {
 
-	@Autowired
 	private CauseService causeService;
 
-	@Autowired
 	private DonationService donationService;
 
+
+	@Autowired
+	public CauseController(final CauseService causeService, final DonationService donationService) {
+		super();
+		this.causeService = causeService;
+		this.donationService = donationService;
+	}
+	
 	@GetMapping()
 	public String listadoCauses(final ModelMap modelMap) {
 		String vista = "causes/listadoCauses";
@@ -75,36 +81,26 @@ public class CauseController {
 	@GetMapping(path = "/delete/{causeId}")
 	public String borrarCause(@PathVariable("causeId") final int causeId, final ModelMap modelMap) {
 		String view = "causes/listadoCauses";
-		Optional<Cause> cause = this.causeService.findCauseById(causeId);
-		if (cause.isPresent()) {
-			this.causeService.delete(cause.get());
-			modelMap.addAttribute("message", "Cause successfully deleted!");
-			view = this.listadoCauses(modelMap);
-		} else {
-			modelMap.addAttribute("message", "Cause not found!");
-			view = this.listadoCauses(modelMap);
-		}
+		Cause cause = this.causeService.findCauseById(causeId);
+		this.causeService.delete(cause);
+		modelMap.addAttribute("message", "Cause successfully deleted!");
+		view = this.listadoCauses(modelMap);
 		return view;
 	}
 
-	@GetMapping(path = "/{causesId}/edit")
+	@GetMapping(path = "/{causeId}/edit")
 	public String actualizarCause(@PathVariable("causeId") final int causeId, final ModelMap modelMap) {
 		String view = "causes/editCause";
-		Optional<Cause> cause = this.causeService.findCauseById(causeId);
+		Cause cause = this.causeService.findCauseById(causeId);
 		modelMap.addAttribute(cause);
 		return view;
 	}
 	
-	
-	
-	
-	
-	
-
 	@PostMapping(value = "/{causeId}/edit")
-	public String actualizarCausePost(@Valid final Cause cause, final BindingResult result, @PathVariable("causeId") final int causeId) {
+	public String actualizarCausePost(@Valid final Cause cause, final BindingResult result, @PathVariable("causeId") final int causeId, final ModelMap modelMap) {
 		String view = "causes/editCause";
 		if (result.hasErrors()) {
+			modelMap.addAttribute("cause", cause);
 			return view;
 		} else {
 			cause.setId(causeId);
@@ -115,11 +111,7 @@ public class CauseController {
 
 	@GetMapping(value = "/{causeId}")
 	public String showCause(@PathVariable("causeId") final Integer causeId, final Map<String, Object> model) {
-		Cause cause = new Cause();
-		Optional<Cause> causes = this.causeService.findCauseById(causeId);
-		if (causes.isPresent()) {
-			cause = causes.get();
-		}
+		Cause cause = this.causeService.findCauseById(causeId);
 		
 		Double amount = 0.0;
 		List<Donation> donations = donationService.findByIdCause(cause);
