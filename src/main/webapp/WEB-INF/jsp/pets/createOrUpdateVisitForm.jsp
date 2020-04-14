@@ -39,7 +39,7 @@
             <div class="form-group has-feedback">
                 <petclinic:inputField label="Date" name="date"/>
                 <petclinic:inputField label="Description" name="description"/>
-         		<petclinic:inputField label="Id del Hotel" name="hotel"/>
+         		<petclinic:selectField name="hotel" label="Available hotels" names="${hotels}" size="3"/>
             </div>
 
             <div class="form-group">

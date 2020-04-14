@@ -15,14 +15,15 @@
         <form:form modelAttribute="hotel" class="form-horizontal" action="../../petclinic/hotels/save">
             <div class="form-group has-feedback">
             	<form:hidden path="id"/>
-                <petclinic:inputField label="Name" name="name"/>
-                <petclinic:inputField label="Location" name="location"/>
+                <petclinic:inputField label="Street" name="name"/>
+                <petclinic:inputField label="City" name="location"/>
                 <petclinic:inputFieldDisabled label="Count" name="count"/>
                 <c:set var="contar" value="${hotel.count}"/>
                  <c:if test="${contar < 1}">
                 	<petclinic:inputField label="Capacity" name="capacity"/>
                 </c:if>
                  <c:if test="${contar > 0}">
+                 	<form:hidden path="capacity"/>
                 	<petclinic:inputFieldDisabled label="Capacity" name="capacity"/>
                 </c:if>
                
@@ -49,8 +50,8 @@
          <form:form modelAttribute="hotel" class="form-horizontal" action="../../petclinic/hotels/save">
             <div class="form-group has-feedback">
             	<form:hidden path="id"/>
-                <petclinic:inputFieldDisabled label="Name" name="name"/>
-                <petclinic:inputFieldDisabled label="Location" name="location"/>
+                <petclinic:inputFieldDisabled label="Street" name="name"/>
+                <petclinic:inputFieldDisabled label="City" name="location"/>
                 <petclinic:inputFieldDisabled label="Count" name="count"/>
                 <petclinic:inputFieldDisabled label="Capacity" name="capacity"/>
             </div>

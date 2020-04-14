@@ -69,11 +69,6 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id, vet_id) VALUES (11, 'Fredd
 INSERT INTO pets(id,name,birth_date,type_id,owner_id, vet_id) VALUES (12, 'Lucky', '2010-06-24', 2, 10, 4);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id, vet_id) VALUES (13, 'Sly', '2012-06-08', 1, 10, 1);
 
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01', 'rabies shot');
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02', 'rabies shot');
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
-
 INSERT INTO hotels VALUES (1, 'Externa', 10, 3, 'Sevilla');
 
 INSERT INTO pet_history VALUES (1, '2010-09-07', 'details', 'summary',  1);

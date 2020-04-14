@@ -56,35 +56,38 @@
                         <dd><c:out value="${pet.type.name}"/></dd>
                     </dl>
                 </td>
-                <td valign="top">
-                    <table class="table-condensed">
-                        <thead>
-                        <tr>
-                            <th>Registration Date</th>
-                            <th>Motive</th>
-                        </tr>
-                        </thead>
-                        <tr>
-                            <td>
-                                <spring:url value="/owners/{ownerId}/pets/{petId}/edit" var="petUrl">
-                                    <spring:param name="ownerId" value="${owner.id}"/>
-                                    <spring:param name="petId" value="${pet.id}"/>
-                                </spring:url>
-                                <a href="${fn:escapeXml(petUrl)}">Edit Pet</a>
-                            </td>
-                            
-                            
-                         
-                          
-                            <td>
-                                <spring:url value="/owners/{ownerId}/pets/{petId}/visits/new" var="visitUrl">
-                                    <spring:param name="ownerId" value="${owner.id}"/>
-                                    <spring:param name="petId" value="${pet.id}"/>
-                                </spring:url>
-                                <a href="${fn:escapeXml(visitUrl)}">Add Visit</a>
-                            </td>
-                        </tr>
-                    </table>
+                <td valign="top">                	
+	                <c:if test="${empty pet.visits}">
+		                    <table class="table-condensed">
+		                      
+		                        <tr>
+		                            <td>
+		                                <spring:url value="/owners/{ownerId}/pets/{petId}/edit" var="petUrl">
+		                                    <spring:param name="ownerId" value="${owner.id}"/>
+		                                    <spring:param name="petId" value="${pet.id}"/>
+		                                </spring:url>
+		                                <a href="${fn:escapeXml(petUrl)}">Edit Pet</a>
+		                            </td>
+		                            
+		                            <td>
+		                                <spring:url value="/owners/{ownerId}/pets/{petId}/visits/new" var="visitUrl">
+		                                    <spring:param name="ownerId" value="${owner.id}"/>
+		                                    <spring:param name="petId" value="${pet.id}"/>
+		                                </spring:url>
+		                                <a href="${fn:escapeXml(visitUrl)}">Add Visit</a>
+		                            </td>
+		                        </tr>
+		               
+		                    </table>
+	                   </c:if>  
+	                   
+	               	<c:forEach var="visit" items="${pet.visits}">
+               
+	                   <c:if test="${ pet.id == visit.pet.id }">
+	                   		<h6> La mascota está en el hotel situado en ${visit.hotel.name} (${visit.hotel.location})</h6>
+	                 	</c:if>
+	                   
+                    </c:forEach>
                 </td>
             </tr>
 

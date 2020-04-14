@@ -14,8 +14,8 @@
     <table id="hotelsTable" class="table table-striped">
         <thead>
         <tr>
-            <th style="width: 150px;">Name</th>
-            <th style="width: 200px;">Location</th>
+            <th style="width: 150px;">Street</th>
+            <th style="width: 200px;">City</th>
             <th>Count</th>
             <th>Capacity</th>
             <th>Actions</th>

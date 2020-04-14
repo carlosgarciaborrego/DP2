@@ -16,6 +16,8 @@
 
 package org.springframework.samples.petclinic.web;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +53,23 @@ public class VisitController {
 	private final PetService	petService;
 	private final HotelService	hotelService;
 
+
+	//	@ModelAttribute("hotels")
+	//	public Collection<Hotel> populateHotels() {
+	//		return (Collection<Hotel>) this.hotelService.findAll();
+	//	}
+
+	@ModelAttribute("hotels")
+	public Collection<Hotel> populateHotels() {
+		Collection<Hotel> hoteles = (Collection<Hotel>) this.hotelService.findAll();
+		Collection<Hotel> hotelesDisponibles = new ArrayList<Hotel>();
+		for (Hotel h : hoteles) {
+			if (h.getCount() < h.getCapacity()) {
+				hotelesDisponibles.add(h);
+			}
+		}
+		return hotelesDisponibles;
+	}
 
 	@Autowired
 	public VisitController(final PetService petService, final HotelService hotelService) {
