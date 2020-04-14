@@ -58,7 +58,7 @@
 	                	<a href="${fn:escapeXml(reservationUrl)}">Delete</a>
 	                </c:if> 	
 	               </security:authorize>
-		                <security:authorize access="hasAuthority('veterinarian')">
+		                <security:authorize access="hasAuthority('admin')">
 		               <spring:url value="/reservations/accepted/{reservationId}" var="reservationUrl">
 	                        <spring:param name="reservationId" value="${reservation.id}"/>
 	                    </spring:url>

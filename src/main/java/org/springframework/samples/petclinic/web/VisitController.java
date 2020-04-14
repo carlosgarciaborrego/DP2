@@ -135,10 +135,12 @@ public class VisitController {
 				res = v;
 			}
 		}
+		hotel.removeVisit(res);
+
 		Pet p = this.petService.findPetById(petId);
 		p.removeVisit(res);
+		this.hotelService.saveVisit(res);
 		this.petService.savePet(p);
-		hotel.removeVisit(res);
 		this.hotelService.save(hotel);
 
 		return "redirect:/hotels";

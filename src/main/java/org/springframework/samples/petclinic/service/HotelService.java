@@ -65,4 +65,9 @@ public class HotelService {
 	public Visit findVisitById(final int id) {
 		return this.visitRepository.findVisitById(id);
 	}
+
+	@Transactional
+	public void saveVisit(final Visit visit) {
+		this.visitRepository.save(visit);
+	}
 }

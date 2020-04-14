@@ -77,9 +77,7 @@
                   <td><c:out value="${visit.pet.name}"/></td>
                   <td><c:out value="${visit.pet.owner.firstName} ${visit.pet.owner.lastName}"/></td>
                   <td>
-                  h:${hotel.id}
-                  v:${visit.id}
-                  p:${visit.pet.id}
+            
 	                  <spring:url value="/hotels/{hotelId}/delete/pets/{petId}/visits/{visitId}" var="deleteUrl">
 					        <spring:param name="hotelId" value="${hotel.id}"/>
 					        <spring:param name="visitId" value="${visit.id}"/>

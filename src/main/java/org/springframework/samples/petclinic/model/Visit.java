@@ -23,7 +23,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -46,7 +45,6 @@ public class Visit extends BaseEntity {
 	/**
 	 * Holds value of property description.
 	 */
-	@NotEmpty
 	@Column(name = "description")
 	private String		description;
 

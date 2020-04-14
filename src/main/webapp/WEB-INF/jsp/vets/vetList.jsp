@@ -15,7 +15,9 @@
         <tr>
             <th>Name</th>
             <th>Specialties</th>
-            <th>Actions</th>
+            <security:authorize access="!hasAuthority('owner')">
+            	<th>Actions</th>
+            </security:authorize>	
         </tr>
         </thead>
         <tbody>
@@ -30,6 +32,7 @@
                     </c:forEach>
                     <c:if test="${vet.nrOfSpecialties == 0}">none</c:if>
                 </td>
+                <security:authorize access="!hasAuthority('owner')">
                <td>
                <security:authorize access="hasAuthority('admin')">
                    <spring:url value="vet/delete/{vetId}" var="deleteUrl">
@@ -45,13 +48,14 @@
                  <a class="btn btn-default" href='${addSpecialtyUrl}'>Agregar especialidad</a>
                 </security:authorize>
                 
-                <security:authorize access="!hasAuthority('owner')">
+                
                  	<spring:url value="vet/show/{vetId}" var="showUrl">
 				        <spring:param name="vetId" value="${vet.id}"/>
 				    </spring:url>
 				    <a href="${fn:escapeXml(showUrl)}" class="btn btn-default">Show</a>
-				</security:authorize>    
+				  
                  </td>
+                 </security:authorize>  
             </tr>
         </c:forEach>
         </tbody>
