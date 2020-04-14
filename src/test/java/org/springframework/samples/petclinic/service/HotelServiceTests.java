@@ -41,15 +41,16 @@ public class HotelServiceTests {
 		}
 
 		Hotel hotel1 = EntityUtils.getById(nuevaLista, Hotel.class, 1);
-		assertThat(hotel1.getName()).isEqualTo("");
+		assertThat(hotel1.getName()).isEqualTo("Calle Cadiz");
 		assertThat(hotel1.getCapacity()).isEqualTo(10);
-		assertThat(hotel1.getCount()).isEqualTo(3);
+		assertThat(hotel1.getCount()).isEqualTo(0);
 		assertThat(hotel1.getLocation()).isEqualTo("Sevilla");
 	}
 	
 	@Test
 	void shouldFindHotelWithCorrectId(){
 		Hotel hotel1 = this.hotelService.findHotelById(1); 
+		assertThat(hotel1.getName()).isEqualTo("Calle Cadiz");
 		assertThat(hotel1.getLocation()).isEqualTo("Sevilla");
 		assertThat(hotel1.getCount()).isBetween(0, hotel1.getCapacity());
 		assertThat(hotel1.getCapacity()).isGreaterThan(hotel1.getCount());
@@ -78,8 +79,10 @@ public class HotelServiceTests {
 		
 		Hotel hotel1 = EntityUtils.getById(nuevaLista, Hotel.class, 1);
 		Hotel hotel2 = EntityUtils.getById(nuevaLista, Hotel.class, 1);
+		String street = "Calle Roya";
 		String newLocation = "Herrera";
 		Integer newCapacity = 5;
+		hotel1.setName(street);
 		hotel1.setLocation(newLocation);
 		hotel1.setCapacity(newCapacity);
 		

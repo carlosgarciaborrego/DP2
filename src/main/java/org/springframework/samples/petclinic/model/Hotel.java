@@ -24,6 +24,7 @@ import org.springframework.beans.support.PropertyComparator;
 public class Hotel extends NamedEntity {
 
 	@Column(name = "name")
+	@NotEmpty
 	private String		name;
 
 	@Column(name = "location")

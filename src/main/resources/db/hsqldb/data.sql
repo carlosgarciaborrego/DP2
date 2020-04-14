@@ -69,7 +69,7 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id, vet_id) VALUES (11, 'Fredd
 INSERT INTO pets(id,name,birth_date,type_id,owner_id, vet_id) VALUES (12, 'Lucky', '2010-06-24', 2, 10, 4);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id, vet_id) VALUES (13, 'Sly', '2012-06-08', 1, 10, 1);
 
-INSERT INTO hotels VALUES (1, 'Externa', 10, 3, 'Sevilla');
+INSERT INTO hotels VALUES (1, 'Calle Cadiz', 10, 3, 'Sevilla');
 
 INSERT INTO pet_history VALUES (1, '2010-09-07', 'details', 'summary',  1);
 INSERT INTO pet_history VALUES (2, '2011-09-07',  'details', 'summary 2',1);

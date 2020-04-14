@@ -51,6 +51,7 @@ class ValidatorTests {
 	void shouldNotValidateWhenCapacityIsNegative() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Hotel hotel = new Hotel();
+		hotel.setName("Calle Betis");
 		hotel.setLocation("Sevilla");
 		hotel.setCapacity(-1);
 
@@ -67,6 +68,7 @@ class ValidatorTests {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Hotel hotel = new Hotel();
 		hotel.setLocation("");
+		hotel.setName("Calle Andalucia");
 		hotel.setCapacity(10);
 
 		Validator validator = this.createValidator();
@@ -78,35 +80,22 @@ class ValidatorTests {
 	}
 
 	@Test
-	void shouldNotValidateWhenIsNegative() {
+	void shouldNotValidateWhenNameEmpty() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Hotel hotel = new Hotel();
 		hotel.setLocation("Sevilla");
-		hotel.setCapacity(-1);
+		hotel.setName("");
+		hotel.setCapacity(10);
 
 		Validator validator = this.createValidator();
 		Set<ConstraintViolation<Hotel>> constraintViolations = validator.validate(hotel);
 		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
 		ConstraintViolation<Hotel> violation = constraintViolations.iterator().next();
-		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("capacity");
-		Assertions.assertThat(violation.getMessage()).isEqualTo("must be between 0 and 9223372036854775807");
+		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("name");
+		Assertions.assertThat(violation.getMessage()).isEqualTo("must not be empty");
 	}
 
-	//	@Test
-	//	void shouldNotValidateWhenCountIsGreaterThanCapacity() {
-	//		LocaleContextHolder.setLocale(Locale.ENGLISH);
-	//		Hotel hotel = new Hotel();
-	//		hotel.setLocation("Sevilla");
-	//		hotel.setCapacity(10);
-	//		hotel.setCount(15);
-	//
-	//		Validator validator = this.createValidator();
-	//		Set<ConstraintViolation<Hotel>> constraintViolations = validator.validate(hotel);
-	//		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
-	//		ConstraintViolation<Hotel> violation = constraintViolations.iterator().next();
-	//		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("count");
-	//		Assertions.assertThat(violation.getMessage()).isEqualTo("count must not be greater than capacity");
-	//	}
+	//No se puede dar que el atributo Count sea negativo, por tanto no se hace test
 
 	//Positive Causes
 	@Test
@@ -114,6 +103,7 @@ class ValidatorTests {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Hotel hotel = new Hotel();
 		hotel.setLocation("Sevilla");
+		hotel.setName("Calle Garcia");
 		hotel.setCapacity(10);
 
 		Validator validator = this.createValidator();
@@ -176,6 +166,10 @@ class ValidatorTests {
 
 	}
 
+	//------------------------------------ Vet ---------------------------------
+
+	// Negative Cause
+
 	@Test
 	void shouldNotValidateWhenAdressVetEmpty() {
 
@@ -235,6 +229,12 @@ class ValidatorTests {
 		Assertions.assertThat(violation.getMessage()).isEqualTo("numeric value out of bounds (<10 digits>.<0 digits> expected)");
 	}
 
+	// Positive Cause
+
+	//------------------------------------ PetHistory ---------------------------------
+
+	// Negative Cause
+
 	@Test
 	void shouldNotValidateWhenSummaryEmpty() {
 
@@ -270,5 +270,7 @@ class ValidatorTests {
 		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("details");
 		Assertions.assertThat(violation.getMessage()).isEqualTo("must not be empty");
 	}
+
+	// Positive Cause
 
 }
