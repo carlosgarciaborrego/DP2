@@ -24,18 +24,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
-
 public class PetHistoryController {
 
-	@Autowired
 	private PetHistoryService	petHistoryService;
 
-	@Autowired
 	private PetService			petService;
 
-	@Autowired
 	private VetService			vetService;
 
+
+	@Autowired
+	public PetHistoryController(final PetHistoryService petHistoryService, final PetService petService, final VetService vetService) {
+
+		this.petHistoryService = petHistoryService;
+		this.petService = petService;
+		this.vetService = vetService;
+	}
 
 	@GetMapping("/vet/{vetId}/pets/{petId}/pethistory")
 	public String listadoPetHistory(@PathVariable("petId") final Integer petId, final ModelMap modelMap) {

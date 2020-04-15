@@ -23,6 +23,8 @@
             <petclinic:inputField label="Telephone" name="telephone" />
             <petclinic:inputField label="Username" name="user.username"/>
             <petclinic:inputField label="Password" name="user.password"/>
+            <petclinic:selectField name="clinic" label="Clinics " names="${clinics}" size="10"/>
+              
         </div>
         </security:authorize>
         <security:authorize access="hasAuthority('owner') or hasAuthority('veterinarian') ">
@@ -34,6 +36,8 @@
             <petclinic:inputFieldDisabled label="Address" name="address" />
             <petclinic:inputFieldDisabled label="City" name="city" />
             <petclinic:inputFieldDisabled label="Telephone" name="telephone" />
+            <petclinic:inputFieldDisabled label="Clinic" name="clinic.name" />
+            
         </div>
         </security:authorize>
         <security:authorize access="hasAuthority('admin')">

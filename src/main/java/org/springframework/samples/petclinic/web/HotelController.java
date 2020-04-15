@@ -2,7 +2,6 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.Map;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -21,9 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/hotels")
 public class HotelController {
 
-	@Autowired
 	private HotelService hotelService;
 
+
+	@Autowired
+	public HotelController(final HotelService hotelService) {
+		super();
+		this.hotelService = hotelService;
+	}
 
 	@GetMapping()
 	public String listadoHoteles(final ModelMap modelMap) {
@@ -57,30 +61,26 @@ public class HotelController {
 	@GetMapping(path = "/delete/{hotelId}")
 	public String borrarHotel(@PathVariable("hotelId") final int hotelId, final ModelMap modelMap) {
 		String view = "hotels/listadoHoteles";
-		Optional<Hotel> hotel = this.hotelService.findHotelById(hotelId);
-		if (hotel.isPresent()) {
-			this.hotelService.delete(hotel.get());
-			modelMap.addAttribute("message", "Hotel successfully deleted!");
-			view = this.listadoHoteles(modelMap);
-		} else {
-			modelMap.addAttribute("message", "Hotel not found!");
-			view = this.listadoHoteles(modelMap);
-		}
+		Hotel hotel = this.hotelService.findHotelById(hotelId);
+		this.hotelService.delete(hotel);
+		modelMap.addAttribute("message", "Hotel successfully deleted!");
+		view = this.listadoHoteles(modelMap);
 		return view;
 	}
 
-	@GetMapping(path = "/{hotelsId}/edit")
+	@GetMapping(path = "/{hotelId}/edit")
 	public String actualizarHotel(@PathVariable("hotelId") final int hotelId, final ModelMap modelMap) {
 		String view = "hotels/editHotel";
-		Optional<Hotel> hotel = this.hotelService.findHotelById(hotelId);
+		Hotel hotel = this.hotelService.findHotelById(hotelId);
 		modelMap.addAttribute(hotel);
 		return view;
 	}
 
 	@PostMapping(value = "/{hotelId}/edit")
-	public String actualizarHotelPost(@Valid final Hotel hotel, final BindingResult result, @PathVariable("hoteId") final int hotelId) {
+	public String actualizarHotelPost(@Valid final Hotel hotel, final BindingResult result, @PathVariable("hotelId") final int hotelId, final ModelMap modelMap) {
 		String view = "hotels/editHotel";
 		if (result.hasErrors()) {
+			modelMap.addAttribute("hotel", hotel);
 			return view;
 		} else {
 			hotel.setId(hotelId);
@@ -91,11 +91,7 @@ public class HotelController {
 
 	@GetMapping(value = "/{hotelId}")
 	public String showHotel(@PathVariable("hotelId") final Integer hotelId, final Map<String, Object> model) {
-		Hotel hotel = new Hotel();
-		Optional<Hotel> hotels = this.hotelService.findHotelById(hotelId);
-		if (hotels.isPresent()) {
-			hotel = hotels.get();
-		}
+		Hotel hotel = this.hotelService.findHotelById(hotelId);
 		model.put("hotel", hotel);
 		return "hotels/editHotel";
 	}

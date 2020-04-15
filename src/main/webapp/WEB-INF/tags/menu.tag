@@ -50,6 +50,13 @@
 				</security:authorize>
 				
 				
+				<petclinic:menuItem active="${name eq 'clinic'}" url="/clinic"
+					title="clinic">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Clinics</span>
+				</petclinic:menuItem>
+				
+				
 				<security:authorize access="hasAuthority('veterinarian') or hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'hotels'}" url="/hotels"
 					title="hotels">
@@ -101,6 +108,12 @@
 											<p class="text-left">
 												<a href="<c:url value="/vet/profile" />"
 													class="btn btn-primary btn-block btn-sm">Vet Profile</a>
+											</p>
+											   </security:authorize>
+											<security:authorize access="hasAuthority('admin')">
+											<p class="text-left">
+												<a href="<c:url value="/dash" />"
+													class="btn btn-primary btn-block btn-sm">Dashboard</a>
 											</p>
 											   </security:authorize>
 										</div>

@@ -44,9 +44,7 @@ public class PetHistoryServiceTests {
 	@Test
 	void shouldFindPetHistoryWithCorrectId() {
 		Optional<PetHistory> hotel1 = this.petHistoryService.findPetHistoryById(1);
-		if (hotel1.isPresent()) {
 
-		}
 		Assertions.assertThat(hotel1.isPresent());
 		Assertions.assertThat(hotel1.get().getDate().toString()).isEqualTo("2010-09-07");
 		Assertions.assertThat(hotel1.get().getDetails()).isEqualTo("details");
@@ -55,7 +53,7 @@ public class PetHistoryServiceTests {
 	}
 
 	@Test
-	void shouldInsertHotel() {
+	void shouldInsertPetHistory() {
 		PetHistory history = new PetHistory();
 		history.setDate(LocalDate.now());
 		history.setDetails("Esto son unos detalles");
@@ -64,47 +62,52 @@ public class PetHistoryServiceTests {
 		history.setPets(p);
 
 		this.petHistoryService.savePetHistory(history);
-		Assertions.assertThat(history.getId().longValue()).isEqualTo(2);
+		Assertions.assertThat(history.getId().longValue()).isEqualTo(4);
 	}
 
-	//	@Test
-	//	void shouldUpdateHotel() {
-	//		Iterable<Hotel> hotels = this.petHistoryService.findAll();
-	//		Collection<Hotel> nuevaLista = new ArrayList<Hotel>();
-	//
-	//		for (Hotel h : hotels) {
-	//			nuevaLista.add(h);
-	//		}
-	//
-	//		Hotel hotel1 = EntityUtils.getById(nuevaLista, Hotel.class, 1);
-	//		Hotel hotel2 = EntityUtils.getById(nuevaLista, Hotel.class, 1);
-	//		String newLocation = "Herrera";
-	//		Integer newCapacity = 5;
-	//		Integer newCount = 0;
-	//		hotel1.setLocation(newLocation);
-	//		hotel1.setCapacity(newCapacity);
-	//		hotel1.setCount(newCount);
-	//
-	//		this.petHistoryService.save(hotel1);
-	//
-	//		Assertions.assertThat(hotel2.getLocation()).isEqualTo(hotel1.getLocation());
-	//		Assertions.assertThat(hotel2.getCapacity()).isEqualTo(hotel1.getCapacity());
-	//		Assertions.assertThat(hotel2.getCount()).isEqualTo(hotel1.getCount());
-	//	}
-	//
-	//	@Test
-	//	void shouldDeleteHotel() {
-	//		Iterable<Hotel> hotels = this.petHistoryService.findAll();
-	//		Collection<Hotel> nuevaLista = new ArrayList<Hotel>();
-	//
-	//		for (Hotel h : hotels) {
-	//			nuevaLista.add(h);
-	//		}
-	//
-	//		Hotel hotel1 = EntityUtils.getById(nuevaLista, Hotel.class, 1);
-	//
-	//		this.petHistoryService.delete(hotel1);
-	//		Assertions.assertThat(nuevaLista.isEmpty());
-	//	}
+	@Test
+	void shouldUpdatePetHistory() {
+		Iterable<PetHistory> hotels = this.petHistoryService.findPetHistories();
+		Collection<PetHistory> nuevaLista = new ArrayList<PetHistory>();
+
+		for (PetHistory h : hotels) {
+			nuevaLista.add(h);
+		}
+
+		PetHistory hotel1 = EntityUtils.getById(nuevaLista, PetHistory.class, 1);
+		PetHistory hotel2 = EntityUtils.getById(nuevaLista, PetHistory.class, 1);
+		hotel1.setDate(LocalDate.now());
+		hotel1.setDetails("Esto son unos detalles");
+		hotel1.setSummary("Esto es un resumen");
+
+		this.petHistoryService.savePetHistory(hotel1);
+
+		Assertions.assertThat(hotel2.getDate()).isEqualTo(hotel1.getDate());
+		Assertions.assertThat(hotel2.getDetails()).isEqualTo(hotel1.getDetails());
+		Assertions.assertThat(hotel2.getSummary()).isEqualTo(hotel1.getSummary());
+	}
+
+	@Test
+	void shouldDeletePetHistory() {
+		Iterable<PetHistory> hotels = this.petHistoryService.findPetHistories();
+		Collection<PetHistory> nuevaLista = new ArrayList<PetHistory>();
+
+		for (PetHistory h : hotels) {
+			nuevaLista.add(h);
+		}
+
+		PetHistory hotel1 = EntityUtils.getById(nuevaLista, PetHistory.class, 1);
+
+		this.petHistoryService.delete(hotel1.getId());
+
+		Iterable<PetHistory> hotels2 = this.petHistoryService.findPetHistories();
+		Collection<PetHistory> nuevaLista2 = new ArrayList<PetHistory>();
+
+		for (PetHistory h : hotels2) {
+			nuevaLista2.add(h);
+		}
+
+		Assertions.assertThat(nuevaLista2.size()).isEqualTo(2);
+	}
 
 }
