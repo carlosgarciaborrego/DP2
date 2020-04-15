@@ -38,22 +38,29 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 								.antMatchers("/users/new").permitAll()
 								.antMatchers("/hotels/").hasAnyAuthority("veterinarian", "admin")
 								.antMatchers("/hotels/**").hasAnyAuthority("veterinarian", "admin")
-								.antMatchers("/causes/").hasAnyAuthority("admin")
-								.antMatchers("/causes/**").hasAnyAuthority("admin")
-								.antMatchers("/vet/**").hasAnyAuthority("veterinarian")
+								.antMatchers("/causes/").authenticated()
+								.antMatchers("/causes/**").authenticated()
 								.antMatchers("/admin/**").hasAnyAuthority("admin")
 								.antMatchers("/vet/delete/**").hasAnyAuthority("admin")
 								.antMatchers("/dash/").hasAnyAuthority("admin")
 								.antMatchers("/dash/**").hasAnyAuthority("admin")
 								.antMatchers("/vet/show/**").permitAll()
 								.antMatchers("/owners/**").hasAnyAuthority("owner", "admin")
+								.antMatchers("/owners/**").hasAnyAuthority("veterinarian", "admin")
 								.antMatchers("/vets/**").authenticated()
+								.antMatchers("/vet/*").authenticated()
 								.antMatchers("/vet/**").authenticated()
-								.antMatchers("/clinic/**").authenticated()
+								.antMatchers("/clinic/").hasAnyAuthority("veterinarian", "admin")
+								.antMatchers("/clinic/**").hasAnyAuthority("veterinarian", "admin")
+								.antMatchers("/clinics/**").hasAnyAuthority("veterinarian", "admin")
+								.antMatchers("/clinics/").hasAnyAuthority("veterinarian", "admin")
+								.antMatchers("/reservation/").hasAnyAuthority("owner", "admin")
+								.antMatchers("/reservations/**").hasAnyAuthority("owner", "admin")
+
 								.anyRequest().denyAll().and().formLogin()
 			/* .loginPage("/login") */
 			.failureUrl("/login-error").and().logout().logoutSuccessUrl("/");
-		// Configuración para que funcione la consola de administración 
+		// Configuración para que funcione la consola de administración
 		// de la BD H2 (deshabilitar las cabeceras de protección contra
 		// ataques de tipo csrf y habilitar los framesets si su contenido
 		// se sirve desde esta misma página.

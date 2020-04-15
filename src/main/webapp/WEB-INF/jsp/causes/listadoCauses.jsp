@@ -4,6 +4,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="security"
+  uri="http://www.springframework.org/security/tags" %>
 
 <petclinic:layout pageName="causes">
     <h2>Causes</h2>
@@ -43,17 +45,22 @@
                         <spring:param name="causeId" value="${cause.id}"/>
                     </spring:url>
                 	<a href="${fn:escapeXml(causeUrl)}">Show</a>
-                	<spring:url value="/causes/delete/{causeId}" var="causeUrl">
-                        <spring:param name="causeId" value="${cause.id}"/>
-                    </spring:url>
-                	<a href="${fn:escapeXml(causeUrl)}">Delete</a>
                 	<br>
+                	<security:authorize access="hasAuthority('admin')">
+	                	<spring:url value="/causes/delete/{causeId}" var="causeUrl">
+	                        <spring:param name="causeId" value="${cause.id}"/>
+	                    </spring:url>
+	                	<a href="${fn:escapeXml(causeUrl)}">Delete</a>
+                	</security:authorize>
+                	
                 </td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
-     <div class="form-group">
+     <security:authorize access="hasAuthority('admin')">
+     	<div class="form-group">
             <a class="btn btn-default" href='<spring:url value="/causes/new" htmlEscape="true"/>'>New Cause</a>
         </div>
+      </security:authorize>  
 </petclinic:layout>

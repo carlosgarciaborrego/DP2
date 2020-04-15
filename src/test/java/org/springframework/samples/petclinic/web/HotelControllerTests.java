@@ -44,7 +44,6 @@ public class HotelControllerTests {
 		this.hotel.setId(HotelControllerTests.TEST_HOTEL_ID);
 		this.hotel.setName("Externa");
 		this.hotel.setCapacity(10);
-		this.hotel.setCount(3);
 		this.hotel.setLocation("Sevilla");
 
 		BDDMockito.given(this.hotelService.findHotelById(HotelControllerTests.TEST_HOTEL_ID)).willReturn(this.hotel);
@@ -73,11 +72,11 @@ public class HotelControllerTests {
 
 	@WithMockUser(value = "spring")
 	@Test
-	void testProcessUpdateHotelFormSuccess() throws Exception {
-		this.mockMvc
-			.perform(
-				MockMvcRequestBuilders.post("/hotels/{hotelId}/edit", HotelControllerTests.TEST_HOTEL_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "Clinica").param("capacity", "15").param("count", "1").param("location", "Cadiz"))
-			.andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/hotels/{hotelId}"));
+	void testInitUpdateHotelForm() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/hotels/{hotelId}/edit", HotelControllerTests.TEST_HOTEL_ID)).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("hotel"))
+			.andExpect(MockMvcResultMatchers.model().attribute("hotel", Matchers.hasProperty("name", Matchers.is("Externa")))).andExpect(MockMvcResultMatchers.model().attribute("hotel", Matchers.hasProperty("capacity", Matchers.is(10))))
+			.andExpect(MockMvcResultMatchers.model().attribute("hotel", Matchers.hasProperty("count", Matchers.is(0)))).andExpect(MockMvcResultMatchers.model().attribute("hotel", Matchers.hasProperty("location", Matchers.is("Sevilla"))))
+			.andExpect(MockMvcResultMatchers.view().name("hotels/editHotel"));
 	}
 
 	@WithMockUser(value = "spring")
@@ -93,7 +92,7 @@ public class HotelControllerTests {
 	void testShowOwner() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/hotels/{hotelId}", HotelControllerTests.TEST_HOTEL_ID)).andExpect(MockMvcResultMatchers.status().isOk())
 			.andExpect(MockMvcResultMatchers.model().attribute("hotel", Matchers.hasProperty("name", Matchers.is("Externa")))).andExpect(MockMvcResultMatchers.model().attribute("hotel", Matchers.hasProperty("capacity", Matchers.is(10))))
-			.andExpect(MockMvcResultMatchers.model().attribute("hotel", Matchers.hasProperty("count", Matchers.is(3)))).andExpect(MockMvcResultMatchers.model().attribute("hotel", Matchers.hasProperty("location", Matchers.is("Sevilla"))))
+			.andExpect(MockMvcResultMatchers.model().attribute("hotel", Matchers.hasProperty("count", Matchers.is(0)))).andExpect(MockMvcResultMatchers.model().attribute("hotel", Matchers.hasProperty("location", Matchers.is("Sevilla"))))
 			.andExpect(MockMvcResultMatchers.view().name("hotels/editHotel"));
 	}
 }
