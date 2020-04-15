@@ -23,6 +23,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Specialty;
@@ -59,10 +60,15 @@ public class VetController {
 	//	private UserService			userService;
 	//
 
-
 	@ModelAttribute("clinics")
 	public Collection<Clinic> populatePetTypes() {
 		return this.clinicService.findAll();
+	}
+
+	@Autowired
+	public VetController(final VetService vetService, final ClinicService clinicService) {
+		this.vetService = vetService;
+		this.clinicService = clinicService;
 	}
 
 	public VetController(final VetService vetService, final ClinicService clinicService) {
@@ -109,6 +115,7 @@ public class VetController {
 		if (vets.isPresent()) {
 			vet = vets.get();
 		}
+
 		model.put("vet", vet);
 		return VetController.VIEWS_VET_CREATE_OR_UPDATE_FORM;
 	}
@@ -164,8 +171,13 @@ public class VetController {
 	@GetMapping(value = "/vet/{vetId}/specialty/new")
 	public String initAddSpecialtytForm(final ModelMap modelMap, @PathVariable("vetId") final int vetId) {
 		Specialty specialty = new Specialty();
-		List<Specialty> specialties = this.vetService.findVetById(vetId).get().getSpecialties();
-		Vet vet = this.vetService.findVetById(vetId).get();
+		Vet vet = new Vet();
+		Optional<Vet> vets = this.vetService.findVetById(vetId);
+		if (vets.isPresent()) {
+			vet = this.vetService.findVetById(vetId).get();
+		}
+		List<Specialty> specialties = vet.getSpecialties();
+
 		modelMap.put("vet", vet);
 		modelMap.put("specialty", specialty);
 		modelMap.put("specialties", specialties);

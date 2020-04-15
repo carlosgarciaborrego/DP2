@@ -20,9 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/hotels")
 public class HotelController {
 
-	@Autowired
 	private HotelService hotelService;
 
+
+	@Autowired
+	public HotelController(final HotelService hotelService) {
+		super();
+		this.hotelService = hotelService;
+	}
 
 	@GetMapping()
 	public String listadoHoteles(final ModelMap modelMap) {
@@ -72,9 +77,10 @@ public class HotelController {
 	}
 
 	@PostMapping(value = "/{hotelId}/edit")
-	public String actualizarHotelPost(@Valid final Hotel hotel, final BindingResult result, @PathVariable("hoteId") final int hotelId) {
+	public String actualizarHotelPost(@Valid final Hotel hotel, final BindingResult result, @PathVariable("hotelId") final int hotelId, final ModelMap modelMap) {
 		String view = "hotels/editHotel";
 		if (result.hasErrors()) {
+			modelMap.addAttribute("hotel", hotel);
 			return view;
 		} else {
 			hotel.setId(hotelId);

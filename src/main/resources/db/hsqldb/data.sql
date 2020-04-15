@@ -20,12 +20,22 @@ INSERT INTO authorities VALUES ('vet6','veterinarian');
 
 INSERT INTO clinic VALUES (1, 'clinica1', 50,'Sevilla', '955910011', '665544331', 'clinic1@gmail.com');
 
+INSERT INTO clinic VALUES (1, 'clinica1', 50,'clinic1@gmail.com', '665544331', 'Sevilla', '955910011');
+INSERT INTO clinic VALUES (2, 'George Clinic', 30,'clinic1@gmail.com', '665544331', 'Sevilla', '955910011');
+INSERT INTO clinic VALUES (3, 'Snt Paul Clinic', 10,'clinic1@gmail.com', '665544331', 'Sevilla', '955910011');
+INSERT INTO clinic VALUES (4, 'Care Clinic', 60,'clinic1@gmail.com', '665544331', 'Sevilla', '955910011');
+INSERT INTO clinic VALUES (5, 'Pet Clinic', 50,'clinic1@gmail.com', '665544331', 'Sevilla', '955910011');
+INSERT INTO clinic VALUES (6, 'Holy Pet Clinic', 40,'clinic1@gmail.com', '665544331', 'Sevilla', '955910011');
+INSERT INTO clinic VALUES (7, 'Petisuit Clinic', 30,'clinic1@gmail.com', '665544331', 'Sevilla', '955910011');
+
+
+
 INSERT INTO vets VALUES (1, 'James', 'Carter', '110 W. Liberty St.', 'Madison', '6085551023', 1,'vet1');
-INSERT INTO vets VALUES (2, 'Helen', 'Leary', '110 W. Liberty St.', 'Madison', '6085551023', 1, 'vet2');
-INSERT INTO vets VALUES (3, 'Linda', 'Douglas', '110 W. Liberty St.', 'Madison', '6085551023', 1, 'vet3');
-INSERT INTO vets VALUES (4, 'Rafael', 'Ortega', '110 W. Liberty St.', 'Madison', '6085551023', 1, 'vet4');
-INSERT INTO vets VALUES (5, 'Henry', 'Stevens', '110 W. Liberty St.', 'Madison', '6085551023', 1, 'vet5');
-INSERT INTO vets VALUES (6, 'Sharon', 'Jenkins', '110 W. Liberty St.', 'Madison', '6085551023', 1, 'vet6');
+INSERT INTO vets VALUES (2, 'Helen', 'Leary', '110 W. Liberty St.', 'Madison', '6085551023', 1,'vet2');
+INSERT INTO vets VALUES (3, 'Linda', 'Douglas', '110 W. Liberty St.', 'Madison', '6085551023', 1,'vet3');
+INSERT INTO vets VALUES (4, 'Rafael', 'Ortega', '110 W. Liberty St.', 'Madison', '6085551023',2, 'vet4');
+INSERT INTO vets VALUES (5, 'Henry', 'Stevens', '110 W. Liberty St.', 'Madison', '6085551023', 3,'vet5');
+INSERT INTO vets VALUES (6, 'Sharon', 'Jenkins', '110 W. Liberty St.', 'Madison', '6085551023',4, 'vet6');
 
 INSERT INTO specialties VALUES (1, 'radiology');
 INSERT INTO specialties VALUES (2, 'surgery');
@@ -75,8 +85,9 @@ INSERT INTO pet_history VALUES (1, '2010-09-07', 'details', 'summary',  1);
 INSERT INTO pet_history VALUES (2, '2011-09-07',  'details', 'summary 2',1);
 INSERT INTO pet_history VALUES (3, '2012-09-07',  'details', 'summary 3', 1);
 
-INSERT INTO cause VALUES (1, 'NombreCause', 0.0, 1000.0, 'Description Cause', 'Organisation Cause'); 
- 
-INSERT INTO donations VALUES (1, 'Donacion Prueba', 100.0, 1); 
+INSERT INTO cause VALUES (1, 'NombreCause', 0.0, 1000.0, 'Description Cause', 'Organisation Cause');
 
 INSERT INTO reservations(id,telephone,reservation_date,status,response_Clinic,response_Client,owner_id,clinic_id) VALUES (1,'664455667','2020-06-24','pending','hola','adios',1,1);
+
+INSERT INTO donations VALUES (1, 'Donacion Prueba', 100.0, 1);
+

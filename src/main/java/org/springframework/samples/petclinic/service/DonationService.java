@@ -13,8 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class DonationService {
 
-	@Autowired
 	private DonationRepository donationRepository;
+	
+	@Autowired
+	public DonationService(final DonationRepository donationRepository) {
+		this.donationRepository = donationRepository;
+	}
 	
 	@Transactional(readOnly = true)
 	public List<Donation> findByIdCause(Cause id) {
