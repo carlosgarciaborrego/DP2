@@ -60,7 +60,7 @@ public class HotelControllerTests {
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/hotels/save").param("name", "Clinica").param("capacity", "15").with(SecurityMockMvcRequestPostProcessors.csrf()).param("count", "1").param("location", "Huelva"))
-			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+			.andExpect(MockMvcResultMatchers.status().is3xxRedirection());
 	}
 
 	@WithMockUser(value = "spring")

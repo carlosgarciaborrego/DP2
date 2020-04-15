@@ -89,3 +89,9 @@ INSERT INTO reservations(id,telephone,reservation_date,status,response_Clinic,re
 
 INSERT INTO donations VALUES (1, 'Donacion Prueba', 100.0, 1);
 
+INSERT INTO visits(id,pet_id,hotel_id,visit_date,description) VALUES (1, 7, 1,'2013-01-01', 'rabies shot');
+INSERT INTO visits(id,pet_id,hotel_id,visit_date,description) VALUES (2, 8, 1,'2013-01-02', 'rabies shot');
+INSERT INTO visits(id,pet_id,hotel_id,visit_date,description) VALUES (3, 8, 1,'2013-01-03', 'neutered');
+INSERT INTO visits(id,pet_id,hotel_id,visit_date,description) VALUES (4, 7, 1,'2013-01-04', 'spayed');
+
+
