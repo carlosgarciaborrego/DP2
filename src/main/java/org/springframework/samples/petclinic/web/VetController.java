@@ -56,6 +56,7 @@ public class VetController {
 	private static final String	VIEWS_VET_CREATE_OR_UPDATE_FORM	= "vet/createOrUpdateVetForm";
 	private final ClinicService	clinicService;
 
+
 	//	@Autowired
 	//	private UserService			userService;
 	//
@@ -66,11 +67,6 @@ public class VetController {
 	}
 
 	@Autowired
-	public VetController(final VetService vetService, final ClinicService clinicService) {
-		this.vetService = vetService;
-		this.clinicService = clinicService;
-	}
-
 	public VetController(final VetService vetService, final ClinicService clinicService) {
 		this.vetService = vetService;
 		this.clinicService = clinicService;

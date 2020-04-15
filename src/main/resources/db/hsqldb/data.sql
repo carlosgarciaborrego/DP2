@@ -18,8 +18,6 @@ INSERT INTO authorities VALUES ('vet5','veterinarian');
 INSERT INTO users(username,password,enabled) VALUES ('vet6','v3t',TRUE);
 INSERT INTO authorities VALUES ('vet6','veterinarian');
 
-INSERT INTO clinic VALUES (1, 'clinica1', 50,'Sevilla', '955910011', '665544331', 'clinic1@gmail.com');
-
 INSERT INTO clinic VALUES (1, 'clinica1', 50,'clinic1@gmail.com', '665544331', 'Sevilla', '955910011');
 INSERT INTO clinic VALUES (2, 'George Clinic', 30,'clinic1@gmail.com', '665544331', 'Sevilla', '955910011');
 INSERT INTO clinic VALUES (3, 'Snt Paul Clinic', 10,'clinic1@gmail.com', '665544331', 'Sevilla', '955910011');
