@@ -1,7 +1,5 @@
 package org.springframework.samples.petclinic.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cause;
 import org.springframework.samples.petclinic.repository.CauseRepository;
@@ -11,12 +9,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CauseService {
 
-	@Autowired
 	private CauseRepository causeRepository;
 
+	@Autowired
+	public CauseService(final CauseRepository causeRepository) {
+		this.causeRepository = causeRepository;
+	}
 
 	@Transactional
-	public int causeCount() {
+	public int causeCount() {	
 		return (int) this.causeRepository.count();
 	}
 
@@ -26,8 +27,8 @@ public class CauseService {
 	}
 
 	@Transactional(readOnly = true)
-	public Optional<Cause> findCauseById(final int id) {
-		return this.causeRepository.findById(id);
+	public Cause findCauseById(final int id) {
+		return this.causeRepository.findCauseById(id);
 	}
 
 	@Transactional

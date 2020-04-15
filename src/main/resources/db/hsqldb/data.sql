@@ -89,6 +89,7 @@ INSERT INTO pet_history VALUES (1, '2010-09-07', 'details', 'summary',  1);
 INSERT INTO pet_history VALUES (2, '2011-09-07',  'details', 'summary 2',1);
 INSERT INTO pet_history VALUES (3, '2012-09-07',  'details', 'summary 3', 1);
 
-INSERT INTO cause VALUES (1, 'NombreCause', 0.0, 1000.0, 'Description Cause', 'Organisation Cause'); 
- 
-INSERT INTO donations VALUES (1, 'Donacion Prueba', 100.0, 1); 
+INSERT INTO cause VALUES (1, 'NombreCause', 0.0, 1000.0, 'Description Cause', 'Organisation Cause');
+
+INSERT INTO donations VALUES (1, 'Donacion Prueba', 100.0, 1);
+
