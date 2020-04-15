@@ -107,6 +107,12 @@
 													class="btn btn-primary btn-block btn-sm">Vet Profile</a>
 											</p>
 											   </security:authorize>
+											<security:authorize access="hasAuthority('admin')">
+											<p class="text-left">
+												<a href="<c:url value="/dash" />"
+													class="btn btn-primary btn-block btn-sm">Dashboard</a>
+											</p>
+											   </security:authorize>
 										</div>
 									</div>
 								</div>
