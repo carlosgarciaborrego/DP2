@@ -18,6 +18,7 @@ INSERT INTO authorities VALUES ('vet5','veterinarian');
 INSERT INTO users(username,password,enabled) VALUES ('vet6','v3t',TRUE);
 INSERT INTO authorities VALUES ('vet6','veterinarian');
 
+INSERT INTO clinic VALUES (1, 'clinica1', 50,'Sevilla', '955910011', '665544331', 'clinic1@gmail.com');
 
 INSERT INTO clinic VALUES (1, 'clinica1', 50,'clinic1@gmail.com', '665544331', 'Sevilla', '955910011');
 INSERT INTO clinic VALUES (2, 'George Clinic', 30,'clinic1@gmail.com', '665544331', 'Sevilla', '955910011');
@@ -78,18 +79,15 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id, vet_id) VALUES (11, 'Fredd
 INSERT INTO pets(id,name,birth_date,type_id,owner_id, vet_id) VALUES (12, 'Lucky', '2010-06-24', 2, 10, 4);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id, vet_id) VALUES (13, 'Sly', '2012-06-08', 1, 10, 1);
 
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01', 'rabies shot');
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02', 'rabies shot');
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
-
-INSERT INTO hotels VALUES (1, 'Externa', 10, 3, 'Sevilla');
+INSERT INTO hotels VALUES (1, 'Calle Cadiz', 10, 3, 'Sevilla');
 
 INSERT INTO pet_history VALUES (1, '2010-09-07', 'details', 'summary',  1);
 INSERT INTO pet_history VALUES (2, '2011-09-07',  'details', 'summary 2',1);
 INSERT INTO pet_history VALUES (3, '2012-09-07',  'details', 'summary 3', 1);
 
 INSERT INTO cause VALUES (1, 'NombreCause', 0.0, 1000.0, 'Description Cause', 'Organisation Cause');
+
+INSERT INTO reservations(id,telephone,reservation_date,status,response_Clinic,response_Client,owner_id,clinic_id) VALUES (1,'664455667','2020-06-24','pending','hola','adios',1,1);
 
 INSERT INTO donations VALUES (1, 'Donacion Prueba', 100.0, 1);
 
