@@ -79,6 +79,8 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id, vet_id) VALUES (13, 'Sly',
 
 INSERT INTO hotels VALUES (1, 'Calle Cadiz', 10, 3, 'Sevilla');
 
+INSERT INTO visits(id,visit_date,description,pet_id,hotel_id) VALUES (1, '2020-10-10', 'estaba mal', 1, 1);
+
 INSERT INTO pet_history VALUES (1, '2010-09-07', 'details', 'summary',  1);
 INSERT INTO pet_history VALUES (2, '2011-09-07',  'details', 'summary 2',1);
 INSERT INTO pet_history VALUES (3, '2012-09-07',  'details', 'summary 3', 1);
@@ -89,9 +91,5 @@ INSERT INTO reservations(id,telephone,reservation_date,status,response_Clinic,re
 
 INSERT INTO donations VALUES (1, 'Donacion Prueba', 100.0, 1);
 
-INSERT INTO visits(id,pet_id,hotel_id,visit_date,description) VALUES (1, 7, 1,'2013-01-01', 'rabies shot');
-INSERT INTO visits(id,pet_id,hotel_id,visit_date,description) VALUES (2, 8, 1,'2013-01-02', 'rabies shot');
-INSERT INTO visits(id,pet_id,hotel_id,visit_date,description) VALUES (3, 8, 1,'2013-01-03', 'neutered');
-INSERT INTO visits(id,pet_id,hotel_id,visit_date,description) VALUES (4, 7, 1,'2013-01-04', 'spayed');
 
 

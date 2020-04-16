@@ -1,4 +1,3 @@
-
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,7 +42,7 @@ public class HotelServiceTests {
 		Hotel hotel1 = EntityUtils.getById(nuevaLista, Hotel.class, 1);
 		assertThat(hotel1.getName()).isEqualTo("Calle Cadiz");
 		assertThat(hotel1.getCapacity()).isEqualTo(10);
-		assertThat(hotel1.getCount()).isEqualTo(4);
+		assertThat(hotel1.getCount()).isEqualTo(1);
 		assertThat(hotel1.getLocation()).isEqualTo("Sevilla");
 	}
 	

@@ -7,17 +7,15 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="security"
   uri="http://www.springframework.org/security/tags" %>
-   
-    <script type="text/javascript" src="/resources/libraries/chart.js/2.7.2/js/chart.bundle.min.js"></script>
-    <script type="text/javascript" src="libraries/jquery/3.3.1/js/jquery.min.js"></script>
-
+<petclinic:layout pageName="dashboard">
 <h3>
 	 <c:out value="Number of vets by clinics"></c:out>
 </h3>
 <div>
 	<canvas id="canvas1" style="height: 370px; width: 100%;"></canvas>
 </div>
-
+</petclinic:layout>
+<script src="/petclinic/resources/libraries/chart.js/2.7.2/js/chart.bundle.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		
