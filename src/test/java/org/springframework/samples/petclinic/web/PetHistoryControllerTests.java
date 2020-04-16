@@ -17,6 +17,7 @@ import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetHistory;
 import org.springframework.samples.petclinic.service.PetHistoryService;
 import org.springframework.samples.petclinic.service.PetService;
+import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
@@ -32,6 +33,9 @@ public class PetHistoryControllerTests {
 
 	@MockBean
 	private PetService			petService;
+
+	@MockBean
+	private VetService			vetService;
 
 	@Autowired
 	private MockMvc				mockMvc;
@@ -77,7 +81,7 @@ public class PetHistoryControllerTests {
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/vet/{vetId}/pets/{petId}/pethistory/new", PetHistoryControllerTests.TEST_PET_ID, PetHistoryControllerTests.TEST_VET_ID).param("summary", "summary 1").param("date", "2010-09-07")
-			.param("details", "details").with(SecurityMockMvcRequestPostProcessors.csrf())).andExpect(MockMvcResultMatchers.status().is3xxRedirection());
+			.param("details", "details").with(SecurityMockMvcRequestPostProcessors.csrf())).andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 	}
 
 	@WithMockUser(value = "spring")
