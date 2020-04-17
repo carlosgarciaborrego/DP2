@@ -30,8 +30,6 @@ public class Reservation extends BaseEntity {
 	@NotNull
 	private String		status;
 
-	private String		responseClinic;
-
 	private String		responseClient;
 
 	@NotNull
@@ -67,14 +65,6 @@ public class Reservation extends BaseEntity {
 
 	public void setStatus(final String status) {
 		this.status = status;
-	}
-
-	public String getResponseClinic() {
-		return this.responseClinic;
-	}
-
-	public void setResponseClinic(final String responseClinic) {
-		this.responseClinic = responseClinic;
 	}
 
 	public String getResponseClient() {

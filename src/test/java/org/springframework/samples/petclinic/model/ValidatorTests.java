@@ -285,7 +285,6 @@ class ValidatorTests {
 		res.setReservationDate(actual);
 		res.setStatus("pending");
 		res.setResponseClient("");
-		res.setResponseClinic("");
 		Owner owner = new Owner();
 		owner.setFirstName("George");
 		owner.setLastName("Franklin");
@@ -318,7 +317,6 @@ class ValidatorTests {
 		res.setReservationDate(actual);
 		res.setStatus("pending");
 		res.setResponseClient("");
-		res.setResponseClinic("");
 		Owner owner = new Owner();
 		owner.setFirstName("George");
 		owner.setLastName("Franklin");
@@ -351,7 +349,6 @@ class ValidatorTests {
 		res.setReservationDate(actual);
 		res.setStatus("pending");
 		res.setResponseClient("");
-		res.setResponseClinic("");
 		Owner owner = new Owner();
 		owner.setFirstName("George");
 		owner.setLastName("Franklin");
@@ -384,7 +381,6 @@ class ValidatorTests {
 	//		res.setReservationDate(fechaAnterior);
 	//		res.setStatus("pending");
 	//		res.setResponseClient("");
-	//		res.setResponseClinic("");
 	//		Owner owner = new Owner();
 	//		owner.setFirstName("George");
 	//		owner.setLastName("Franklin");
@@ -417,7 +413,6 @@ class ValidatorTests {
 		res.setReservationDate(actual);
 		res.setStatus("pending");
 		res.setResponseClient("");
-		res.setResponseClinic("");
 		Owner owner = new Owner();
 		owner.setFirstName("George");
 		owner.setLastName("Franklin");
@@ -445,7 +440,6 @@ class ValidatorTests {
 		res.setReservationDate(actual);
 		res.setStatus("pending");
 		res.setResponseClient("");
-		res.setResponseClinic("");
 		Owner owner = new Owner();
 		owner.setFirstName("George");
 		owner.setLastName("Franklin");
