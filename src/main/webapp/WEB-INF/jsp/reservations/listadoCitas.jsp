@@ -19,7 +19,6 @@
             <th>Date</th>
             <th>Status</th>
             <th>ResponseClinic</th>
-            <th>ResponseClient</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -37,9 +36,6 @@
                 </td>
                 <td>
                     <c:out value="${reservation.status}"/>
-                </td>
-                <td>
-                    <c:out value="${reservation.responseClinic}"/>
                 </td>
                  <td>
                     <c:out value="${reservation.responseClient}"/>

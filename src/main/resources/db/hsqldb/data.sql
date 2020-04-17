@@ -87,7 +87,7 @@ INSERT INTO pet_history VALUES (3, '2012-09-07',  'details', 'summary 3', 1);
 
 INSERT INTO cause VALUES (1, 'NombreCause', 0.0, 1000.0, 'Description Cause', 'Organisation Cause');
 
-INSERT INTO reservations(id,telephone,reservation_date,status,response_Clinic,response_Client,owner_id,clinic_id) VALUES (1,'664455667','2020-06-24','pending','hola','adios',1,1);
+INSERT INTO reservations(id,telephone,reservation_date,status,response_Client,owner_id,clinic_id) VALUES (1,'664455667','2020-06-24','pending','adios',1,1);
 
 INSERT INTO donations VALUES (1, 'Donacion Prueba', 100.0, 1);
 

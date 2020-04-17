@@ -30,7 +30,6 @@
                 <petclinic:inputField label="Telephone" name="telephone"/>
                 <petclinic:inputField label="Reservation Date" name="reservationDate"/>
                 <petclinic:inputFieldDisabled label="Status" name="status" />
-                <petclinic:inputFieldDisabled label="Response Clinic" name="responseClinic"/>
                <petclinic:inputField label="Response Client" name="responseClient"/>
 				<petclinic:selectField name="clinic" label="Clinics " names="${clinics}" size="3"/>
             </div>
@@ -42,13 +41,11 @@
             	<form:hidden path="telephone"/>
             	<form:hidden path="reservationDate"/>
             	<form:hidden path="status"/>
-            	<form:hidden path="responseClinic"/>
             	<form:hidden path="clinic"/>
             	<form:hidden path="owner.id"/>
                 <petclinic:inputFieldDisabled label="Telephone" name="telephone"/>
                 <petclinic:inputFieldDisabled label="Reservation Date" name="reservationDate"/>
                 <petclinic:inputFieldDisabled label="Status" name="status"/>
-                <petclinic:inputFieldDisabled label="Response Clinic" name="responseClinic"/>
                <petclinic:inputField label="Response Client" name="responseClient"/>
                <petclinic:inputFieldDisabled label="clinic" name="clinic"/>
             </div>
@@ -65,7 +62,6 @@
             	<form:hidden path="owner.id"/>
                 <petclinic:inputFieldDisabled label="Telephone" name="telephone"/>
                 <petclinic:inputFieldDisabled label="Reservation Date" name="reservationDate"/>
-                <petclinic:inputField label="Response Clinic" name="responseClinic"/>
                <petclinic:inputFieldDisabled label="Response Client" name="responseClient"/>
                <petclinic:inputFieldDisabled label="clinic" name="clinic"/>
             </div>

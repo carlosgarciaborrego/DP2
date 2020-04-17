@@ -46,7 +46,6 @@ public class ReservationServiceTests {
 			assertThat(reservation1.getReservationDate()).isEqualTo("2020-06-24");
 			assertThat(reservation1.getStatus()).isEqualTo("pending");
 			assertThat(reservation1.getResponseClient()).isEqualTo("adios");
-			assertThat(reservation1.getResponseClinic()).isEqualTo("hola");	
 		}
 
 	
@@ -57,7 +56,6 @@ public class ReservationServiceTests {
 		assertThat(reservation1.getReservationDate()).isEqualTo("2020-06-24");
 		assertThat(reservation1.getStatus()).isEqualTo("pending");
 		assertThat(reservation1.getResponseClient()).isEqualTo("adios");
-		assertThat(reservation1.getResponseClinic()).isEqualTo("hola");
 	}
 	
 	@Test
@@ -68,7 +66,6 @@ public class ReservationServiceTests {
 		reservation.setReservationDate(actual);
 		reservation.setStatus("accepted");
 		reservation.setResponseClient("");
-		reservation.setResponseClinic("");
 		Owner owner = new Owner();
 		owner.setId(1);;
 		owner.setFirstName("George");
