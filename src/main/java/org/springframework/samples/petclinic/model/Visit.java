@@ -38,6 +38,7 @@ public class Visit extends BaseEntity {
 	/**
 	 * Holds value of property date.
 	 */
+
 	@Column(name = "visit_date")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate	date;
@@ -73,7 +74,8 @@ public class Visit extends BaseEntity {
 	 * @return Value of property date.
 	 */
 	public LocalDate getDate() {
-		return this.date;
+		LocalDate fechaActual = LocalDate.now();
+		return fechaActual;
 	}
 
 	/**
