@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -24,6 +25,7 @@ public class Reservation extends BaseEntity {
 	private String		telephone;
 
 	@Column(name = "reservation_date")
+	@Future
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate	reservationDate;
 
