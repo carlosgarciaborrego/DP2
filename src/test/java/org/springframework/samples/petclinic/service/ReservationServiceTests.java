@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -62,8 +63,10 @@ public class ReservationServiceTests {
 	void shouldInsertHotel() {
 		Reservation reservation  = new Reservation();
 		reservation.setTelephone("111222333");
-		LocalDate actual = LocalDate.now();
-		reservation.setReservationDate(actual);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+		String date = "16/08/2020";
+		LocalDate localDate = LocalDate.parse(date, formatter);
+		reservation.setReservationDate(localDate);
 		reservation.setStatus("accepted");
 		reservation.setResponseClient("");
 		Owner owner = new Owner();
