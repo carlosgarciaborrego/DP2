@@ -32,6 +32,21 @@ public class DashboardController {
 		dash.setNumVetsByClinics(numVetByClinic);
 		dash.setVetsByClinics(vetByClinic);
 
+		List<String> plazasByHotel = this.dashboardRepository.plazasByHotel();
+		List<Integer> numPlazasByHotel = this.dashboardRepository.numPlazasByHotel();
+		dash.setPlazasByHotel(plazasByHotel);
+		dash.setNumPlazasByHotel(numPlazasByHotel);
+
+		List<String> donationAmoundByCause = this.dashboardRepository.donationAmoundByCause();
+		List<Double> numDonationAmoundByCause = this.dashboardRepository.numDonationAmoundByCause();
+		dash.setDonationAmoundByCause(donationAmoundByCause);
+		dash.setNumDonationAmoundByCause(numDonationAmoundByCause);
+
+		List<String> petsByVets = this.dashboardRepository.petsByVets();
+		List<Integer> numPetsByVets = this.dashboardRepository.numPetsByVet();
+		dash.setPetsByVets(petsByVets);
+		dash.setNumPetsByVet(numPetsByVets);
+
 		modelMap.addAttribute("dashboard", dash);
 		return vista;
 	}
