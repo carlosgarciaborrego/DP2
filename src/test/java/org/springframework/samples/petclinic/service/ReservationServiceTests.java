@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -46,7 +47,6 @@ public class ReservationServiceTests {
 			assertThat(reservation1.getReservationDate()).isEqualTo("2020-06-24");
 			assertThat(reservation1.getStatus()).isEqualTo("pending");
 			assertThat(reservation1.getResponseClient()).isEqualTo("adios");
-			assertThat(reservation1.getResponseClinic()).isEqualTo("hola");	
 		}
 
 	
@@ -57,18 +57,18 @@ public class ReservationServiceTests {
 		assertThat(reservation1.getReservationDate()).isEqualTo("2020-06-24");
 		assertThat(reservation1.getStatus()).isEqualTo("pending");
 		assertThat(reservation1.getResponseClient()).isEqualTo("adios");
-		assertThat(reservation1.getResponseClinic()).isEqualTo("hola");
 	}
 	
 	@Test
 	void shouldInsertHotel() {
 		Reservation reservation  = new Reservation();
 		reservation.setTelephone("111222333");
-		LocalDate actual = LocalDate.now();
-		reservation.setReservationDate(actual);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+		String date = "16/08/2020";
+		LocalDate localDate = LocalDate.parse(date, formatter);
+		reservation.setReservationDate(localDate);
 		reservation.setStatus("accepted");
 		reservation.setResponseClient("");
-		reservation.setResponseClinic("");
 		Owner owner = new Owner();
 		owner.setId(1);;
 		owner.setFirstName("George");

@@ -37,7 +37,8 @@
 
         <form:form modelAttribute="visit" class="form-horizontal">
             <div class="form-group has-feedback">
-                <petclinic:inputField label="Date" name="date"/>
+            <form:hidden path="date"/>
+                <petclinic:inputFieldDisabled label="Date" name="date"/>
                 <petclinic:inputField label="Description" name="description"/>
          		<petclinic:selectField name="hotel" label="Available hotels" names="${hotels}" size="3"/>
             </div>

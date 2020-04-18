@@ -205,8 +205,10 @@ class PetServiceTests {
 	@Transactional
 	public void shouldAddNewVisitForPet() {
 		Pet pet7 = this.petService.findPetById(7);
+		Hotel h1 = this.hotelService.findHotelById(1);
 		int found = pet7.getVisits().size();
 		Visit visit = new Visit();
+		visit.setHotel(h1);
 		pet7.addVisit(visit);
 		visit.setDescription("test");
 		this.petService.saveVisit(visit);

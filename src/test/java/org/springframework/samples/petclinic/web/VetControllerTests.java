@@ -1,6 +1,8 @@
 
 package org.springframework.samples.petclinic.web;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import org.assertj.core.util.Lists;
 import org.hamcrest.Matchers;
 import org.hamcrest.xml.HasXPath;

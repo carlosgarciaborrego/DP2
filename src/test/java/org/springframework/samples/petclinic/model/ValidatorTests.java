@@ -2,6 +2,7 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Set;
 
@@ -281,11 +282,12 @@ class ValidatorTests {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Reservation res = new Reservation();
 		res.setTelephone("66677788891111");
-		LocalDate actual = LocalDate.now();
-		res.setReservationDate(actual);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+		String date = "16/08/2020";
+		LocalDate localDate = LocalDate.parse(date, formatter);
+		res.setReservationDate(localDate);
 		res.setStatus("pending");
 		res.setResponseClient("");
-		res.setResponseClinic("");
 		Owner owner = new Owner();
 		owner.setFirstName("George");
 		owner.setLastName("Franklin");
@@ -314,11 +316,12 @@ class ValidatorTests {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Reservation res = new Reservation();
 		res.setTelephone("SSAAAS");
-		LocalDate actual = LocalDate.now();
-		res.setReservationDate(actual);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+		String date = "16/08/2020";
+		LocalDate localDate = LocalDate.parse(date, formatter);
+		res.setReservationDate(localDate);
 		res.setStatus("pending");
 		res.setResponseClient("");
-		res.setResponseClinic("");
 		Owner owner = new Owner();
 		owner.setFirstName("George");
 		owner.setLastName("Franklin");
@@ -347,11 +350,12 @@ class ValidatorTests {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Reservation res = new Reservation();
 		res.setTelephone("12345asd6");
-		LocalDate actual = LocalDate.now();
-		res.setReservationDate(actual);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+		String date = "16/08/2020";
+		LocalDate localDate = LocalDate.parse(date, formatter);
+		res.setReservationDate(localDate);
 		res.setStatus("pending");
 		res.setResponseClient("");
-		res.setResponseClinic("");
 		Owner owner = new Owner();
 		owner.setFirstName("George");
 		owner.setLastName("Franklin");
@@ -375,49 +379,83 @@ class ValidatorTests {
 		Assertions.assertThat(violation.getMessage()).isEqualTo("numeric value out of bounds (<10 digits>.<0 digits> expected)");
 	}
 
-	//	@Test
-	//	void shouldNotValidateWhenDateIsLowerThanNow() {
-	//		LocaleContextHolder.setLocale(Locale.ENGLISH);
-	//		Reservation res = new Reservation();
-	//		res.setTelephone("666777444");
-	//		LocalDate fechaAnterior = LocalDate.;
-	//		res.setReservationDate(fechaAnterior);
-	//		res.setStatus("pending");
-	//		res.setResponseClient("");
-	//		res.setResponseClinic("");
-	//		Owner owner = new Owner();
-	//		owner.setFirstName("George");
-	//		owner.setLastName("Franklin");
-	//		owner.setAddress("110 W. Liberty St.");
-	//		owner.setCity("Madison");
-	//		owner.setTelephone("666777888");
-	//		res.setOwner(owner);
-	//		Clinic cli = new Clinic();
-	//		cli.setName("clinica1");
-	//		cli.setEmail("cli1@gmail.com");
-	//		cli.setEmergency("666777666");
-	//		cli.setLocation("sevilla");
-	//		cli.setTelephone("565656561");
-	//		res.setClinic(cli);
-	//
-	//		Validator validator = this.createValidator();
-	//		Set<ConstraintViolation<Reservation>> constraintViolations = validator.validate(res);
-	//		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
-	//		ConstraintViolation<Reservation> violation = constraintViolations.iterator().next();
-	//		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("telephone");
-	//		Assertions.assertThat(violation.getMessage()).isEqualTo("numeric value out of bounds (<10 digits>.<0 digits> expected)");
-	//	}
+	@Test
+	void shouldNotValidateWhenDateIsLowerThanTomorrow() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Reservation res = new Reservation();
+		res.setTelephone("666777444");
+		LocalDate fechaAnterior = LocalDate.now();
+		res.setReservationDate(fechaAnterior);
+		res.setStatus("pending");
+		res.setResponseClient("");
+		Owner owner = new Owner();
+		owner.setFirstName("George");
+		owner.setLastName("Franklin");
+		owner.setAddress("110 W. Liberty St.");
+		owner.setCity("Madison");
+		owner.setTelephone("666777888");
+		res.setOwner(owner);
+		Clinic cli = new Clinic();
+		cli.setName("clinica1");
+		cli.setEmail("cli1@gmail.com");
+		cli.setEmergency("666777666");
+		cli.setLocation("sevilla");
+		cli.setTelephone("565656561");
+		res.setClinic(cli);
+
+		Validator validator = this.createValidator();
+		Set<ConstraintViolation<Reservation>> constraintViolations = validator.validate(res);
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
+		ConstraintViolation<Reservation> violation = constraintViolations.iterator().next();
+		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("reservationDate");
+		Assertions.assertThat(violation.getMessage()).isEqualTo("must be a future date");
+	}
+
+	@Test
+	void shouldNotValidateWhenDateIsLowerThanTomorrow2() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Reservation res = new Reservation();
+		res.setTelephone("666777444");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+		String date = "16/08/2016";
+		LocalDate localDate = LocalDate.parse(date, formatter);
+		res.setReservationDate(localDate);
+		res.setStatus("pending");
+		res.setResponseClient("");
+		Owner owner = new Owner();
+		owner.setFirstName("George");
+		owner.setLastName("Franklin");
+		owner.setAddress("110 W. Liberty St.");
+		owner.setCity("Madison");
+		owner.setTelephone("666777888");
+		res.setOwner(owner);
+		Clinic cli = new Clinic();
+		cli.setName("clinica1");
+		cli.setEmail("cli1@gmail.com");
+		cli.setEmergency("666777666");
+		cli.setLocation("sevilla");
+		cli.setTelephone("565656561");
+		res.setClinic(cli);
+
+		Validator validator = this.createValidator();
+		Set<ConstraintViolation<Reservation>> constraintViolations = validator.validate(res);
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
+		ConstraintViolation<Reservation> violation = constraintViolations.iterator().next();
+		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("reservationDate");
+		Assertions.assertThat(violation.getMessage()).isEqualTo("must be a future date");
+	}
 
 	@Test
 	void shouldNotValidateWhenClinicIsNull() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Reservation res = new Reservation();
 		res.setTelephone("123456789");
-		LocalDate actual = LocalDate.now();
-		res.setReservationDate(actual);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+		String date = "16/08/2020";
+		LocalDate localDate = LocalDate.parse(date, formatter);
+		res.setReservationDate(localDate);
 		res.setStatus("pending");
 		res.setResponseClient("");
-		res.setResponseClinic("");
 		Owner owner = new Owner();
 		owner.setFirstName("George");
 		owner.setLastName("Franklin");
@@ -441,11 +479,12 @@ class ValidatorTests {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Reservation res = new Reservation();
 		res.setTelephone("123456789");
-		LocalDate actual = LocalDate.now();
-		res.setReservationDate(actual);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+		String date = "16/08/2020";
+		LocalDate localDate = LocalDate.parse(date, formatter);
+		res.setReservationDate(localDate);
 		res.setStatus("pending");
 		res.setResponseClient("");
-		res.setResponseClinic("");
 		Owner owner = new Owner();
 		owner.setFirstName("George");
 		owner.setLastName("Franklin");
@@ -470,42 +509,53 @@ class ValidatorTests {
 
 	// Negative Cause
 
-	//	@Test
-	//	void nonValidateWhenDateIsLowerThanNow() {
-	//		LocaleContextHolder.setLocale(Locale.ENGLISH);
-	//		Visit visit = new Visit();
-	//		LocalDate fechaAnterior = LocalDate.now();
-	//		visit.setDate(fechaAnterior);
-	//		visit.setDescription("Problemas respiratorios");
-	//		Hotel hotel = new Hotel();
-	//		hotel.setLocation("Sevilla");
-	//		hotel.setName("Calle Garcia");
-	//		hotel.setCapacity(10);
-	//		visit.setHotel(hotel);
-	//		Pet p = new Pet();
-	//		p.setName("Curro");
-	//		LocalDate fechaCumple = LocalDate.now();
-	//		p.setBirthDate(fechaCumple);
-	//		PetType tipo = new PetType();
-	//		tipo.setName("perro");
-	//		p.setType(tipo);
-	//		Vet v = new Vet();
-	//		v.setFirstName("Estefan");
-	//		v.setCity("Barcelona");
-	//		v.setLastName("Gonzalez");
-	//		v.setTelephone("666777888");
-	//		v.setAddress("La botica");
-	//		p.setVet(v);
-	//		visit.setPet(p);
-	//
-	//		Validator validator = this.createValidator();
-	//		Set<ConstraintViolation<Visit>> constraintViolations = validator.validate(visit);
-	//
-	//		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
-	//		ConstraintViolation<Visit> violation = constraintViolations.iterator().next();
-	//		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("date");
-	//		Assertions.assertThat(violation.getMessage()).isEqualTo("");
-	//	}
+	@Test
+	void shouldNotValidateWhenHotelIsNull() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Visit visit = new Visit();
+		LocalDate actual = LocalDate.now();
+		visit.setDate(actual);
+		visit.setDescription("Se encuentra mal");
+		visit.setHotel(null);
+		Pet p = new Pet();
+		p.setId(1);
+		p.setBirthDate(actual);
+		p.setName("Rodolfo");
+		PetType tipo = new PetType();
+		tipo.setId(1);
+		tipo.setName("ornitorrinco");
+		p.setType(tipo);
+		visit.setPet(p);
+
+		Validator validator = this.createValidator();
+		Set<ConstraintViolation<Visit>> constraintViolations = validator.validate(visit);
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
+		ConstraintViolation<Visit> violation = constraintViolations.iterator().next();
+		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("hotel");
+		Assertions.assertThat(violation.getMessage()).isEqualTo("must not be null");
+	}
+
+	@Test
+	void shouldNotValidateWhenPetIsNull() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Visit visit = new Visit();
+		LocalDate actual = LocalDate.now();
+		visit.setDate(actual);
+		visit.setDescription("Se encuentra mal");
+		Hotel hotel = new Hotel();
+		hotel.setLocation("Sevilla");
+		hotel.setName("Calle Andalucia");
+		hotel.setCapacity(10);
+		visit.setHotel(hotel);
+		visit.setPet(null);
+
+		Validator validator = this.createValidator();
+		Set<ConstraintViolation<Visit>> constraintViolations = validator.validate(visit);
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
+		ConstraintViolation<Visit> violation = constraintViolations.iterator().next();
+		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("pet");
+		Assertions.assertThat(violation.getMessage()).isEqualTo("must not be null");
+	}
 
 	// Positive Cause
 	@Test

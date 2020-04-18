@@ -63,8 +63,8 @@ public class ReservationControllerTests {
 		this.reservation.setReservationDate(localDate);
 		this.reservation.setStatus("pending");
 		this.reservation.setResponseClient("hola");
-		this.reservation.setResponseClinic("adios");
 		Owner owner = new Owner();
+		owner.setId(1);
 		owner.setFirstName("George");
 		owner.setLastName("Franklin");
 		owner.setAddress("110 W. Liberty St.");
@@ -72,6 +72,8 @@ public class ReservationControllerTests {
 		owner.setTelephone("666777888");
 		this.reservation.setOwner(owner);
 		Clinic cli = new Clinic();
+		cli.setId(1);
+		cli.setCapacity(20);
 		cli.setName("clinica1");
 		cli.setEmail("cli1@gmail.com");
 		cli.setEmergency("666777666");
@@ -96,22 +98,22 @@ public class ReservationControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/reservations/new").param("telephone", "664455667").param("reservationDate", "2020-06-24").with(SecurityMockMvcRequestPostProcessors.csrf()).param("status", "pending")
-			.param("responseClient", "hola").param("responseClinic", "adios")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+		this.mockMvc
+			.perform(MockMvcRequestBuilders.post("/reservations/new").param("telephone", "664455667").param("reservationDate", "2020-06-24").with(SecurityMockMvcRequestPostProcessors.csrf()).param("status", "pending").param("responseClient", "hola"))
+			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
-		this.mockMvc
-			.perform(MockMvcRequestBuilders.post("/reservations/new").with(SecurityMockMvcRequestPostProcessors.csrf()).param("reservationDate", "2020-06-24").param("status", "pending").param("responseClient", "hola").param("responseClinic", "adios"))
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/reservations/new").with(SecurityMockMvcRequestPostProcessors.csrf()).param("reservationDate", "2020-06-24").param("status", "pending").param("responseClient", "hola"))
 			.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeHasErrors("reservation")).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("reservation", "telephone"))
 			.andExpect(MockMvcResultMatchers.view().name("reservations/editCita"));
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
-	void testInitUpdateHotelForm() throws Exception {
+	void testInitUpdateReservationForm() throws Exception {
 
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/reservations/{reservationId}/edit", ReservationControllerTests.TEST_RESERVATION_ID)).andExpect(MockMvcResultMatchers.status().isOk())
 			.andExpect(MockMvcResultMatchers.model().attributeExists("reservation")).andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("responseClient", Matchers.is("holita"))))
@@ -120,9 +122,9 @@ public class ReservationControllerTests {
 
 	@WithMockUser(value = "spring")
 	@Test
-	void testProcessUpdateHotelFormSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/reservations/{reservationId}/edit", ReservationControllerTests.TEST_RESERVATION_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("status", "accepted").param("responseClient", "OK")
-			.param("responseClinic", "Ven a las 10")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+	void testProcessUpdateReservationFormSuccess() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/reservations/{reservationId}/edit", ReservationControllerTests.TEST_RESERVATION_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("status", "accepted").param("responseClient", "OK"))
+			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 	}
 
 	@WithMockUser(value = "spring")
@@ -132,7 +134,7 @@ public class ReservationControllerTests {
 			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("telephone", Matchers.is("664455667"))))
 			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("reservationDate", Matchers.is("2020-06-24"))))
 			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("status", Matchers.is("pending"))))
-			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("responseClinic", Matchers.is("hola"))))
-			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("responseClient", Matchers.is("adios")))).andExpect(MockMvcResultMatchers.view().name("reservations/editCita"));
+			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("responseClient", Matchers.is("hola")))).andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("hotel", Matchers.is(1))))
+			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("pet", Matchers.is(1)))).andExpect(MockMvcResultMatchers.view().name("reservations/editCita"));
 	}
 }

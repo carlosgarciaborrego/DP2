@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -24,13 +25,12 @@ public class Reservation extends BaseEntity {
 	private String		telephone;
 
 	@Column(name = "reservation_date")
+	@Future
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate	reservationDate;
 
 	@NotNull
 	private String		status;
-
-	private String		responseClinic;
 
 	private String		responseClient;
 
@@ -67,14 +67,6 @@ public class Reservation extends BaseEntity {
 
 	public void setStatus(final String status) {
 		this.status = status;
-	}
-
-	public String getResponseClinic() {
-		return this.responseClinic;
-	}
-
-	public void setResponseClinic(final String responseClinic) {
-		this.responseClinic = responseClinic;
 	}
 
 	public String getResponseClient() {
