@@ -27,7 +27,7 @@ public class HotelServiceTests {
 	@Test
 	void testCountWithInitialData() {
 		int count = this.hotelService.hotelCount();
-		Assertions.assertEquals(count, 1);
+		Assertions.assertEquals(count, 5);
 	}
 
 	@Test
@@ -41,7 +41,7 @@ public class HotelServiceTests {
 
 		Hotel hotel1 = EntityUtils.getById(nuevaLista, Hotel.class, 1);
 		assertThat(hotel1.getName()).isEqualTo("Calle Cadiz");
-		assertThat(hotel1.getCapacity()).isEqualTo(10);
+		assertThat(hotel1.getCapacity()).isEqualTo(30);
 		assertThat(hotel1.getCount()).isEqualTo(1);
 		assertThat(hotel1.getLocation()).isEqualTo("Sevilla");
 	}
@@ -63,7 +63,7 @@ public class HotelServiceTests {
 		hotel.setLocation("Estepa");
 		
 		this.hotelService.save(hotel);
-		assertThat(hotel.getId().longValue()).isEqualTo(2);
+		assertThat(hotel.getId().longValue()).isEqualTo(6);
 	}
 	
 	@Test
