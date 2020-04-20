@@ -28,7 +28,7 @@
 					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 					<span>Home</span>
 				</petclinic:menuItem>
-				<security:authorize access="hasAuthority('owner') or hasAuthority('admin')">
+				<security:authorize access="hasAuthority('veterinarian') or hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
 					title="find owners">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -41,22 +41,18 @@
 					<span>Veterinarians</span>
 				</petclinic:menuItem>
 				
-				<security:authorize access="hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'causes'}" url="/causes"
 					title="causes">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Causes</span>
 				</petclinic:menuItem>
-				</security:authorize>
-				
-				
+				<security:authorize access="hasAuthority('veterinarian') or hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'clinic'}" url="/clinic"
 					title="clinic">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Clinics</span>
 				</petclinic:menuItem>
-				
-				
+				</security:authorize>
 				<security:authorize access="hasAuthority('veterinarian') or hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'hotels'}" url="/hotels"
 					title="hotels">
@@ -64,13 +60,19 @@
 					<span>Hotels</span>
 				</petclinic:menuItem>
 				</security:authorize>
-
-				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
+				<security:authorize access="hasAuthority('owner') or hasAuthority('admin')">
+				<petclinic:menuItem active="${name eq 'reservation'}" url="/reservations"
+					title="reservations">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Reservations</span>
+				</petclinic:menuItem>
+				</security:authorize>
+<%-- 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 					<span>Error</span>
 				</petclinic:menuItem>
-				
+				 --%>
 
 			</ul>
 

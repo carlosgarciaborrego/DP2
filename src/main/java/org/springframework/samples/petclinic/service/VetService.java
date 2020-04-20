@@ -22,9 +22,11 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
+import org.springframework.samples.petclinic.repository.ClinicRepository;
 import org.springframework.samples.petclinic.repository.SpecialtyRepository;
 import org.springframework.samples.petclinic.repository.VetRepository;
 import org.springframework.stereotype.Service;
@@ -47,14 +49,17 @@ public class VetService {
 
 	private AuthoritiesService	authoritiesService;
 
+	private ClinicRepository	clinicRepository;
+
 
 	@Autowired
-	public VetService(final VetRepository vetRepository, final SpecialtyRepository specialtyRepository, final UserService userService, final AuthoritiesService authoritiesService) {
+	public VetService(final VetRepository vetRepository, final SpecialtyRepository specialtyRepository, final UserService userService, final AuthoritiesService authoritiesService, final ClinicRepository clinicRepository) {
 		super();
 		this.vetRepository = vetRepository;
 		this.specialtyRepository = specialtyRepository;
 		this.userService = userService;
 		this.authoritiesService = authoritiesService;
+		this.clinicRepository = clinicRepository;
 	}
 
 	@Transactional(readOnly = true)
@@ -119,5 +124,9 @@ public class VetService {
 	public List<Vet> findVetByClinicId(final Integer username) {
 		List<Vet> optional = this.vetRepository.findVetByClinicId(username);
 		return optional;
+	}
+
+	public Collection<Clinic> findAllClinic() {
+		return this.clinicRepository.findAll();
 	}
 }

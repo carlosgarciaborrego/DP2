@@ -18,6 +18,7 @@ package org.springframework.samples.petclinic.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Hotel;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
@@ -78,6 +80,10 @@ class PetServiceTests {
         @Autowired
 	protected OwnerService ownerService;	
 
+
+        @Autowired
+    	protected HotelService hotelService;
+        
 	@Test
 	void shouldFindPetWithCorrectId() {
 		Pet pet7 = this.petService.findPetById(7);
@@ -199,8 +205,10 @@ class PetServiceTests {
 	@Transactional
 	public void shouldAddNewVisitForPet() {
 		Pet pet7 = this.petService.findPetById(7);
+		Hotel h1 = this.hotelService.findHotelById(1);
 		int found = pet7.getVisits().size();
 		Visit visit = new Visit();
+		visit.setHotel(h1);
 		pet7.addVisit(visit);
 		visit.setDescription("test");
 		this.petService.saveVisit(visit);
@@ -217,12 +225,44 @@ class PetServiceTests {
 
 	@Test
 	void shouldFindVisitsByPetId() throws Exception {
-		Collection<Visit> visits = this.petService.findVisitsByPetId(7);
-		assertThat(visits.size()).isEqualTo(2);
+		Collection<Visit> visits = this.petService.findVisitsByPetId(1);
+		assertThat(visits.size()).isEqualTo(1);
 		Visit[] visitArr = visits.toArray(new Visit[visits.size()]);
 		assertThat(visitArr[0].getPet()).isNotNull();
 		assertThat(visitArr[0].getDate()).isNotNull();
-		assertThat(visitArr[0].getPet().getId()).isEqualTo(7);
+		assertThat(visitArr[0].getPet().getId()).isEqualTo(1);
+	}
+	
+	@Test
+	void shouldAddOnePetToOneHotel() {
+		Hotel hotel = this.hotelService.findHotelById(1);
+		Pet p1 = this.petService.findPetById(2);
+		Visit v = new Visit();
+		LocalDate actual = LocalDate.now();
+		v.setDate(actual);
+		v.setDescription("esta mal");
+		v.setHotel(hotel);
+		v.setPet(p1);
+		
+		this.petService.saveVisit(v);
+		hotel.addVisit(v);
+		this.hotelService.save(hotel);
+		assertThat(hotel.getCount()).isEqualTo(2);
+	}
+	
+	@Test
+	void shouldDeleteVisit() {
+		Iterable<Visit> visits = this.hotelService.findVisitsByHotelId(1);
+		Collection<Visit> nuevaLista = new ArrayList<Visit>();
+
+		for (Visit v : visits) {
+			nuevaLista.add(v);
+		}
+		
+		Visit v1 = EntityUtils.getById(nuevaLista, Visit.class, 1);
+		
+		this.hotelService.deleteVisit(v1);
+		assertThat(nuevaLista.isEmpty());
 	}
 
 }

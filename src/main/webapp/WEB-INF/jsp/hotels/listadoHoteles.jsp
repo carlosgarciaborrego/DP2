@@ -14,8 +14,8 @@
     <table id="hotelsTable" class="table table-striped">
         <thead>
         <tr>
-            <th style="width: 150px;">Name</th>
-            <th style="width: 200px;">Location</th>
+            <th style="width: 150px;">Street</th>
+            <th style="width: 200px;">City</th>
             <th>Count</th>
             <th>Capacity</th>
             <th>Actions</th>
@@ -43,10 +43,12 @@
                 	<a href="${fn:escapeXml(hotelUrl)}">Show</a>
                 	<br>
                 	<security:authorize access="hasAuthority('admin')">
-	                	<spring:url value="/hotels/delete/{hotelId}" var="hotelUrl">
-	                        <spring:param name="hotelId" value="${hotel.id}"/>
-	                    </spring:url>
-	                	<a href="${fn:escapeXml(hotelUrl)}">Delete</a>
+	                	<c:if test="${hotel.count == 0}">
+		                	<spring:url value="/hotels/delete/{hotelId}" var="hotelUrl">
+		                        <spring:param name="hotelId" value="${hotel.id}"/>
+		                    </spring:url>
+		                	<a href="${fn:escapeXml(hotelUrl)}">Delete</a>
+		                </c:if>	
                 	</security:authorize>  
                 </td>
             </tr>
