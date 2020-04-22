@@ -73,11 +73,7 @@ public class ReservationController {
 	@GetMapping(path = "/new")
 	public String crearCita(final ModelMap modelMap) {
 		String view = "reservations/editCita";
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		User currentPrincipalName = (User) authentication.getPrincipal();
-		Owner owner = this.reservationService.findOwnerByUserId(currentPrincipalName.getUsername()).get(0);
 		Reservation res = new Reservation();
-		res.setOwner(owner);
 		res.setStatus("pending");
 		modelMap.addAttribute("reservation", res);
 
@@ -87,7 +83,11 @@ public class ReservationController {
 	@PostMapping(path = "/save")
 	public String salvarCita(@Valid final Reservation reservation, final BindingResult result, final ModelMap modelMap) {
 		String view = "reservations/listadoCitas";
-
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User currentPrincipalName = (User) authentication.getPrincipal();
+		Owner owner = this.reservationService.findOwnerByUserId(currentPrincipalName.getUsername()).get(0);
+		reservation.setOwner(owner);
+		modelMap.addAttribute("reservation", reservation);
 		if (result.hasErrors()) {
 			modelMap.addAttribute("reservation", reservation);
 			return "reservations/editCita";
@@ -112,11 +112,7 @@ public class ReservationController {
 	@GetMapping(path = "/{reservationId}/edit")
 	public String actualizarCita(@PathVariable("reservationId") final int reservationId, final ModelMap modelMap) {
 		String view = "reservations/editCita";
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		User currentPrincipalName = (User) authentication.getPrincipal();
-		Owner owner = this.reservationService.findOwnerByUserId(currentPrincipalName.getUsername()).get(0);
 		Reservation reservation = this.reservationService.findReservationById(reservationId);
-		reservation.setOwner(owner);
 		modelMap.addAttribute(reservation);
 		return view;
 	}
@@ -136,10 +132,10 @@ public class ReservationController {
 	@GetMapping(value = "/{reservationId}")
 	public String showCita(@PathVariable("reservationId") final Integer reservationId, final Map<String, Object> model) {
 		Reservation reservation = this.reservationService.findReservationById(reservationId);
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		User currentPrincipalName = (User) authentication.getPrincipal();
-		Owner owner = this.reservationService.findOwnerByUserId(currentPrincipalName.getUsername()).get(0);
-		reservation.setOwner(owner);
+		//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		//		User currentPrincipalName = (User) authentication.getPrincipal();
+		//		Owner owner = this.reservationService.findOwnerByUserId(currentPrincipalName.getUsername()).get(0);
+		//		reservation.setOwner(owner);
 		model.put("reservation", reservation);
 		return "reservations/editCita";
 	}
@@ -150,7 +146,7 @@ public class ReservationController {
 			return "reservations/editCita";
 		} else {
 			this.reservationService.save(reservation);
-			;
+
 			return "redirect:/show/{reservationId}";
 		}
 	}
