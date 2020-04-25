@@ -2,6 +2,7 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -138,8 +139,11 @@ public class ReservationController {
 		Reservation reservation = this.reservationService.findReservationById(reservationId);
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User currentPrincipalName = (User) authentication.getPrincipal();
-		Owner owner = this.reservationService.findOwnerByUserId(currentPrincipalName.getUsername()).get(0);
-		reservation.setOwner(owner);
+		List<Owner> owner = this.reservationService.findOwnerByUserId(currentPrincipalName.getUsername());
+		if (owner != null && !owner.isEmpty()) {
+			reservation.setOwner(owner.get(0));
+		}
+
 		model.put("reservation", reservation);
 		return "reservations/editCita";
 	}

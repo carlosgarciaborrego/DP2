@@ -127,7 +127,7 @@ public class ReservationControllerTests {
 			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 	}
 
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "owner1")
 	@Test
 	void testShowReservation() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/reservations/{reservationId}", ReservationControllerTests.TEST_RESERVATION_ID)).andExpect(MockMvcResultMatchers.status().isOk())
