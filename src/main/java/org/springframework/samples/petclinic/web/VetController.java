@@ -154,7 +154,10 @@ public class VetController {
 	public String deleteVet(@PathVariable("vetId") final Integer vetId, final ModelMap model) {
 		Optional<Vet> vet = this.vetService.findVetById(vetId);
 		if (vet.isPresent()) {
-			this.vetService.delete(vetId);
+			Vet v = vet.get();
+			v.setClinic(null);
+			v.setSpecialties(null);
+			this.vetService.delete(v);
 		} else {
 			model.put("message", "This vet don't exist");
 		}

@@ -82,6 +82,11 @@ public class VetService {
 		this.vetRepository.deleteById(vetId);
 
 	}
+	public void delete(final Vet vet) {
+
+		this.vetRepository.deleteById(vet.getId());
+
+	}
 
 	public Optional<Vet> findVetById(final int vetId) {
 		Optional<Vet> optional = this.vetRepository.findById(vetId);
