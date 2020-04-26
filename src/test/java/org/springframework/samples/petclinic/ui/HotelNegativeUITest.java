@@ -14,7 +14,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class HotelPositiveUITest {
+public class HotelNegativeUITest {
 
 	private WebDriver		driver;
 	private String			baseUrl;
@@ -31,18 +31,18 @@ public class HotelPositiveUITest {
 	}
 
 	@Test
-	public void testHotelPositiveUI() throws Exception {
+	public void testHotelNegativeUI() throws Exception {
 		this.driver.get("http://localhost:8080/petclinic/");
 		this.driver.findElement(By.xpath("//ul[2]/li/a")).click();
-		this.driver.findElement(By.id("username")).click();
 		this.driver.findElement(By.id("username")).clear();
 		this.driver.findElement(By.id("username")).sendKeys("admin1");
 		this.driver.findElement(By.id("password")).click();
 		this.driver.findElement(By.id("password")).clear();
 		this.driver.findElement(By.id("password")).sendKeys("4dm1n");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
-		this.driver.findElement(By.xpath("//li[6]/a")).click();
+		this.driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[6]/a/span[2]")).click();
 		this.driver.findElement(By.xpath("//div/div/div/a")).click();
+		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 		this.driver.findElement(By.id("name")).click();
 		this.driver.findElement(By.id("name")).clear();
 		this.driver.findElement(By.id("name")).sendKeys("Calle Betis");
@@ -51,17 +51,30 @@ public class HotelPositiveUITest {
 		this.driver.findElement(By.id("location")).sendKeys("Sevilla");
 		this.driver.findElement(By.id("capacity")).click();
 		this.driver.findElement(By.id("capacity")).clear();
-		this.driver.findElement(By.id("capacity")).sendKeys("10");
+		this.driver.findElement(By.id("capacity")).sendKeys("-1");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
-		this.driver.findElement(By.xpath("//table[@id='hotelsTable']/tbody/tr[2]/td[2]")).click();
+		this.driver.findElement(By.id("capacity")).click();
+		this.driver.findElement(By.id("capacity")).clear();
+		this.driver.findElement(By.id("capacity")).sendKeys("5");
+		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 		this.driver.findElement(By.xpath("(//a[contains(text(),'Show')])[2]")).click();
 		this.driver.findElement(By.id("location")).click();
 		this.driver.findElement(By.id("location")).clear();
-		this.driver.findElement(By.id("location")).sendKeys("Huelva");
+		this.driver.findElement(By.id("location")).sendKeys("");
+		this.driver.findElement(By.id("capacity")).click();
+		this.driver.findElement(By.id("capacity")).clear();
+		this.driver.findElement(By.id("capacity")).sendKeys("-5");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
-		this.driver.findElement(By.xpath("//table[@id='hotelsTable']/tbody/tr[2]/td[2]")).click();
+		this.driver.findElement(By.id("location")).click();
+		this.driver.findElement(By.id("location")).clear();
+		this.driver.findElement(By.id("location")).sendKeys("Madrid");
+		this.driver.findElement(By.id("capacity")).click();
+		this.driver.findElement(By.id("capacity")).clear();
+		this.driver.findElement(By.id("capacity")).sendKeys("12");
+		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 		this.driver.findElement(By.xpath("//table[@id='hotelsTable']/tbody/tr[2]/td[5]/a[2]")).click();
 	}
+
 	@AfterEach
 	public void tearDown() throws Exception {
 		this.driver.quit();
