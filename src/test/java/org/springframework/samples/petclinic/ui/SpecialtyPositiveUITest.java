@@ -7,14 +7,23 @@ import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SpecialtyPositiveUITest {
+
+	@LocalServerPort
+	private int				port;
 
 	private WebDriver		driver;
 	private String			baseUrl;
@@ -32,7 +41,12 @@ public class SpecialtyPositiveUITest {
 
 	@Test
 	public void testSpecialtyPositiveUI() throws Exception {
-		this.driver.get("http://localhost:8080/petclinic/");
+		this.whenIamLoggedIntheSystem();
+		this.thenICanManageTheSpecialties();
+	}
+
+	private void whenIamLoggedIntheSystem() throws Exception {
+		this.driver.get("http://localhost:" + this.port + "/petclinic/");
 		this.driver.findElement(By.xpath("//ul[2]/li/a")).click();
 		this.driver.findElement(By.id("username")).click();
 		this.driver.findElement(By.id("username")).clear();
@@ -41,6 +55,9 @@ public class SpecialtyPositiveUITest {
 		this.driver.findElement(By.id("password")).clear();
 		this.driver.findElement(By.id("password")).sendKeys("4dm1n");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
+	}
+
+	private void thenICanManageTheSpecialties() throws Exception {
 		this.driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[3]/a/span[2]")).click();
 		this.driver.findElement(By.xpath("//table[@id='vetsTable']/tbody/tr/td[2]")).click();
 		this.driver.findElement(By.xpath("//table[@id='vetsTable']/tbody/tr/td[2]")).click();

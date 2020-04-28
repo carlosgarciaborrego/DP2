@@ -7,14 +7,23 @@ import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class HotelPositiveUITest {
+
+	@LocalServerPort
+	private int				port;
 
 	private WebDriver		driver;
 	private String			baseUrl;
@@ -32,7 +41,12 @@ public class HotelPositiveUITest {
 
 	@Test
 	public void testHotelPositiveUI() throws Exception {
-		this.driver.get("http://localhost:8080/petclinic/");
+		this.whenIamLoggedIntheSystem();
+		this.thenICanManageTheHotels();
+	}
+
+	private void whenIamLoggedIntheSystem() throws Exception {
+		this.driver.get("http://localhost:" + this.port + "/petclinic/");
 		this.driver.findElement(By.xpath("//ul[2]/li/a")).click();
 		this.driver.findElement(By.id("username")).click();
 		this.driver.findElement(By.id("username")).clear();
@@ -41,6 +55,9 @@ public class HotelPositiveUITest {
 		this.driver.findElement(By.id("password")).clear();
 		this.driver.findElement(By.id("password")).sendKeys("4dm1n");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
+	}
+
+	private void thenICanManageTheHotels() throws Exception {
 		this.driver.findElement(By.xpath("//li[6]/a")).click();
 		this.driver.findElement(By.xpath("//div/div/div/a")).click();
 		this.driver.findElement(By.id("name")).click();
@@ -62,6 +79,7 @@ public class HotelPositiveUITest {
 		this.driver.findElement(By.xpath("//table[@id='hotelsTable']/tbody/tr[2]/td[2]")).click();
 		this.driver.findElement(By.xpath("//table[@id='hotelsTable']/tbody/tr[2]/td[5]/a[2]")).click();
 	}
+
 	@AfterEach
 	public void tearDown() throws Exception {
 		this.driver.quit();
