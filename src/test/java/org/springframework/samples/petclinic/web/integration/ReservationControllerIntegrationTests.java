@@ -93,7 +93,7 @@ public class ReservationControllerIntegrationTests {
 	void testInitUpdateForm() throws Exception {
 		ModelMap model = new ModelMap();
 
-		String view = this.reservationController.aceptarCita(model, ReservationControllerIntegrationTests.TEST_RESERVATION_ID);
+		String view = this.reservationController.actualizarCita(ReservationControllerIntegrationTests.TEST_RESERVATION_ID, model);
 		Assert.assertEquals(view, "reservations/editCita");
 		Assert.assertNotNull(model.get("reservation"));
 	}
@@ -132,13 +132,6 @@ public class ReservationControllerIntegrationTests {
 		bindingResult.reject("telephone", "must not be null");
 		String view = this.reservationController.actualizarCitaPost(reservation, bindingResult, ReservationControllerIntegrationTests.TEST_RESERVATION_ID, model);
 		Assert.assertEquals(view, "reservations/editCita");
-	}
-
-	@Test
-	void testDelete() throws Exception {
-		ModelMap model = new ModelMap();
-		String view = this.reservationController.borrarCita(ReservationControllerIntegrationTests.TEST_RESERVATION_ID, model);
-		Assert.assertEquals(view, "redirect:/reservations/listadoCitas");
 	}
 
 	@Test

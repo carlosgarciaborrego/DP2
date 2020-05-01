@@ -20,7 +20,7 @@ import org.springframework.validation.MapBindingResult;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class HotelControllerIntegrationTests {
 
-	private static final int	TEST_HOTEL_ID	= 1;
+	private static final int	TEST_HOTEL_ID	= 2;
 
 	@Autowired
 	private HotelController		hotelcontroller;

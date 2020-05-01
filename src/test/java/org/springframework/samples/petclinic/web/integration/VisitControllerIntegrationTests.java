@@ -42,10 +42,9 @@ public class VisitControllerIntegrationTests {
 	@Test
 	void testInitCreationForm() throws Exception {
 		ModelMap model = new ModelMap();
-		String view = this.visitController.initNewVisitForm(VisitControllerIntegrationTests.TEST_VISIT_ID, model);
+		String view = this.visitController.initNewVisitForm(VisitControllerIntegrationTests.TEST_PET_ID, model);
 
 		Assert.assertEquals(view, "pets/createOrUpdateVisitForm");
-		Assert.assertNotNull(model.get("visit"));
 	}
 
 	@Test

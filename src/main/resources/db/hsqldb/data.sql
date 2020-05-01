@@ -77,7 +77,8 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id, vet_id) VALUES (11, 'Fredd
 INSERT INTO pets(id,name,birth_date,type_id,owner_id, vet_id) VALUES (12, 'Lucky', '2010-06-24', 2, 10, 4);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id, vet_id) VALUES (13, 'Sly', '2012-06-08', 1, 10, 1);
 
-INSERT INTO hotels VALUES (1, 'Calle Cadiz', 10, 3, 'Sevilla');
+INSERT INTO hotels VALUES (1, 'Calle Cadiz', 10, 0, 'Sevilla');
+INSERT INTO hotels VALUES (2, 'Calle Madrid', 8, 0, 'Lugo');
 
 INSERT INTO visits(id,visit_date,description,pet_id,hotel_id) VALUES (1, '2020-10-10', 'estaba mal', 1, 1);
 
