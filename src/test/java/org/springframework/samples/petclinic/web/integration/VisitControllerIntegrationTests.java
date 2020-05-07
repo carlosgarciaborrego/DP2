@@ -80,12 +80,12 @@ public class VisitControllerIntegrationTests {
 		Assert.assertEquals(view, "pets/createOrUpdateVisitForm");
 	}
 
-	@Test
-	void testDelete() throws Exception {
-		ModelMap model = new ModelMap();
-		String view = this.visitController.deleteVisit(VisitControllerIntegrationTests.TEST_HOTEL_ID, VisitControllerIntegrationTests.TEST_VISIT_ID, VisitControllerIntegrationTests.TEST_PET_ID, model);
-		Assert.assertEquals(view, "redirect:/hotels");
-	}
+	//	@Test
+	//	void testDelete() throws Exception {
+	//		ModelMap model = new ModelMap();
+	//		String view = this.visitController.deleteVisit(VisitControllerIntegrationTests.TEST_HOTEL_ID, VisitControllerIntegrationTests.TEST_VISIT_ID, VisitControllerIntegrationTests.TEST_PET_ID, model);
+	//		Assert.assertEquals(view, "redirect:/hotels");
+	//	}
 
 	@Test
 	void testShow() throws Exception {

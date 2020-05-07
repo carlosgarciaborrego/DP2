@@ -114,7 +114,7 @@ public class ReservationControllerIntegrationTests {
 		Clinic clinic = this.clinicService.findClinicById(ReservationControllerIntegrationTests.TEST_CLINIC_ID).get();
 		reservation.setClinic(clinic);
 		BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "");
-		String view = this.reservationController.actualizarCitaPost(reservation, bindingResult, ReservationControllerIntegrationTests.TEST_RESERVATION_ID, model);
+		String view = this.reservationController.actualizarCitaPost(reservation, bindingResult, ReservationControllerIntegrationTests.TEST_RESERVATION_ID);
 		Assert.assertEquals(view, "redirect:/reservations/{reservationId}");
 	}
 
@@ -130,7 +130,7 @@ public class ReservationControllerIntegrationTests {
 		reservation.setClinic(clinic);
 		BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "");
 		bindingResult.reject("telephone", "must not be null");
-		String view = this.reservationController.actualizarCitaPost(reservation, bindingResult, ReservationControllerIntegrationTests.TEST_RESERVATION_ID, model);
+		String view = this.reservationController.actualizarCitaPost(reservation, bindingResult, ReservationControllerIntegrationTests.TEST_RESERVATION_ID);
 		Assert.assertEquals(view, "reservations/editCita");
 	}
 
