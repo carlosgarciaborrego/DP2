@@ -592,4 +592,78 @@ class ValidatorTests {
 		Assertions.assertThat(constraintViolations.size()).isEqualTo(0);
 	}
 
+	//------------------------------------ Clinic ---------------------------------
+
+	@Test
+	void ValidateClinic() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Clinic c = new Clinic();
+		c.setCapacity(3);
+		c.setEmail("kfjds@email.com");
+		c.setEmergency("66666666");
+		c.setLocation("Sevilla");
+		c.setName("San Bernardo Clinic");
+		c.setTelephone("999999999");
+		Validator validator = this.createValidator();
+		Set<ConstraintViolation<Clinic>> constraintViolations = validator.validate(c);
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(0);
+	}
+
+	//Negative
+
+	@Test
+	void nonValidateTelephoneClinic() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Clinic c = new Clinic();
+		c.setCapacity(3);
+		c.setEmail("kfjds@email.com");
+		c.setEmergency("66666666");
+		c.setLocation("Sevilla");
+		c.setName("San Bernardo Clinic");
+		c.setTelephone("");
+		Validator validator = this.createValidator();
+		Set<ConstraintViolation<Clinic>> constraintViolations = validator.validate(c);
+
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
+		ConstraintViolation<Clinic> violation = constraintViolations.iterator().next();
+		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("telephone");
+		Assertions.assertThat(violation.getMessage()).isEqualTo("must be not empty");
+	}
+
+	@Test
+	void nonValidateCapacityClinic() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Clinic c = new Clinic();
+		c.setCapacity(-3);
+		c.setEmail("kfjds@email.com");
+		c.setEmergency("66666666");
+		c.setLocation("Sevilla");
+		c.setName("San Bernardo Clinic");
+		c.setTelephone("999999999");
+		Validator validator = this.createValidator();
+		Set<ConstraintViolation<Clinic>> constraintViolations = validator.validate(c);
+
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
+		ConstraintViolation<Clinic> violation = constraintViolations.iterator().next();
+		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("capacity");
+	}
+
+	@Test
+	void nonValidateEmergencyClinic() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Clinic c = new Clinic();
+		c.setCapacity(3);
+		c.setEmail("kfjds@email.com");
+		c.setEmergency("66666666666");
+		c.setLocation("Sevilla");
+		c.setName("San Bernardo Clinic");
+		c.setTelephone("999999999");
+		Validator validator = this.createValidator();
+		Set<ConstraintViolation<Clinic>> constraintViolations = validator.validate(c);
+
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
+		ConstraintViolation<Clinic> violation = constraintViolations.iterator().next();
+		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("emergency");
+	}
+
 }
