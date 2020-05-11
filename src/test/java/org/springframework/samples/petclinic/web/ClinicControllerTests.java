@@ -2,6 +2,7 @@
 package org.springframework.samples.petclinic.web;
 
 import org.assertj.core.util.Lists;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
@@ -23,7 +24,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @WebMvcTest(value = ClinicController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 public class ClinicControllerTests {
 
-	@Autowired
+	@MockBean
 	private ClinicController	clinicController;
 
 	@MockBean
@@ -54,14 +55,54 @@ public class ClinicControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testInitCreationForm() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/clinic/new")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("clinic")).andExpect(MockMvcResultMatchers.view().name("clinic/show"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/clinic/new")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("clinic/new"));
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/clinic/new").param("name", "Clinica Santo Domingo").param("location", "Burgos").with(SecurityMockMvcRequestPostProcessors.csrf()).param("telephone", "666666666").param("emergency", "999999999")
-			.param("capacity", "3").param("email", "hola@hotmail.com")).andExpect(MockMvcResultMatchers.status().is3xxRedirection());
+			.param("capacity", "3").param("email", "hola@hotmail.com")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessCreationFormHasErrors() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/clinic/new").param("name", "Clinica Santo Domingo").param("location", "").with(SecurityMockMvcRequestPostProcessors.csrf()).param("telephone", "666666666").param("emergency", "999999999")
+			.param("capacity", "3").param("email", "hola@hotmail.com")).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("clinic", "location")).andExpect(MockMvcResultMatchers.view().name("clinic/new"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testInitUpdateClinicForm() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/clinic/{clinicId}", ClinicControllerTests.TEST_CLINIC_ID)).andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.model().attribute("clinic", Matchers.hasProperty("name", Matchers.is("Holly Clinic")))).andExpect(MockMvcResultMatchers.model().attribute("clinic", Matchers.hasProperty("capacity", Matchers.is("50"))))
+			.andExpect(MockMvcResultMatchers.model().attribute("clinic", Matchers.hasProperty("email", Matchers.is("clinic1@gmail.com"))))
+			.andExpect(MockMvcResultMatchers.model().attribute("clinic", Matchers.hasProperty("emergency", Matchers.is("955910011")))).andExpect(MockMvcResultMatchers.model().attribute("clinic", Matchers.hasProperty("telephone", Matchers.is("665544331"))))
+			.andExpect(MockMvcResultMatchers.view().name("clinic/show"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessUpdateClinicFormSuccess() throws Exception {
+		this.mockMvc
+			.perform(MockMvcRequestBuilders.post("/clinic/{clinicId}", ClinicControllerTests.TEST_CLINIC_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "Clinica Santa Clara").param("location", "Burgos")
+				.with(SecurityMockMvcRequestPostProcessors.csrf()).param("telephone", "666666666").param("emergency", "999999999").param("capacity", "3").param("email", "hola@hotmail.com"))
+			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("clinic/" + ClinicControllerTests.TEST_CLINIC_ID));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessShowClinicVetsSuccess() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/clinic/{clinicId}/vets", ClinicControllerTests.TEST_CLINIC_ID)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+			.andExpect(MockMvcResultMatchers.view().name("clinic/" + ClinicControllerTests.TEST_CLINIC_ID + "/vets"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessDeleteSuccess() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/clinic/{clinicId}/delete", ClinicControllerTests.TEST_CLINIC_ID)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+			.andExpect(MockMvcResultMatchers.view().name("clinic/" + ClinicControllerTests.TEST_CLINIC_ID + "/delete"));
 	}
 
 }

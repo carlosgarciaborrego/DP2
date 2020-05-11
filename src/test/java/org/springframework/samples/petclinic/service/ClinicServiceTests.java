@@ -3,7 +3,6 @@ package org.springframework.samples.petclinic.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -31,22 +30,22 @@ public class ClinicServiceTests {
 
 	@Test
 	void shouldFindClinicWithCorrectId() {
-		Optional<Clinic> clinic1 = this.clinicService.findClinicById(1);
+		Clinic clinic1 = this.clinicService.findClinicById(1);
 
-		Assertions.assertThat(clinic1.isPresent());
-		Assertions.assertThat(clinic1.get().getCapacity()).isEqualTo(50);
-		Assertions.assertThat(clinic1.get().getName()).isEqualTo("Holly Clinic");
-		Assertions.assertThat(clinic1.get().getLocation()).isEqualTo("Sevilla");
+		Assertions.assertThat(clinic1 != null);
+		Assertions.assertThat(clinic1.getCapacity()).isEqualTo(50);
+		Assertions.assertThat(clinic1.getName()).isEqualTo("Holly Clinic");
+		Assertions.assertThat(clinic1.getLocation()).isEqualTo("Sevilla");
 	}
 
 	@Test
 	void shouldFindAndSaveClinicWithCorrectId() {
-		Optional<Clinic> clinic1 = this.clinicService.findClinicById(1);
+		Clinic clinic1 = this.clinicService.findClinicById(1);
 
-		Assertions.assertThat(clinic1.isPresent());
-		Assertions.assertThat(clinic1.get().getCapacity()).isEqualTo(50);
-		Assertions.assertThat(clinic1.get().getName()).isEqualTo("Holly Clinic");
-		Assertions.assertThat(clinic1.get().getLocation()).isEqualTo("Sevilla");
+		Assertions.assertThat(clinic1 != null);
+		Assertions.assertThat(clinic1.getCapacity()).isEqualTo(50);
+		Assertions.assertThat(clinic1.getName()).isEqualTo("Holly Clinic");
+		Assertions.assertThat(clinic1.getLocation()).isEqualTo("Sevilla");
 	}
 
 	@Test
