@@ -3,7 +3,6 @@ package org.springframework.samples.petclinic.web;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -45,13 +44,10 @@ public class ClinicController {
 	}
 
 	@GetMapping(value = "/{clinicId}")
-	public String showClinic(@PathVariable("clinicId") final Integer clinicId, final Map<String, Object> model) {
+	public String showClinic(@PathVariable("clinicId") final Integer clinicId, final ModelMap modelMap) {
 		Clinic clinic = new Clinic();
-		Optional<Clinic> c = this.clinicService.findClinicById(clinicId);
-		if (c.isPresent()) {
-			clinic = c.get();
-		}
-		model.put("clinic", clinic);
+		clinic = this.clinicService.findClinicById(clinicId);
+		modelMap.put("clinic", clinic);
 		return "clinic/show";
 	}
 
@@ -98,9 +94,9 @@ public class ClinicController {
 	@GetMapping(value = "/{clinicId}/delete")
 	public String deleteClinic(@PathVariable("clinicId") final Integer clinicId, final Map<String, Object> model) {
 		Clinic clinic = new Clinic();
-		Optional<Clinic> c = this.clinicService.findClinicById(clinicId);
-		if (c.isPresent()) {
-			clinic = c.get();
+		Clinic c = this.clinicService.findClinicById(clinicId);
+		if (c != null) {
+			clinic = c;
 			List<Vet> vets = this.vetService.findVetByClinicId(clinicId);
 			if (vets != null && !vets.isEmpty()) {
 				for (Vet v : vets) {
