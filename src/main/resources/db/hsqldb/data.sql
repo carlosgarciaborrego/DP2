@@ -79,8 +79,6 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id, vet_id) VALUES (13, 'Sly',
 
 INSERT INTO hotels VALUES (1, 'Calle Cadiz', 10, 0, 'Sevilla');
 INSERT INTO hotels VALUES (2, 'Calle Madrid', 8, 0, 'Lugo');
-INSERT INTO hotels VALUES (1, 'Calle Cadiz', 30, 3, 'Sevilla');
-INSERT INTO hotels VALUES (2, 'Mascota Feliz', 100, 12, 'Madrid');
 INSERT INTO hotels VALUES (3, 'You Happy Pet', 80, 20, 'Barcelona');
 INSERT INTO hotels VALUES (4, 'Pet Hostel', 13, 4, 'Malaga');
 INSERT INTO hotels VALUES (5, 'El nunca jamás', 40, 10, 'Valencia');
