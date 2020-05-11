@@ -29,7 +29,6 @@
             	<form:hidden path="status"/>
                 <petclinic:inputField label="Telephone" name="telephone"/>
                 <petclinic:inputField label="Reservation Date" name="reservationDate"/>
-                <petclinic:inputFieldDisabled label="Status" name="status" />
                <petclinic:inputField label="Response Client" name="responseClient"/>
 				<petclinic:selectField name="clinic" label="Clinics " names="${clinics}" size="3"/>
             </div>
@@ -46,26 +45,17 @@
                 <petclinic:inputFieldDisabled label="Telephone" name="telephone"/>
                 <petclinic:inputFieldDisabled label="Reservation Date" name="reservationDate"/>
                 <petclinic:inputFieldDisabled label="Status" name="status"/>
-               <petclinic:inputField label="Response Client" name="responseClient"/>
+               	<c:if test="${reservation.status == 'pending'}">
+                   <petclinic:inputField label="Response Client" name="responseClient"/>    
+                </c:if> 
+               	<c:if test="${reservation.status != 'pending'}">
+                   <petclinic:inputFieldDisabled label="Response Client" name="responseClient"/>    
+                </c:if>
                <petclinic:inputFieldDisabled label="clinic" name="clinic"/>
             </div>
            </c:if>
 		</security:authorize>	
 		
-		 <security:authorize access="hasAuthority('veterinarian')">
-		 <div class="form-group has-feedback">
-            	<form:hidden path="id"/>
-            	<form:hidden path="telephone"/>
-            	<form:hidden path="reservationDate"/>
-            	<form:hidden path="responseClient"/>
-            	<form:hidden path="clinic"/>
-            	<form:hidden path="owner.id"/>
-                <petclinic:inputFieldDisabled label="Telephone" name="telephone"/>
-                <petclinic:inputFieldDisabled label="Reservation Date" name="reservationDate"/>
-               <petclinic:inputFieldDisabled label="Response Client" name="responseClient"/>
-               <petclinic:inputFieldDisabled label="clinic" name="clinic"/>
-            </div>
-		</security:authorize>
 		
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
@@ -74,12 +64,17 @@
                     <c:when test="${reservation['new']}">
                       <button class="btn btn-default" type="submit">Add Reservation</button>
                     </c:when>
+                    
                     <c:otherwise>
+                    <c:if test="${reservation.status == 'pending'}">
                         <button class="btn btn-default" type="submit">Update Reservation</button>
+                     </c:if>    
                     </c:otherwise>
+                   
                 </c:choose>
                 </div>
             </div>
+            
         </form:form>
    
      

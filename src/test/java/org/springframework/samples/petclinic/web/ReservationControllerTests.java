@@ -116,7 +116,7 @@ public class ReservationControllerTests {
 	void testInitUpdateReservationForm() throws Exception {
 
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/reservations/{reservationId}/edit", ReservationControllerTests.TEST_RESERVATION_ID)).andExpect(MockMvcResultMatchers.status().isOk())
-			.andExpect(MockMvcResultMatchers.model().attributeExists("reservation")).andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("responseClient", Matchers.is("holita"))))
+			.andExpect(MockMvcResultMatchers.model().attributeExists("reservation")).andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("responseClient", Matchers.is("hola"))))
 			.andExpect(MockMvcResultMatchers.view().name("reservations/editCita"));
 	}
 
@@ -130,11 +130,17 @@ public class ReservationControllerTests {
 	@WithMockUser(value = "owner1")
 	@Test
 	void testShowReservation() throws Exception {
+		DateTimeFormatter fecha = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String date = "2020-06-24";
+		LocalDate localDate = LocalDate.parse(date, fecha);
+		Reservation res = this.reservationService.findReservationById(ReservationControllerTests.TEST_RESERVATION_ID);
+		Owner owner = res.getOwner();
+		Clinic clinic = res.getClinic();
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/reservations/{reservationId}", ReservationControllerTests.TEST_RESERVATION_ID)).andExpect(MockMvcResultMatchers.status().isOk())
 			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("telephone", Matchers.is("664455667"))))
-			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("reservationDate", Matchers.is("2020-06-24"))))
+			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("reservationDate", Matchers.is(localDate))))
 			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("status", Matchers.is("pending"))))
-			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("responseClient", Matchers.is("hola")))).andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("hotel", Matchers.is(1))))
-			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("pet", Matchers.is(1)))).andExpect(MockMvcResultMatchers.view().name("reservations/editCita"));
+			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("responseClient", Matchers.is("hola")))).andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("owner", Matchers.is(owner))))
+			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("clinic", Matchers.is(clinic)))).andExpect(MockMvcResultMatchers.view().name("reservations/editCita"));
 	}
 }

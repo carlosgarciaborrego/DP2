@@ -14,6 +14,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.support.MutableSortDefinition;
@@ -35,6 +36,7 @@ public class Hotel extends NamedEntity {
 	@Range(min = 0)
 	private Integer		count;
 
+	@NotNull
 	@Column(name = "capacity")
 	@Range(min = 0)
 	private Integer		capacity;

@@ -509,53 +509,7 @@ class ValidatorTests {
 
 	// Negative Cause
 
-	@Test
-	void shouldNotValidateWhenHotelIsNull() {
-		LocaleContextHolder.setLocale(Locale.ENGLISH);
-		Visit visit = new Visit();
-		LocalDate actual = LocalDate.now();
-		visit.setDate(actual);
-		visit.setDescription("Se encuentra mal");
-		visit.setHotel(null);
-		Pet p = new Pet();
-		p.setId(1);
-		p.setBirthDate(actual);
-		p.setName("Rodolfo");
-		PetType tipo = new PetType();
-		tipo.setId(1);
-		tipo.setName("ornitorrinco");
-		p.setType(tipo);
-		visit.setPet(p);
-
-		Validator validator = this.createValidator();
-		Set<ConstraintViolation<Visit>> constraintViolations = validator.validate(visit);
-		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
-		ConstraintViolation<Visit> violation = constraintViolations.iterator().next();
-		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("hotel");
-		Assertions.assertThat(violation.getMessage()).isEqualTo("must not be null");
-	}
-
-	@Test
-	void shouldNotValidateWhenPetIsNull() {
-		LocaleContextHolder.setLocale(Locale.ENGLISH);
-		Visit visit = new Visit();
-		LocalDate actual = LocalDate.now();
-		visit.setDate(actual);
-		visit.setDescription("Se encuentra mal");
-		Hotel hotel = new Hotel();
-		hotel.setLocation("Sevilla");
-		hotel.setName("Calle Andalucia");
-		hotel.setCapacity(10);
-		visit.setHotel(hotel);
-		visit.setPet(null);
-
-		Validator validator = this.createValidator();
-		Set<ConstraintViolation<Visit>> constraintViolations = validator.validate(visit);
-		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
-		ConstraintViolation<Visit> violation = constraintViolations.iterator().next();
-		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("pet");
-		Assertions.assertThat(violation.getMessage()).isEqualTo("must not be null");
-	}
+	//No se puede dar, ya que la fecha es la actual, la descripcion es opcional y tienes que seleccionar un hotel para poder añadir un visita.
 
 	// Positive Cause
 	@Test
