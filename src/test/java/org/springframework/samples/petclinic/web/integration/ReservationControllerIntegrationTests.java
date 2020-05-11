@@ -65,7 +65,7 @@ public class ReservationControllerIntegrationTests {
 		reservation.setResponseClient("Puedo antes de las 17:00");
 		Owner owner = this.ownerService.findOwnerById(ReservationControllerIntegrationTests.TEST_OWNER_ID);
 		reservation.setOwner(owner);
-		Clinic clinic = this.clinicService.findClinicById(ReservationControllerIntegrationTests.TEST_CLINIC_ID).get();
+		Clinic clinic = this.clinicService.findClinicById(ReservationControllerIntegrationTests.TEST_CLINIC_ID);
 		reservation.setClinic(clinic);
 		BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "");
 		String view = this.reservationController.salvarCita(reservation, bindingResult, model);
@@ -81,7 +81,7 @@ public class ReservationControllerIntegrationTests {
 		reservation.setResponseClient("Puedo antes de las 17:00");
 		Owner owner = this.ownerService.findOwnerById(ReservationControllerIntegrationTests.TEST_OWNER_ID);
 		reservation.setOwner(owner);
-		Clinic clinic = this.clinicService.findClinicById(ReservationControllerIntegrationTests.TEST_CLINIC_ID).get();
+		Clinic clinic = this.clinicService.findClinicById(ReservationControllerIntegrationTests.TEST_CLINIC_ID);
 		reservation.setClinic(clinic);
 		BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "");
 		bindingResult.reject("reservationDate", "must not be null");
@@ -111,7 +111,7 @@ public class ReservationControllerIntegrationTests {
 		reservation.setResponseClient("");
 		Owner owner = this.ownerService.findOwnerById(ReservationControllerIntegrationTests.TEST_OWNER_ID);
 		reservation.setOwner(owner);
-		Clinic clinic = this.clinicService.findClinicById(ReservationControllerIntegrationTests.TEST_CLINIC_ID).get();
+		Clinic clinic = this.clinicService.findClinicById(ReservationControllerIntegrationTests.TEST_CLINIC_ID);
 		reservation.setClinic(clinic);
 		BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "");
 		String view = this.reservationController.actualizarCitaPost(reservation, bindingResult, ReservationControllerIntegrationTests.TEST_RESERVATION_ID);
@@ -126,7 +126,7 @@ public class ReservationControllerIntegrationTests {
 		reservation.setResponseClient("");
 		Owner owner = this.ownerService.findOwnerById(ReservationControllerIntegrationTests.TEST_OWNER_ID);
 		reservation.setOwner(owner);
-		Clinic clinic = this.clinicService.findClinicById(ReservationControllerIntegrationTests.TEST_CLINIC_ID).get();
+		Clinic clinic = this.clinicService.findClinicById(ReservationControllerIntegrationTests.TEST_CLINIC_ID);
 		reservation.setClinic(clinic);
 		BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "");
 		bindingResult.reject("telephone", "must not be null");
