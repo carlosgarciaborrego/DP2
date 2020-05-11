@@ -45,7 +45,7 @@ public class VisitControllerE2ETests {
 	@Test
 	void testProcessNewVisitFormSuccess() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/owners/*/pets/{petId}/visits/new", VisitControllerE2ETests.TEST_VISIT_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("description", "Visit Description"))
-			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+			.andExpect(MockMvcResultMatchers.status().is3xxRedirection());
 	}
 
 	@WithMockUser(username = "admin1", authorities = {
