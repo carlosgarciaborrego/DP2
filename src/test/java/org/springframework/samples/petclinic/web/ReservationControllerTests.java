@@ -127,7 +127,7 @@ public class ReservationControllerTests {
 			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 	}
 
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "owner1")
 	@Test
 	void testShowReservation() throws Exception {
 		DateTimeFormatter fecha = DateTimeFormatter.ofPattern("yyyy-MM-dd");
