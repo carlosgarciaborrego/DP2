@@ -141,6 +141,17 @@ public class VetControllerIntegrationTests {
 	}
 
 	@Test
+	void testProcessCreationSpecialtyFormHasError() throws Exception {
+		Specialty newSpecialty = new Specialty();
+		newSpecialty.setName("OM");
+
+		BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "");
+		bindingResult.reject("name", "size must be between 3 and 50");
+		String view = this.vetController.initAddSpecialtytForm(newSpecialty, bindingResult, VetControllerIntegrationTests.TEST_VET_ID);
+		Assert.assertEquals(view, "vets/updateSpecialties");
+	}
+
+	@Test
 	void testDelete() throws Exception {
 		ModelMap model = new ModelMap();
 		Integer TEST_VET3_ID = 3;
