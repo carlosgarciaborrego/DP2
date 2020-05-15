@@ -3,11 +3,13 @@ package org.springframework.samples.petclinic.web.integration;
 
 import java.util.Collections;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.service.VetService;
@@ -116,6 +118,35 @@ public class VetControllerIntegrationTests {
 		String view = this.vetController.showVet(v, result, model);
 		Assertions.assertEquals(view, "vet/createOrUpdateVetForm");
 		Assertions.assertNotNull(model.get("vet"));
+	}
+
+	// Test de Specialty
+	@Test
+	void testInitCreationSpecialtyForm() throws Exception {
+		ModelMap model = new ModelMap();
+		String view = this.vetController.initAddSpecialtytForm(model, VetControllerIntegrationTests.TEST_VET_ID);
+
+		Assert.assertEquals(view, "vets/updateSpecialties");
+		Assert.assertNotNull(model.get("vet"));
+	}
+
+	@Test
+	void testProcessCreationSpecialtyFormSuccess() throws Exception {
+		Specialty newSpecialty = new Specialty();
+		newSpecialty.setName("Ophthalmology");
+
+		BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "");
+		String view = this.vetController.initAddSpecialtytForm(newSpecialty, bindingResult, VetControllerIntegrationTests.TEST_VET_ID);
+		Assert.assertEquals(view, "redirect:/vets");
+	}
+
+	@Test
+	void testDelete() throws Exception {
+		ModelMap model = new ModelMap();
+		Integer TEST_VET3_ID = 3;
+		Integer TEST_SPECIALTY_ID = 3;
+		String view = this.vetController.deleteSpecialty(TEST_VET3_ID, TEST_SPECIALTY_ID, model);
+		Assert.assertEquals(view, "redirect:/vets");
 	}
 
 }

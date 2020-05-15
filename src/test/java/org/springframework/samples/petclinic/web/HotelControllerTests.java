@@ -95,4 +95,10 @@ public class HotelControllerTests {
 			.andExpect(MockMvcResultMatchers.model().attribute("hotel", Matchers.hasProperty("count", Matchers.is(0)))).andExpect(MockMvcResultMatchers.model().attribute("hotel", Matchers.hasProperty("location", Matchers.is("Sevilla"))))
 			.andExpect(MockMvcResultMatchers.view().name("hotels/editHotel"));
 	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessDeleteSuccess() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/hotels/delete/{hotelId}", HotelControllerTests.TEST_HOTEL_ID)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("hotels/listadoHoteles"));
+	}
 }

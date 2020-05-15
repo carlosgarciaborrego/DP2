@@ -143,4 +143,11 @@ public class ReservationControllerTests {
 			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("responseClient", Matchers.is("hola")))).andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("owner", Matchers.is(owner))))
 			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("clinic", Matchers.is(clinic)))).andExpect(MockMvcResultMatchers.view().name("reservations/editCita"));
 	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessDeleteSuccess() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/reservations/delete/{reservationId}", ReservationControllerTests.TEST_RESERVATION_ID)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+			.andExpect(MockMvcResultMatchers.view().name("reservations/listadoCitas"));
+	}
 }
