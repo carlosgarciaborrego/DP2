@@ -60,6 +60,13 @@
 					<span>Hotels</span>
 				</petclinic:menuItem>
 				</security:authorize>
+					<security:authorize access="hasAuthority('admin')">
+				<petclinic:menuItem active="${name eq 'providers'}" url="/providers"
+					title="providers">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Providers</span>
+				</petclinic:menuItem>
+				</security:authorize>
 				<security:authorize access="hasAuthority('owner') or hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'reservation'}" url="/reservations"
 					title="reservations">

@@ -54,6 +54,9 @@ public class Clinic extends NamedEntity {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "clinic")
 	private Set<Reservation>	reservations;
 
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "clinic")
+	private Set<Provider>		providers;
+
 
 	@Override
 	public String getName() {
@@ -134,6 +137,37 @@ public class Clinic extends NamedEntity {
 
 	public void setReservations(final Set<Reservation> reservations) {
 		this.reservations = reservations;
+	}
+
+	protected Set<Provider> getProvidersInternal() {
+		if (this.providers == null) {
+			this.providers = new HashSet<>();
+		}
+		return this.providers;
+	}
+
+	protected void setProvidersInternal(final Set<Provider> providers) {
+		this.providers = providers;
+	}
+
+	public List<Provider> getProviders() {
+		List<Provider> sortedProviders = new ArrayList<>(this.getProvidersInternal());
+		PropertyComparator.sort(sortedProviders, new MutableSortDefinition("date", false, false));
+		return Collections.unmodifiableList(sortedProviders);
+	}
+
+	public void addProvider(final Provider provider) {
+		this.getProvidersInternal().add(provider);
+		provider.setClinic(this);
+	}
+
+	public void removeProvider(final Provider provider) {
+		this.getProvidersInternal().remove(provider);
+		provider.setClinic(this);
+	}
+
+	public void setProviders(final Set<Provider> providers) {
+		this.providers = providers;
 	}
 
 	@Override
