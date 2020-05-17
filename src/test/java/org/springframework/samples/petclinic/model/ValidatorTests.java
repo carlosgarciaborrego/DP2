@@ -96,8 +96,6 @@ class ValidatorTests {
 		Assertions.assertThat(violation.getMessage()).isEqualTo("must not be empty");
 	}
 
-	//No se puede dar que el atributo Count sea negativo, por tanto no se hace test
-
 	//Positive Causes
 	@Test
 	void shouldWorkProperly() {
@@ -578,10 +576,10 @@ class ValidatorTests {
 		Validator validator = this.createValidator();
 		Set<ConstraintViolation<Clinic>> constraintViolations = validator.validate(c);
 
-		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(2);
 		ConstraintViolation<Clinic> violation = constraintViolations.iterator().next();
 		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("telephone");
-		Assertions.assertThat(violation.getMessage()).isEqualTo("must be not empty");
+		Assertions.assertThat(violation.getMessage()).isEqualTo("must not be empty");
 	}
 
 	@Test
@@ -618,6 +616,143 @@ class ValidatorTests {
 		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
 		ConstraintViolation<Clinic> violation = constraintViolations.iterator().next();
 		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("emergency");
+	}
+
+	//------------------------------------ Provider ---------------------------------
+
+	//Negative Causes
+	@Test
+	void shouldNotValidateWhenNameProviderisEmpty() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Provider provider = new Provider();
+		provider.setName("");
+		provider.setCity("Sevilla");
+		provider.setTelephone("667788990");
+		provider.setDescription("Compañia de material clinico");
+		Clinic cli = new Clinic();
+		cli.setName("clinica1");
+		cli.setEmail("cli1@gmail.com");
+		cli.setEmergency("666777666");
+		cli.setLocation("sevilla");
+		cli.setTelephone("565656561");
+		provider.setClinic(cli);
+
+		Validator validator = this.createValidator();
+		Set<ConstraintViolation<Provider>> constraintViolations = validator.validate(provider);
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
+		ConstraintViolation<Provider> violation = constraintViolations.iterator().next();
+		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("name");
+		Assertions.assertThat(violation.getMessage()).isEqualTo("must not be empty");
+	}
+
+	@Test
+	void shouldNotValidateWhenCityProviderIsEmpty() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Provider provider = new Provider();
+		provider.setName("CliApp");
+		provider.setCity("");
+		provider.setTelephone("667788990");
+		provider.setDescription("Compañia de material clinico");
+		Clinic cli = new Clinic();
+		cli.setName("clinica1");
+		cli.setEmail("cli1@gmail.com");
+		cli.setEmergency("666777666");
+		cli.setLocation("sevilla");
+		cli.setTelephone("565656561");
+		provider.setClinic(cli);
+
+		Validator validator = this.createValidator();
+		Set<ConstraintViolation<Provider>> constraintViolations = validator.validate(provider);
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
+		ConstraintViolation<Provider> violation = constraintViolations.iterator().next();
+		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("city");
+		Assertions.assertThat(violation.getMessage()).isEqualTo("must not be empty");
+	}
+
+	@Test
+	void shouldNotValidateWhenTelephoneProviderIsEmpty() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Provider provider = new Provider();
+		provider.setName("CliApp");
+		provider.setCity("Sevilla");
+		provider.setTelephone("");
+		provider.setDescription("Compañia de material clinico");
+		Clinic cli = new Clinic();
+		cli.setName("clinica1");
+		cli.setEmail("cli1@gmail.com");
+		cli.setEmergency("666777666");
+		cli.setLocation("sevilla");
+		cli.setTelephone("565656561");
+		provider.setClinic(cli);
+
+		Validator validator = this.createValidator();
+		Set<ConstraintViolation<Provider>> constraintViolations = validator.validate(provider);
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(2);
+		ConstraintViolation<Provider> violation = constraintViolations.iterator().next();
+		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("telephone");
+		Assertions.assertThat(violation.getMessage()).isEqualTo("numeric value out of bounds (<10 digits>.<0 digits> expected)");
+	}
+
+	@Test
+	void shouldNotValidateWhenDescriptionProviderIsEmpty() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Provider provider = new Provider();
+		provider.setName("CliApp");
+		provider.setCity("Sevilla");
+		provider.setTelephone("667788990");
+		provider.setDescription("");
+		Clinic cli = new Clinic();
+		cli.setName("clinica1");
+		cli.setEmail("cli1@gmail.com");
+		cli.setEmergency("666777666");
+		cli.setLocation("sevilla");
+		cli.setTelephone("565656561");
+		provider.setClinic(cli);
+
+		Validator validator = this.createValidator();
+		Set<ConstraintViolation<Provider>> constraintViolations = validator.validate(provider);
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
+		ConstraintViolation<Provider> violation = constraintViolations.iterator().next();
+		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("description");
+		Assertions.assertThat(violation.getMessage()).isEqualTo("must not be empty");
+	}
+
+	@Test
+	void shouldNotValidateWhenClinicProviderIsNull() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Provider provider = new Provider();
+		provider.setName("CliApp");
+		provider.setCity("Sevilla");
+		provider.setTelephone("667788990");
+		provider.setDescription("Compañia de material clinico");
+		provider.setClinic(null);
+
+		Validator validator = this.createValidator();
+		Set<ConstraintViolation<Provider>> constraintViolations = validator.validate(provider);
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
+		ConstraintViolation<Provider> violation = constraintViolations.iterator().next();
+		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("clinic");
+		Assertions.assertThat(violation.getMessage()).isEqualTo("must not be null");
+	}
+	//Positive Causes
+	@Test
+	void shouldWorkProviderProperly() {
+		Provider provider = new Provider();
+		provider.setName("CliApp");
+		provider.setCity("Sevilla");
+		provider.setTelephone("667788990");
+		provider.setDescription("Compañia de material clinico");
+		Clinic cli = new Clinic();
+		cli.setName("clinica1");
+		cli.setEmail("cli1@gmail.com");
+		cli.setEmergency("666777666");
+		cli.setLocation("sevilla");
+		cli.setTelephone("565656561");
+		provider.setClinic(cli);
+
+		Validator validator = this.createValidator();
+		Set<ConstraintViolation<Provider>> constraintViolations = validator.validate(provider);
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(0);
 	}
 
 }
