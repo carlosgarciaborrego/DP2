@@ -97,6 +97,11 @@ INSERT INTO cause(id,name,budget_archivied,budget_target,description,organisatio
 
 INSERT INTO reservations(id,telephone,reservation_date,status,response_Client,owner_id,clinic_id) VALUES (1,'664455667','2020-06-24','pending','adios',1,1);
 
+INSERT INTO providers(id,name,city,telephone,description, clinic_id) VALUES(1,'mercadona','Sevilla','664455669','comida para los animales', 1);
+INSERT INTO providers(id,name,city,telephone,description, clinic_id) VALUES(2,'UtilesApp','Sevilla','112233445','Material clinico', 1);
+INSERT INTO providers(id,name,city,telephone,description, clinic_id) VALUES(3,'mercadona','Madrid','778866552','comida para los animales', 2);
+
+
 INSERT INTO donations(id,name,amount,cause_id) VALUES (1, 'Donacion Juan', 100.0, 1);
 INSERT INTO donations(id,name,amount,cause_id) VALUES (2, 'Donacion Carlos', 200.0, 1);
 INSERT INTO donations(id,name,amount,cause_id) VALUES (3, 'Donacion Maria', 400.0, 1);

@@ -42,13 +42,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 								.antMatchers("/causes/**").authenticated()
 								.antMatchers("/admin/**").hasAnyAuthority("admin")
 								.antMatchers("/vet/delete/**").hasAnyAuthority("admin")
+								.antMatchers("/vet/*/specialty/**").hasAnyAuthority("admin")
 								.antMatchers("/dash/").hasAnyAuthority("admin")
 								.antMatchers("/dash/**").hasAnyAuthority("admin")
 								.antMatchers("/vet/show/**").permitAll()
 								.antMatchers("/owners/**").hasAnyAuthority("owner", "admin")
 								.antMatchers("/owners/**").hasAnyAuthority("veterinarian", "admin")
 								.antMatchers("/vets/**").authenticated()
-								.antMatchers("/vet/*").authenticated()
 								.antMatchers("/vet/**").authenticated()
 								.antMatchers("/clinic/").hasAnyAuthority("veterinarian", "admin")
 								.antMatchers("/clinic/**").hasAnyAuthority("veterinarian", "admin")
@@ -56,6 +56,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 								.antMatchers("/clinics/").hasAnyAuthority("veterinarian", "admin")
 								.antMatchers("/reservation/").hasAnyAuthority("owner", "admin")
 								.antMatchers("/reservations/**").hasAnyAuthority("owner", "admin")
+								.antMatchers("/providers/").hasAnyAuthority("admin")
+								.antMatchers("/providers/**").hasAnyAuthority("admin")
+						
 
 								.anyRequest().denyAll().and().formLogin()
 			/* .loginPage("/login") */

@@ -20,7 +20,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class HotelNegativeUITest {
+public class HotelUITest {
 
 	@LocalServerPort
 	private int				port;
@@ -57,9 +57,43 @@ public class HotelNegativeUITest {
 	}
 
 	private void thenICanManageTheHotels() throws Exception {
+		this.insertHotel();
+		this.hotelWithNegativeCause();
+		this.hotelWithPositiveCause();
+		this.showHotel(); //and then update hotel
+		this.hotelWithNegativeCause();
+		this.hotelWithPositiveCause();
+		this.deleteHotel();
+	}
+
+	private void insertHotel() {
 		this.driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[6]/a/span[2]")).click();
 		this.driver.findElement(By.xpath("//div/div/div/a")).click();
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
+	}
+
+	private void showHotel() {
+		this.driver.findElement(By.xpath("(//a[contains(text(),'Show')])[2]")).click();
+	}
+
+	private void deleteHotel() {
+		this.driver.findElement(By.xpath("//table[@id='hotelsTable']/tbody/tr[2]/td[5]/a[2]")).click();
+	}
+
+	private void hotelWithNegativeCause() {
+		this.driver.findElement(By.id("name")).click();
+		this.driver.findElement(By.id("name")).clear();
+		this.driver.findElement(By.id("name")).sendKeys("");
+		this.driver.findElement(By.id("location")).click();
+		this.driver.findElement(By.id("location")).clear();
+		this.driver.findElement(By.id("location")).sendKeys("");
+		this.driver.findElement(By.id("capacity")).click();
+		this.driver.findElement(By.id("capacity")).clear();
+		this.driver.findElement(By.id("capacity")).sendKeys("-1");
+		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
+	}
+
+	private void hotelWithPositiveCause() {
 		this.driver.findElement(By.id("name")).click();
 		this.driver.findElement(By.id("name")).clear();
 		this.driver.findElement(By.id("name")).sendKeys("Calle Betis");
@@ -68,28 +102,8 @@ public class HotelNegativeUITest {
 		this.driver.findElement(By.id("location")).sendKeys("Sevilla");
 		this.driver.findElement(By.id("capacity")).click();
 		this.driver.findElement(By.id("capacity")).clear();
-		this.driver.findElement(By.id("capacity")).sendKeys("-1");
+		this.driver.findElement(By.id("capacity")).sendKeys("6");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
-		this.driver.findElement(By.id("capacity")).click();
-		this.driver.findElement(By.id("capacity")).clear();
-		this.driver.findElement(By.id("capacity")).sendKeys("5");
-		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
-		this.driver.findElement(By.xpath("(//a[contains(text(),'Show')])[2]")).click();
-		this.driver.findElement(By.id("location")).click();
-		this.driver.findElement(By.id("location")).clear();
-		this.driver.findElement(By.id("location")).sendKeys("");
-		this.driver.findElement(By.id("capacity")).click();
-		this.driver.findElement(By.id("capacity")).clear();
-		this.driver.findElement(By.id("capacity")).sendKeys("-5");
-		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
-		this.driver.findElement(By.id("location")).click();
-		this.driver.findElement(By.id("location")).clear();
-		this.driver.findElement(By.id("location")).sendKeys("Madrid");
-		this.driver.findElement(By.id("capacity")).click();
-		this.driver.findElement(By.id("capacity")).clear();
-		this.driver.findElement(By.id("capacity")).sendKeys("12");
-		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
-		this.driver.findElement(By.xpath("//table[@id='hotelsTable']/tbody/tr[2]/td[5]/a[2]")).click();
 	}
 
 	@AfterEach
