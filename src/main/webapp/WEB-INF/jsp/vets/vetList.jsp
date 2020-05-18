@@ -15,9 +15,7 @@
         <tr>
             <th>Name</th>
             <th>Specialties</th>
-            <security:authorize access="!hasAuthority('owner')">
-            	<th>Actions</th>
-            </security:authorize>	
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -32,15 +30,23 @@
                     </c:forEach>
                     <c:if test="${vet.nrOfSpecialties == 0}">none</c:if>
                 </td>
-                <security:authorize access="!hasAuthority('owner')">
+                
+       
                <td>
+                     
+                  <spring:url value="vet/{vetId}/clinic" var="clinicUrl">
+				       <spring:param name="vetId" value="${vet.id}"/>
+				 </spring:url>
+				 <a href="${fn:escapeXml(clinicUrl)}" class="btn btn-default">Clinic</a>
+       
+                 <security:authorize access="!hasAuthority('owner')">
                <security:authorize access="hasAuthority('admin')">
                    <spring:url value="vet/delete/{vetId}" var="deleteUrl">
 				        <spring:param name="vetId" value="${vet.id}"/>
 				    </spring:url>
 				    <a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Delete</a>
 				</security:authorize>
-              
+			
             	<security:authorize access="hasAuthority('admin')">
                  <spring:url value="/vet/{vetId}/specialty/new" htmlEscape="true" var="addSpecialtyUrl">
                 <spring:param name="vetId" value="${vet.id}"/>
@@ -53,9 +59,9 @@
 				        <spring:param name="vetId" value="${vet.id}"/>
 				    </spring:url>
 				    <a href="${fn:escapeXml(showUrl)}" class="btn btn-default">Show</a>
-				  
+				    </security:authorize>  
                  </td>
-                 </security:authorize>  
+               
             </tr>
         </c:forEach>
         </tbody>

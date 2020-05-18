@@ -40,7 +40,7 @@
             <form:hidden path="date"/>
                 <petclinic:inputFieldDisabled label="Date" name="date"/>
                 <petclinic:inputField label="Description" name="description"/>
-         		<petclinic:selectField name="hotel" label="Available hotels" names="${hotels}" size="3"/>
+         		<petclinic:selectField name="hotel" label="Available hotels" names="${hotels}" size="5"/>
             </div>
 
             <div class="form-group">
