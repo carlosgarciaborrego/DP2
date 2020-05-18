@@ -158,6 +158,7 @@ public class VetController {
 			Vet v = vet.get();
 			v.setClinic(null);
 			v.setSpecialties(null);
+
 			this.vetService.delete(v);
 		} else {
 			model.put("message", "This vet don't exist");
