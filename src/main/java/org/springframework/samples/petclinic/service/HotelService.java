@@ -22,7 +22,7 @@ public class HotelService {
 
 
 	@Autowired
-	public HotelService(final HotelRepository hotelRepository, final VisitRepository visitRepository) {
+	public HotelService(HotelRepository hotelRepository, VisitRepository visitRepository) {
 		this.hotelRepository = hotelRepository;
 		this.visitRepository = visitRepository;
 	}
