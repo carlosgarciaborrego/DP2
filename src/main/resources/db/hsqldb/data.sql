@@ -1,22 +1,22 @@
 -- One admin user, named admin1 with passwor 4dm1n and authority admin
 INSERT INTO users(username,password,enabled) VALUES ('admin1','4dm1n',TRUE);
-INSERT INTO authorities VALUES ('admin1','admin');
+INSERT INTO authorities(username,authority) VALUES ('admin1','admin');
 -- One owner user, named owner1 with passwor 0wn3r
 INSERT INTO users(username,password,enabled) VALUES ('owner1','0wn3r',TRUE);
-INSERT INTO authorities VALUES ('owner1','owner');
+INSERT INTO authorities(username,authority) VALUES ('owner1','owner');
 -- One vet user, named vet1 with passwor v3t
 INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
-INSERT INTO authorities VALUES ('vet1','veterinarian');
+INSERT INTO authorities(username,authority) VALUES ('vet1','veterinarian');
 INSERT INTO users(username,password,enabled) VALUES ('vet2','v3t',TRUE);
-INSERT INTO authorities VALUES ('vet2','veterinarian');
+INSERT INTO authorities(username,authority) VALUES ('vet2','veterinarian');
 INSERT INTO users(username,password,enabled) VALUES ('vet3','v3t',TRUE);
-INSERT INTO authorities VALUES ('vet3','veterinarian');
+INSERT INTO authorities(username,authority) VALUES ('vet3','veterinarian');
 INSERT INTO users(username,password,enabled) VALUES ('vet4','v3t',TRUE);
-INSERT INTO authorities VALUES ('vet4','veterinarian');
+INSERT INTO authorities(username,authority) VALUES ('vet4','veterinarian');
 INSERT INTO users(username,password,enabled) VALUES ('vet5','v3t',TRUE);
-INSERT INTO authorities VALUES ('vet5','veterinarian');
+INSERT INTO authorities(username,authority) VALUES ('vet5','veterinarian');
 INSERT INTO users(username,password,enabled) VALUES ('vet6','v3t',TRUE);
-INSERT INTO authorities VALUES ('vet6','veterinarian');
+INSERT INTO authorities(username,authority) VALUES ('vet6','veterinarian');
 
 INSERT INTO clinic(id,name,capacity,email,telephone,location,emergency) VALUES (1, 'Holly Clinic', 50,'clinic1@gmail.com', '665544331', 'Sevilla', '955910011');
 INSERT INTO clinic(id,name,capacity,email,telephone,location,emergency) VALUES (2, 'George Clinic', 30,'clinic1@gmail.com', '665544331', 'Sevilla', '955910011');
