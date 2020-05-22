@@ -27,7 +27,7 @@ public class HotelServiceTests {
 	@Test
 	void testCountWithInitialData() {
 		int count = this.hotelService.hotelCount();
-		Assertions.assertEquals(count, 5);
+		Assertions.assertEquals(count, 2);
 	}
 
 	@Test
@@ -63,7 +63,7 @@ public class HotelServiceTests {
 		hotel.setLocation("Estepa");
 		
 		this.hotelService.save(hotel);
-		assertThat(hotel.getId().longValue()).isEqualTo(6);
+		assertThat(hotel.getId().longValue()).isEqualTo(3);
 	}
 	
 	@Test

@@ -1,8 +1,6 @@
 
 package org.springframework.samples.petclinic.web;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import org.assertj.core.util.Lists;
 import org.hamcrest.Matchers;
 import org.hamcrest.xml.HasXPath;
@@ -101,7 +99,7 @@ class VetControllerTests {
 			.andExpect(MockMvcResultMatchers.view().name("vet/createOrUpdateVetForm"));
 	}
 
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "veterinarian")
 	@Test
 	void testInitUpdateVetForm() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/vet/show/{vetId}", VetControllerTests.TEST_VET_ID)).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("vet"))

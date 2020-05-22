@@ -25,6 +25,7 @@ public class Reservation extends BaseEntity {
 	private String		telephone;
 
 	@Column(name = "reservation_date")
+	@NotNull
 	@Future
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate	reservationDate;

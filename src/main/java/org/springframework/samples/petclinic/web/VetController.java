@@ -117,7 +117,7 @@ public class VetController {
 	}
 
 	@GetMapping(value = "/vet/profile")
-	public String showVetPrpfile(final Map<String, Object> model) {
+	public String showVetProfile(final Map<String, Object> model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User currentPrincipalName = (User) authentication.getPrincipal();
 		Vet v = this.vetService.findVetByUserId(currentPrincipalName.getUsername()).get(0);
@@ -130,6 +130,7 @@ public class VetController {
 	@PostMapping(value = "/vet/show/{vetId}")
 	public String showVet(@Valid final Vet vet, final BindingResult result, final Map<String, Object> model) {
 		if (result.hasErrors()) {
+			model.put("vet", vet);
 			return VetController.VIEWS_VET_CREATE_OR_UPDATE_FORM;
 		} else {
 			this.vetService.saveVet(vet);
@@ -154,7 +155,10 @@ public class VetController {
 	public String deleteVet(@PathVariable("vetId") final Integer vetId, final ModelMap model) {
 		Optional<Vet> vet = this.vetService.findVetById(vetId);
 		if (vet.isPresent()) {
-			this.vetService.delete(vetId);
+			Vet v = vet.get();
+			v.setClinic(null);
+			v.setSpecialties(null);
+			this.vetService.delete(v);
 		} else {
 			model.put("message", "This vet don't exist");
 		}
