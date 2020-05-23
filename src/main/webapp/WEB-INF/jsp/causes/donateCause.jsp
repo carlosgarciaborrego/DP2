@@ -7,12 +7,12 @@
 <%@ taglib prefix="security"
   uri="http://www.springframework.org/security/tags" %>
 
-<petclinic:layout pageName="causes">
+<petclinic:layout pageName="donations">
     <jsp:body>
-        <h2><c:if test="${cause['new']}">New </c:if>Cause</h2>
+        <h2><c:if test="${donation['new']}">New </c:if>Donation</h2>
 
-        <form:form modelAttribute="donation" class="form-horizontal" action="../../causes/donation/save/${causeId}">
-        	
+        <form:form modelAttribute="donation" class="form-horizontal" action="../../causes/donate/">
+        
             <div class="form-group has-feedback">
             
             	<form:hidden path="cause.id" name="causeId"/>
@@ -21,7 +21,7 @@
                 <petclinic:inputField label="Amount" name="amount" />
 
             </div>
-
+            
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
 					

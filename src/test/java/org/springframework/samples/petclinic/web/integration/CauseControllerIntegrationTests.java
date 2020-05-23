@@ -157,7 +157,7 @@ public class CauseControllerIntegrationTests {
 		newDonation.setCause(cause);
 		
 		BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "");
-		String view = this.causeController.salvarDonation(newDonation, CauseControllerIntegrationTests.TEST_CAUSE_ID, bindingResult, model);
+		String view = this.causeController.salvarDonation(newDonation, bindingResult, model);
 		Assert.assertEquals(view, "causes/listadoCauses");
 	}
 
@@ -174,7 +174,7 @@ public class CauseControllerIntegrationTests {
 		
 		BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "");
 		bindingResult.reject("location", "must not be null");
-		String view = this.causeController.salvarDonation(newDonation, CauseControllerIntegrationTests.TEST_CAUSE_ID, bindingResult, model);
+		String view = this.causeController.salvarDonation(newDonation, bindingResult, model);
 		Assert.assertEquals(view, "causes/donateCause");
 	}
 	

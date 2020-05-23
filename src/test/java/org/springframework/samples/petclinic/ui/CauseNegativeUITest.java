@@ -24,7 +24,7 @@ public class CauseNegativeUITest {
   }
 
   @Test
-  public void testManageCausesNegative() throws Exception {
+  public void CauseNegativeUI() throws Exception {
     driver.get("http://localhost:8080/petclinic/");
     driver.findElement(By.linkText("Login")).click();
     driver.findElement(By.xpath("//form[@action='/petclinic/login']")).click();

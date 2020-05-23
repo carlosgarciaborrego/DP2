@@ -92,23 +92,24 @@ public class CauseController {
 		return "causes/donateCause";
 	}
 	
-	@PostMapping(path = "/donation/save/{causeId}")
-	public String salvarDonation(@Valid final Donation donation, @PathVariable("causeId") final int causeId, final BindingResult result, final ModelMap modelMap) {
+	@PostMapping(path = "/donate")
+	public String salvarDonation(@Valid final Donation donation, final BindingResult result, final ModelMap modelMap) {
 		String view = "causes/listadoCauses";
 		
 		if (result.hasErrors()) {
-//			modelMap.addAttribute("donation", cause);
+			modelMap.addAttribute("donation", donation);
 			return "causes/donateCause";
 		} else {
 
-			Cause cause = causeService.findCauseById(causeId);
+			Cause cause = causeService.findCauseById(donation.getCause().getId());
 			
 			cause.setBudgetArchivied(cause.getBudgetArchivied() + donation.getAmount());
+			donation.setCause(cause);
 			
 			this.donationService.save(donation);
 			this.causeService.save(cause);
 			
-			modelMap.addAttribute("message", "Cause  successfully saved!");
+			modelMap.addAttribute("message", "Donation successfully saved!");
 			view = this.listadoCauses(modelMap);
 		}
 		return view;
