@@ -89,11 +89,11 @@ INSERT INTO pet_history VALUES (1, '2010-09-07', 'details', 'summary',  1);
 INSERT INTO pet_history VALUES (2, '2011-09-07',  'details', 'summary 2',1);
 INSERT INTO pet_history VALUES (3, '2012-09-07',  'details', 'summary 3', 1);
 
-INSERT INTO cause VALUES (1, 'Pon una mascota en tu vida', 0.0, 1000.0, 'Description Cause', 'Organisation Cause');
-INSERT INTO cause VALUES (2, 'Save your cats', 0.0, 2000.0, 'Description Cause', 'Organisation Cause');
-INSERT INTO cause VALUES (3, 'Compasión', 0.0, 2000.0, 'Description Cause', 'Organisation Cause');
-INSERT INTO cause VALUES (4, 'Imagine dogs', 0.0, 3000.0, 'Description Cause', 'Organisation Cause');
-INSERT INTO cause VALUES (5, 'No pain', 0.0, 2000.0, 'Description Cause', 'Organisation Cause');
+INSERT INTO cause VALUES (1, 'Pon una mascota en tu vida', 700.0, 1000.0, 'Description Cause', 'Organisation Cause');
+INSERT INTO cause VALUES (2, 'Save your cats', 500.0, 2000.0, 'Description Cause', 'Organisation Cause');
+INSERT INTO cause VALUES (3, 'Compasión', 400.0, 2000.0, 'Description Cause', 'Organisation Cause');
+INSERT INTO cause VALUES (4, 'Imagine dogs', 300.0, 3000.0, 'Description Cause', 'Organisation Cause');
+INSERT INTO cause VALUES (5, 'No pain', 600.0, 2000.0, 'Description Cause', 'Organisation Cause');
 
 INSERT INTO reservations(id,telephone,reservation_date,status,response_Client,owner_id,clinic_id) VALUES (1,'664455667','2020-06-24','pending','adios',1,1);
 

@@ -41,16 +41,23 @@
                     <c:out value="${cause.budgetArchivied}"/>
                 </td>
                 <td>
+                	
+               		<spring:url value="/causes/donate/{causeId}" var="causeUrl">
+                       	<spring:param name="causeId" value="${cause.id}"/>
+                    </spring:url>
+                		<a href="${fn:escapeXml(causeUrl)}" class="btn btn-default">Donate</a>
+                	<br>
+
                 	<spring:url value="/causes/{causeId}" var="causeUrl">
                         <spring:param name="causeId" value="${cause.id}"/>
                     </spring:url>
-                	<a href="${fn:escapeXml(causeUrl)}">Show</a>
+                	<a href="${fn:escapeXml(causeUrl)}" class="btn btn-default">Show</a>
                 	<br>
                 	<security:authorize access="hasAuthority('admin')">
 	                	<spring:url value="/causes/delete/{causeId}" var="causeUrl">
 	                        <spring:param name="causeId" value="${cause.id}"/>
 	                    </spring:url>
-	                	<a href="${fn:escapeXml(causeUrl)}">Delete</a>
+	                	<a href="${fn:escapeXml(causeUrl)}" class="btn btn-default">Delete</a>
                 	</security:authorize>
                 	
                 </td>
