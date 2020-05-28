@@ -9,6 +9,8 @@ import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Hotel;
@@ -16,6 +18,7 @@ import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 public class HotelServiceTests {
 
 	@Autowired
@@ -27,7 +30,7 @@ public class HotelServiceTests {
 	@Test
 	void testCountWithInitialData() {
 		int count = this.hotelService.hotelCount();
-		Assertions.assertEquals(count, 2);
+		Assertions.assertEquals(count, 6);
 	}
 
 	@Test
@@ -41,7 +44,7 @@ public class HotelServiceTests {
 
 		Hotel hotel1 = EntityUtils.getById(nuevaLista, Hotel.class, 1);
 		assertThat(hotel1.getName()).isEqualTo("Calle Cadiz");
-		assertThat(hotel1.getCapacity()).isEqualTo(30);
+		assertThat(hotel1.getCapacity()).isEqualTo(10);
 		assertThat(hotel1.getCount()).isEqualTo(1);
 		assertThat(hotel1.getLocation()).isEqualTo("Sevilla");
 	}
@@ -63,7 +66,7 @@ public class HotelServiceTests {
 		hotel.setLocation("Estepa");
 		
 		this.hotelService.save(hotel);
-		assertThat(hotel.getId().longValue()).isEqualTo(3);
+		assertThat(hotel.getId().longValue()).isEqualTo(6);
 	}
 	
 	@Test

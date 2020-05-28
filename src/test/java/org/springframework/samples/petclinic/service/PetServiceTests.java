@@ -27,6 +27,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
@@ -73,6 +75,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 class PetServiceTests {        
         @Autowired
 	protected PetService petService;
@@ -247,7 +250,7 @@ class PetServiceTests {
 		this.petService.saveVisit(v);
 		hotel.addVisit(v);
 		this.hotelService.save(hotel);
-		assertThat(hotel.getCount()).isEqualTo(2);
+		assertThat(hotel.getCount()).isEqualTo(3);
 	}
 	
 	@Test

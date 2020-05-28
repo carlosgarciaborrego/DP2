@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cause;
@@ -36,8 +35,8 @@ public class DonationService {
 	}
 
 	@Transactional(readOnly = true)
-	public Optional<Donation> findCauseById(final int id) {
-		return this.donationRepository.findById(id);
+	public Donation findDonationById(final int id) {
+		return this.donationRepository.findDonationById(id);
 	}
 
 	@Transactional

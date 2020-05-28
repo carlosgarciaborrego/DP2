@@ -23,6 +23,8 @@ import java.util.Optional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Specialty;
@@ -62,6 +64,7 @@ import org.springframework.stereotype.Service;
  */
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 class VetServiceTests {
 
 	@Autowired
@@ -128,6 +131,29 @@ class VetServiceTests {
 		Assertions.assertThat(hotel2.getAddress()).isEqualTo(hotel1.getAddress());
 		Assertions.assertThat(hotel2.getCity()).isEqualTo(hotel1.getCity());
 		Assertions.assertThat(hotel2.getFirstName()).isEqualTo(hotel1.getFirstName());
+	}
+
+	@Test
+	void shouldDeleteVet() {
+		Iterable<Vet> vets = this.vetService.findVets();
+		Collection<Vet> nuevaLista = new ArrayList<Vet>();
+
+		for (Vet h : vets) {
+			nuevaLista.add(h);
+		}
+
+		Vet vet1 = EntityUtils.getById(nuevaLista, Vet.class, 1);
+
+		this.vetService.delete(vet1.getId());
+
+		Iterable<Vet> vets2 = this.vetService.findVets();
+		Collection<Vet> nuevaLista2 = new ArrayList<Vet>();
+
+		for (Vet h : vets2) {
+			nuevaLista2.add(h);
+		}
+
+		Assertions.assertThat(nuevaLista.size() > nuevaLista2.size());
 	}
 
 	@Test

@@ -93,6 +93,15 @@ public class ClinicControllerTests {
 
 	@WithMockUser(value = "spring")
 	@Test
+	void testProcessUpdateClinicFormError() throws Exception {
+		this.mockMvc
+			.perform(MockMvcRequestBuilders.post("/clinic/{clinicId}", ClinicControllerTests.TEST_CLINIC_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "Clinica Santa Clara").param("location", "")
+				.with(SecurityMockMvcRequestPostProcessors.csrf()).param("telephone", "666666666").param("emergency", "999999999").param("capacity", "3").param("email", "hola@hotmail.com"))
+			.andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("clinic", "location")).andExpect(MockMvcResultMatchers.view().name("clinic/" + ClinicControllerTests.TEST_CLINIC_ID));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
 	void testProcessShowClinicVetsSuccess() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/clinic/{clinicId}/vets", ClinicControllerTests.TEST_CLINIC_ID)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
 			.andExpect(MockMvcResultMatchers.view().name("clinic/" + ClinicControllerTests.TEST_CLINIC_ID + "/vets"));

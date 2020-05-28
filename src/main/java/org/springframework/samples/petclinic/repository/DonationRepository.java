@@ -17,4 +17,6 @@ public interface DonationRepository extends CrudRepository<Donation, Integer> {
 	 * @throws org.springframework.dao.DataRetrievalFailureException if not found
 	 */
 	List<Donation> findByCause(Cause causeId) throws DataAccessException;
+	
+	Donation findDonationById(int id) throws DataAccessException;
 }

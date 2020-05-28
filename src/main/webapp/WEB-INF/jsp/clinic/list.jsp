@@ -51,7 +51,6 @@
 				               <spring:url value="clinic/new" var="newUrl">
 								    </spring:url>
 								    <a href="${fn:escapeXml(newUrl)}" class="btn btn-default">New Clinic</a>
-				 
 				            </div>
 				        </div>
 				        </security:authorize>

@@ -4,6 +4,7 @@ package org.springframework.samples.petclinic.web;
 import java.time.LocalDate;
 
 import org.assertj.core.util.Lists;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
@@ -40,9 +41,11 @@ public class PetHistoryControllerTests {
 	@Autowired
 	private MockMvc				mockMvc;
 
-	private static final int	TEST_PET_ID	= 1;
+	private static final int	TEST_PET_ID			= 1;
 
-	private static final int	TEST_VET_ID	= 1;
+	private static final int	TEST_VET_ID			= 1;
+
+	private static final int	TEST_PET_HISTORY_ID	= 1;
 
 
 	@BeforeEach
@@ -91,6 +94,32 @@ public class PetHistoryControllerTests {
 			.perform(MockMvcRequestBuilders.post("/vet/{vetId}/pets/{petId}/pethistory/new", PetHistoryControllerTests.TEST_PET_ID, PetHistoryControllerTests.TEST_VET_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("summary", "")
 				.param("date", "2010-09-07").param("details", ""))
 			.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeHasErrors("petHistory")).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("petHistory", "summary"))
+			.andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("petHistory", "details")).andExpect(MockMvcResultMatchers.view().name("petHistory/editPetHistory"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testInitUpdatePetHistoryForm() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/vet/{vetId}/pets/{petId}/pethistory/{petHistoryId}", PetHistoryControllerTests.TEST_PET_ID, PetHistoryControllerTests.TEST_VET_ID, PetHistoryControllerTests.TEST_PET_HISTORY_ID))
+			.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attribute("petHistory", Matchers.hasProperty("summary", Matchers.is("summary"))))
+			.andExpect(MockMvcResultMatchers.model().attribute("petHistory", Matchers.hasProperty("details", Matchers.is("details")))).andExpect(MockMvcResultMatchers.view().name("petHistory/editPetHistory"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessUpdatePetHistoryFormSuccess() throws Exception {
+		this.mockMvc
+			.perform(MockMvcRequestBuilders.post("/vet/{vetId}/pets/{petId}/pethistory/{petHistoryId}", PetHistoryControllerTests.TEST_PET_ID, PetHistoryControllerTests.TEST_VET_ID, PetHistoryControllerTests.TEST_PET_HISTORY_ID)
+				.with(SecurityMockMvcRequestPostProcessors.csrf()).param("summary", "Esta muy malito").param("details", "details"))
+			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("redirect:/vet/" + PetHistoryControllerTests.TEST_VET_ID + "/pets/" + PetHistoryControllerTests.TEST_PET_ID + "/pethistory"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessUpdatePetHistoryFormError() throws Exception {
+		this.mockMvc
+			.perform(MockMvcRequestBuilders.post("/vet/{vetId}/pets/{petId}/pethistory/{petHistoryId}", PetHistoryControllerTests.TEST_PET_ID, PetHistoryControllerTests.TEST_VET_ID, PetHistoryControllerTests.TEST_PET_HISTORY_ID)
+				.with(SecurityMockMvcRequestPostProcessors.csrf()).param("summary", "Esta muy malito").param("details", ""))
 			.andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("petHistory", "details")).andExpect(MockMvcResultMatchers.view().name("petHistory/editPetHistory"));
 	}
 

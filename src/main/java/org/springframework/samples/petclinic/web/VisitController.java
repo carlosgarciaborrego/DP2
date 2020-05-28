@@ -72,7 +72,7 @@ public class VisitController {
 	}
 
 	@Autowired
-	public VisitController(final PetService petService, final HotelService hotelService) {
+	public VisitController(PetService petService, HotelService hotelService) {
 		this.petService = petService;
 		this.hotelService = hotelService;
 	}
