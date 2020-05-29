@@ -542,47 +542,6 @@ class ValidatorTests {
 
 	}
 
-	//------------------------------------ Visit (Registration in HTML) ---------------------------------
-
-	// Negative Cause
-
-	//No se puede dar, ya que la fecha es la actual, la descripcion es opcional y tienes que seleccionar un hotel para poder añadir un visita.
-
-	// Positive Cause
-	@Test
-	void ValidateVisit() {
-		LocaleContextHolder.setLocale(Locale.ENGLISH);
-		Visit visit = new Visit();
-		LocalDate fechaAnterior = LocalDate.now();
-		visit.setDate(fechaAnterior);
-		visit.setDescription("Problemas respiratorios");
-		Hotel hotel = new Hotel();
-		hotel.setLocation("Sevilla");
-		hotel.setName("Calle Garcia");
-		hotel.setCapacity(10);
-		visit.setHotel(hotel);
-		Pet p = new Pet();
-		p.setName("Curro");
-		LocalDate fechaCumple = LocalDate.now();
-		p.setBirthDate(fechaCumple);
-		PetType tipo = new PetType();
-		tipo.setName("perro");
-		p.setType(tipo);
-		Vet v = new Vet();
-		v.setFirstName("Estefan");
-		v.setCity("Barcelona");
-		v.setLastName("Gonzalez");
-		v.setTelephone("666777888");
-		v.setAddress("La botica");
-		p.setVet(v);
-		visit.setPet(p);
-
-		Validator validator = this.createValidator();
-		Set<ConstraintViolation<Visit>> constraintViolations = validator.validate(visit);
-
-		Assertions.assertThat(constraintViolations.size()).isEqualTo(0);
-	}
-
 	//------------------------------------ Clinic ---------------------------------
 
 	@Test
@@ -656,20 +615,20 @@ class ValidatorTests {
 		ConstraintViolation<Clinic> violation = constraintViolations.iterator().next();
 		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("emergency");
 	}
-	
+
 	//------------------------------------ Cause ---------------------------------
 
 	@Test
 	void ValidateCause() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Cause ca = new Cause();
-		
+
 		ca.setDescription("Descripcion");
 		ca.setName("nombre");
 		ca.setOrganisation("Organosation");
 		ca.setBudgetArchivied(1000.0);
 		ca.setBudgetTarget(500.0);
-		
+
 		Validator validator = this.createValidator();
 		Set<ConstraintViolation<Cause>> constraintViolations = validator.validate(ca);
 		Assertions.assertThat(constraintViolations.size()).isEqualTo(0);
@@ -681,13 +640,13 @@ class ValidatorTests {
 	void nonValidateNameCause() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Cause ca = new Cause();
-		
+
 		ca.setDescription("Descripcion");
 		ca.setName("");
 		ca.setOrganisation("Organosation");
 		ca.setBudgetArchivied(100.0);
 		ca.setBudgetTarget(500.0);
-		
+
 		Validator validator = this.createValidator();
 		Set<ConstraintViolation<Cause>> constraintViolations = validator.validate(ca);
 
@@ -700,13 +659,13 @@ class ValidatorTests {
 	void nonValidateDescriptionCause() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Cause ca = new Cause();
-		
+
 		ca.setDescription("");
 		ca.setName("nombre");
 		ca.setOrganisation("Organosation");
 		ca.setBudgetArchivied(1000.0);
 		ca.setBudgetTarget(500.0);
-		
+
 		Validator validator = this.createValidator();
 		Set<ConstraintViolation<Cause>> constraintViolations = validator.validate(ca);
 
@@ -714,18 +673,18 @@ class ValidatorTests {
 		ConstraintViolation<Cause> violation = constraintViolations.iterator().next();
 		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("description");
 	}
-	
+
 	@Test
 	void nonValidateOrganisationCause() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Cause ca = new Cause();
-		
+
 		ca.setDescription("Descripcion");
 		ca.setName("nombre");
 		ca.setOrganisation("");
 		ca.setBudgetArchivied(1000.0);
 		ca.setBudgetTarget(500.0);
-		
+
 		Validator validator = this.createValidator();
 		Set<ConstraintViolation<Cause>> constraintViolations = validator.validate(ca);
 
@@ -733,18 +692,18 @@ class ValidatorTests {
 		ConstraintViolation<Cause> violation = constraintViolations.iterator().next();
 		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("organisation");
 	}
-	
+
 	@Test
 	void nonValidateBudgetTargetCause() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Cause ca = new Cause();
-		
+
 		ca.setDescription("Descripcion");
 		ca.setName("nombre");
 		ca.setOrganisation("Organosation");
 		ca.setBudgetArchivied(1000.0);
 		ca.setBudgetTarget(-10.0);
-		
+
 		Validator validator = this.createValidator();
 		Set<ConstraintViolation<Cause>> constraintViolations = validator.validate(ca);
 
@@ -752,18 +711,18 @@ class ValidatorTests {
 		ConstraintViolation<Cause> violation = constraintViolations.iterator().next();
 		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("budgetTarget");
 	}
-	
+
 	@Test
 	void nonValidateBudgetArchiviedCause() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Cause ca = new Cause();
-		
+
 		ca.setDescription("Descripcion");
 		ca.setName("nombre");
 		ca.setOrganisation("Organosation");
 		ca.setBudgetArchivied(-10.0);
 		ca.setBudgetTarget(500.0);
-		
+
 		Validator validator = this.createValidator();
 		Set<ConstraintViolation<Cause>> constraintViolations = validator.validate(ca);
 
@@ -778,15 +737,14 @@ class ValidatorTests {
 	void ValidateDonation() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Donation don = new Donation();
-		
+
 		Cause ca = new Cause();
 		ca.setId(1);
 
 		don.setAmount(100.0);
 		don.setName("Donation 1");
 		don.setCause(ca);
-		
-		
+
 		Validator validator = this.createValidator();
 		Set<ConstraintViolation<Donation>> constraintViolations = validator.validate(don);
 		Assertions.assertThat(constraintViolations.size()).isEqualTo(0);
@@ -797,14 +755,14 @@ class ValidatorTests {
 	void nonValidateAmountDonation() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Donation don = new Donation();
-		
+
 		Cause ca = new Cause();
 		ca.setId(1);
-		
+
 		don.setAmount(-100.0);
 		don.setName("Donation 1");
 		don.setCause(ca);
-		
+
 		Validator validator = this.createValidator();
 		Set<ConstraintViolation<Donation>> constraintViolations = validator.validate(don);
 
@@ -813,7 +771,6 @@ class ValidatorTests {
 		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("amount");
 	}
 
-	
 	//------------------------------------ Provider ---------------------------------
 
 	//Negative Causes

@@ -37,7 +37,6 @@ import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.model.Vet;
-import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
 import org.springframework.samples.petclinic.util.EntityUtils;
@@ -202,70 +201,6 @@ class PetServiceTests {
 			anotherPet.setName("wario");
 			petService.savePet(anotherPet);
 		});		
-	}
-
-	@Test
-	@Transactional
-	public void shouldAddNewVisitForPet() {
-		Pet pet7 = this.petService.findPetById(7);
-		Hotel h1 = this.hotelService.findHotelById(1);
-		int found = pet7.getVisits().size();
-		Visit visit = new Visit();
-		visit.setHotel(h1);
-		pet7.addVisit(visit);
-		visit.setDescription("test");
-		this.petService.saveVisit(visit);
-            try {
-                this.petService.savePet(pet7);
-            } catch (DuplicatedPetNameException ex) {
-                Logger.getLogger(PetServiceTests.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-		pet7 = this.petService.findPetById(7);
-		assertThat(pet7.getVisits().size()).isEqualTo(found + 1);
-		assertThat(visit.getId()).isNotNull();
-	}
-
-	@Test
-	void shouldFindVisitsByPetId() throws Exception {
-		Collection<Visit> visits = this.petService.findVisitsByPetId(1);
-		assertThat(visits.size()).isEqualTo(1);
-		Visit[] visitArr = visits.toArray(new Visit[visits.size()]);
-		assertThat(visitArr[0].getPet()).isNotNull();
-		assertThat(visitArr[0].getDate()).isNotNull();
-		assertThat(visitArr[0].getPet().getId()).isEqualTo(1);
-	}
-	
-	@Test
-	void shouldAddOnePetToOneHotel() {
-		Hotel hotel = this.hotelService.findHotelById(1);
-		Pet p1 = this.petService.findPetById(2);
-		Visit v = new Visit();
-		LocalDate actual = LocalDate.now();
-		v.setDate(actual);
-		v.setDescription("esta mal");
-		v.setHotel(hotel);
-		v.setPet(p1);
-		
-		this.petService.saveVisit(v);
-		hotel.addVisit(v);
-		this.hotelService.save(hotel);
-		assertThat(hotel.getCount()).isEqualTo(3);
-	}
-	
-	@Test
-	void shouldDeleteVisit() {
-		Iterable<Visit> visits = this.hotelService.findVisitsByHotelId(1);
-		Collection<Visit> nuevaLista = new ArrayList<Visit>();
-
-		for (Visit v : visits) {
-			nuevaLista.add(v);
-		}
-		
-		Visit v1 = EntityUtils.getById(nuevaLista, Visit.class, 1);
-		
-		this.hotelService.deleteVisit(v1);
-		assertThat(nuevaLista.isEmpty());
 	}
 
 }

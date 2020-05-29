@@ -83,8 +83,6 @@ INSERT INTO hotels(id,name,capacity,count,location) VALUES (3, 'You Happy Pet', 
 INSERT INTO hotels(id,name,capacity,count,location) VALUES (4, 'Pet Hostel', 13, 4, 'Malaga');
 INSERT INTO hotels(id,name,capacity,count,location) VALUES (5, 'El nunca jamás', 40, 10, 'Valencia');
 
-INSERT INTO visits(id,visit_date,description,pet_id,hotel_id) VALUES (1, '2020-10-10', 'estaba mal', 1, 1);
-
 INSERT INTO pet_history(id,date,details,summary,pet_id) VALUES (1, '2010-09-07', 'details', 'summary',  1);
 INSERT INTO pet_history(id,date,details,summary,pet_id) VALUES (2, '2011-09-07',  'details', 'summary 2',1);
 INSERT INTO pet_history(id,date,details,summary,pet_id) VALUES (3, '2012-09-07',  'details', 'summary 3', 1);

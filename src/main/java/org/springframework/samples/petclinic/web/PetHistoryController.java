@@ -97,7 +97,7 @@ public class PetHistoryController {
 	}
 
 	@PostMapping(path = "/vet/{vetId}/pets/{petId}/pethistory/new")
-	public String salvarHotel(@PathVariable("petId") final Integer petId, @Valid final PetHistory petHistory, final BindingResult result, final ModelMap modelMap) {
+	public String salvarPetHistory(@PathVariable("petId") final Integer petId, @Valid final PetHistory petHistory, final BindingResult result, final ModelMap modelMap) {
 		if (result.hasErrors()) {
 			modelMap.addAttribute("petHistory", petHistory);
 			return "petHistory/editPetHistory";
