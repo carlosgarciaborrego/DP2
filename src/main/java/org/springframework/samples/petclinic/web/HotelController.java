@@ -47,11 +47,16 @@ public class HotelController {
 	@PostMapping(path = "/save")
 	public String salvarHotel(@Valid final Hotel hotel, final BindingResult result, final ModelMap modelMap) {
 		String view = "hotels/listadoHoteles";
+
 		if (result.hasErrors()) {
 			modelMap.addAttribute("hotel", hotel);
 			return "hotels/editHotel";
 		} else {
 			this.hotelService.save(hotel);
+			if (hotel.getCount() > hotel.getCapacity()) {
+				hotel.setCount(hotel.getCapacity());
+				this.hotelService.save(hotel);
+			}
 			modelMap.addAttribute("message", "Hotel successfully saved!");
 			view = "redirect:/hotels/";
 		}

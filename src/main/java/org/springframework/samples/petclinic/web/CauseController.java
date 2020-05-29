@@ -3,7 +3,6 @@ package org.springframework.samples.petclinic.web;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -78,6 +77,43 @@ public class CauseController {
 		}
 		return view;
 	}
+	
+	@GetMapping(path = "/donate/{causeId}")
+	public String crearDonarCause(@PathVariable("causeId") final Integer causeId, final Map<String, Object> model) {
+		
+		Donation donation = new Donation();
+		Cause cause = new Cause();
+		cause.setId(causeId);
+		donation.setCause(cause);
+		
+//		model.put("causeId", causeId);
+		model.put("donation", donation);
+		
+		return "causes/donateCause";
+	}
+	
+	@PostMapping(path = "/donate")
+	public String salvarDonation(@Valid final Donation donation, final BindingResult result, final ModelMap modelMap) {
+		String view = "causes/listadoCauses";
+		
+		if (result.hasErrors()) {
+			modelMap.addAttribute("donation", donation);
+			return "causes/donateCause";
+		} else {
+
+			Cause cause = causeService.findCauseById(donation.getCause().getId());
+			
+			cause.setBudgetArchivied(cause.getBudgetArchivied() + donation.getAmount());
+			donation.setCause(cause);
+			
+			this.donationService.save(donation);
+			this.causeService.save(cause);
+			
+			modelMap.addAttribute("message", "Donation successfully saved!");
+			view = this.listadoCauses(modelMap);
+		}
+		return view;
+	}
 
 	@GetMapping(path = "/delete/{causeId}")
 	public String borrarCause(@PathVariable("causeId") final int causeId, final ModelMap modelMap) {
@@ -117,7 +153,7 @@ public class CauseController {
 		Double amount = 0.0;
 		List<Donation> donations = this.donationService.findByIdCause(cause);
 
-		if (donations.isEmpty()) {
+		if (!donations.isEmpty()) {
 			for (Donation d : donations) {
 				amount = amount + d.getAmount();
 			}

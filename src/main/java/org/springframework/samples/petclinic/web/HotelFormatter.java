@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
 import org.springframework.samples.petclinic.model.Hotel;
 import org.springframework.samples.petclinic.service.HotelService;
+import org.springframework.stereotype.Component;
 
+@Component
 public class HotelFormatter implements Formatter<Hotel> {
 
 	private HotelService hotelService;

@@ -17,23 +17,13 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.springframework.beans.support.MutableSortDefinition;
-import org.springframework.beans.support.PropertyComparator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -58,9 +48,6 @@ public class Pet extends NamedEntity {
 	@ManyToOne
 	@JoinColumn(name = "owner_id")
 	private Owner		owner;
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
-	private Set<Visit>	visits;
 
 	@ManyToOne
 	@JoinColumn(name = "vet_id")
@@ -89,37 +76,6 @@ public class Pet extends NamedEntity {
 
 	protected void setOwner(final Owner owner) {
 		this.owner = owner;
-	}
-
-	protected Set<Visit> getVisitsInternal() {
-		if (this.visits == null) {
-			this.visits = new HashSet<>();
-		}
-		return this.visits;
-	}
-
-	protected void setVisitsInternal(final Set<Visit> visits) {
-		this.visits = visits;
-	}
-
-	public List<Visit> getVisits() {
-		List<Visit> sortedVisits = new ArrayList<>(this.getVisitsInternal());
-		PropertyComparator.sort(sortedVisits, new MutableSortDefinition("date", false, false));
-		return Collections.unmodifiableList(sortedVisits);
-	}
-
-	public void addVisit(final Visit visit) {
-		this.getVisitsInternal().add(visit);
-		visit.setPet(this);
-	}
-
-	public void removeVisit(final Visit visit) {
-		this.getVisitsInternal().remove(visit);
-		visit.setPet(this);
-	}
-
-	public void setVisits(final Set<Visit> visits) {
-		this.visits = visits;
 	}
 
 	public Vet getVet() {

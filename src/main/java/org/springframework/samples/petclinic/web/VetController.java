@@ -30,6 +30,7 @@ import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Vets;
 import org.springframework.samples.petclinic.service.ClinicService;
+import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -55,6 +56,7 @@ public class VetController {
 	private final VetService	vetService;
 	private static final String	VIEWS_VET_CREATE_OR_UPDATE_FORM	= "vet/createOrUpdateVetForm";
 	private final ClinicService	clinicService;
+	private PetService			petService;
 
 
 	//	@Autowired
@@ -156,8 +158,6 @@ public class VetController {
 		Optional<Vet> vet = this.vetService.findVetById(vetId);
 		if (vet.isPresent()) {
 			Vet v = vet.get();
-			v.setClinic(null);
-			v.setSpecialties(null);
 			this.vetService.delete(v);
 		} else {
 			model.put("message", "This vet don't exist");
@@ -217,6 +217,17 @@ public class VetController {
 		}
 
 		return "redirect:/vets";
+	}
+
+	@GetMapping(value = "/vet/{vetId}/clinic")
+	public String showVetClinic(@PathVariable("vetId") final Integer vetId, final Map<String, Object> model) {
+		Optional<Vet> vets = this.vetService.findVetById(vetId);
+		Clinic c = new Clinic();
+		if (vets.isPresent()) {
+			c = vets.get().getClinic();
+		}
+		model.put("clinic", c);
+		return "clinic/show";
 	}
 
 }

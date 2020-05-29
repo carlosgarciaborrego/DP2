@@ -1,3 +1,9 @@
+CREATE TABLE users(
+	username varchar_ignorecase(255) NOT NULL PRIMARY KEY,
+	password varchar_ignorecase(255) NOT NULL,
+	enabled BOOLEAN NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS vets (
   id int(11) NOT NULL AUTO_INCREMENT,
   first_name varchar(255) DEFAULT NULL,

@@ -74,9 +74,7 @@ public class CauseServiceTests {
 		String name = "nombreTestUPdate";
 		Double budgetTarget = 1100.0;
 		Double budgetArchivied = 200.0;
-		Integer newCount = 0;
 		String description = "descr test update";
-		String organisation = "organisation test update";
 		cause1.setName(name);
 		;
 		cause1.setBudgetTarget(budgetTarget);

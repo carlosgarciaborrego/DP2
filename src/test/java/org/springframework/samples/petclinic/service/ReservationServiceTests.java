@@ -33,7 +33,7 @@ public class ReservationServiceTests {
 	@Test
 	void testCountWithInitialData() {
 		int count = this.reservationService.reservationCount();
-		Assertions.assertEquals(count, 2);
+		Assertions.assertEquals(count, 1);
 	}
 
 		@Test

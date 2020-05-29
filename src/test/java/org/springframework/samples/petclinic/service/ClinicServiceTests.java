@@ -83,7 +83,7 @@ public class ClinicServiceTests {
 			nuevaLista.add(h);
 		}
 
-		Clinic clinic1 = EntityUtils.getById(nuevaLista, Clinic.class, 1);
+		Clinic clinic1 = EntityUtils.getById(nuevaLista, Clinic.class, 7);
 
 		this.clinicService.delete(clinic1.getId());
 

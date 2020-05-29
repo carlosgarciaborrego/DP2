@@ -134,6 +134,29 @@ class VetServiceTests {
 	}
 
 	@Test
+	void shouldDeleteVet() {
+		Iterable<Vet> vets = this.vetService.findVets();
+		Collection<Vet> nuevaLista = new ArrayList<Vet>();
+
+		for (Vet h : vets) {
+			nuevaLista.add(h);
+		}
+
+		Vet vet1 = EntityUtils.getById(nuevaLista, Vet.class, 1);
+
+		this.vetService.delete(vet1.getId());
+
+		Iterable<Vet> vets2 = this.vetService.findVets();
+		Collection<Vet> nuevaLista2 = new ArrayList<Vet>();
+
+		for (Vet h : vets2) {
+			nuevaLista2.add(h);
+		}
+
+		Assertions.assertThat(nuevaLista.size() > nuevaLista2.size());
+	}
+
+	@Test
 	void shouldAddSpecialty() {
 		Collection<Vet> vets = this.vetService.findVets();
 		Specialty res = new Specialty();

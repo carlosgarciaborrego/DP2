@@ -59,8 +59,7 @@ public class VetControllerIntegrationTests {
 		v.setUser(user);
 		String view = this.vetController.processCreationForm(v, bindingResult, model);
 
-		Assertions.assertEquals(view, "vets/vetList");
-		Assertions.assertNotNull(model.get("vets"));
+		Assertions.assertEquals(view, "redirect:/vets");
 	}
 
 	@Test
@@ -80,8 +79,7 @@ public class VetControllerIntegrationTests {
 
 		String view = this.vetController.processCreationForm(v, bindingResult, model);
 
-		Assertions.assertEquals(view, "vets/vetList");
-		Assertions.assertNotNull(model.get("vets"));
+		Assertions.assertEquals(view, "vet/createOrUpdateVetForm");
 	}
 
 	@Test

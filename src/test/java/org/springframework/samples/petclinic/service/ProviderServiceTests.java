@@ -30,7 +30,7 @@ public class ProviderServiceTests {
 	@Test
 	void testCountWithInitialData() {
 		int count = this.providerService.providerCount();
-		Assertions.assertEquals(count, 4);
+		Assertions.assertEquals(count, 3);
 	}
 
 	@Test
