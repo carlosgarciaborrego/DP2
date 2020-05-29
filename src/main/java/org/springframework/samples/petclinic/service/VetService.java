@@ -29,6 +29,7 @@ import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.repository.ClinicRepository;
 import org.springframework.samples.petclinic.repository.SpecialtyRepository;
 import org.springframework.samples.petclinic.repository.VetRepository;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,15 +52,18 @@ public class VetService {
 
 	private ClinicRepository	clinicRepository;
 
+	private PetService			petService;
+
 
 	@Autowired
-	public VetService(final VetRepository vetRepository, final SpecialtyRepository specialtyRepository, final UserService userService, final AuthoritiesService authoritiesService, final ClinicRepository clinicRepository) {
+	public VetService(final VetRepository vetRepository, final SpecialtyRepository specialtyRepository, final UserService userService, final AuthoritiesService authoritiesService, final ClinicRepository clinicRepository, final PetService petService) {
 		super();
 		this.vetRepository = vetRepository;
 		this.specialtyRepository = specialtyRepository;
 		this.userService = userService;
 		this.authoritiesService = authoritiesService;
 		this.clinicRepository = clinicRepository;
+		this.petService = petService;
 	}
 
 	@Transactional(readOnly = true)
@@ -78,12 +82,37 @@ public class VetService {
 	}
 
 	public void delete(final int vetId) {
-
-		this.vetRepository.deleteById(vetId);
-
+		Optional<Vet> vets = this.findVetById(vetId);
+		if (vets.isPresent()) {
+			Vet vet = vets.get();
+			vet.setClinic(null);
+			vet.setSpecialties(null);
+			List<Pet> pets = this.findPetsByVetId(vet.getId());
+			for (Pet p : pets) {
+				p.setVet(null);
+				try {
+					this.petService.savePet(p);
+				} catch (DataAccessException | DuplicatedPetNameException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			this.vetRepository.deleteById(vetId);
+		}
 	}
 	public void delete(final Vet vet) {
-
+		vet.setClinic(null);
+		vet.setSpecialties(null);
+		List<Pet> pets = this.findPetsByVetId(vet.getId());
+		for (Pet p : pets) {
+			p.setVet(null);
+			try {
+				this.petService.savePet(p);
+			} catch (DataAccessException | DuplicatedPetNameException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		this.vetRepository.deleteById(vet.getId());
 
 	}

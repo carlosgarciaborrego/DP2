@@ -7,6 +7,8 @@ import java.util.Collection;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Cause;
@@ -14,6 +16,7 @@ import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 public class CauseServiceTests {
 
 	@Autowired
@@ -71,9 +74,7 @@ public class CauseServiceTests {
 		String name = "nombreTestUPdate";
 		Double budgetTarget = 1100.0;
 		Double budgetArchivied = 200.0;
-		Integer newCount = 0;
 		String description = "descr test update";
-		String organisation = "organisation test update";
 		cause1.setName(name);
 		;
 		cause1.setBudgetTarget(budgetTarget);

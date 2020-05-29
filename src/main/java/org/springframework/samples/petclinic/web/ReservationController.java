@@ -2,8 +2,9 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -14,6 +15,7 @@ import org.springframework.samples.petclinic.model.Reservation;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.ReservationService;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -49,7 +51,29 @@ public class ReservationController {
 	public String listadoCitas(final ModelMap modelMap) {
 		String vista = "reservations/listadoCitas";
 		Iterable<Reservation> reservations = this.reservationService.findAll();
-		modelMap.addAttribute("reservation", reservations);
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User currentPrincipalName = (User) authentication.getPrincipal();
+
+		for (GrantedAuthority rol : currentPrincipalName.getAuthorities()) {
+			if (rol.toString().equals("owner")) {
+				Owner owner = this.reservationService.findOwnerByUserId(currentPrincipalName.getUsername()).get(0);
+
+				Set<Reservation> nuevaLista = new HashSet<Reservation>();
+
+				for (Reservation r : reservations) {
+					for (Reservation res : owner.getReservations()) {
+						if (r.getId().equals(res.getId())) {
+							nuevaLista.add(r);
+						}
+					}
+				}
+				modelMap.addAttribute("reservation", nuevaLista);
+			} else {
+				modelMap.addAttribute("reservation", reservations);
+			}
+		}
+
 		return vista;
 	}
 

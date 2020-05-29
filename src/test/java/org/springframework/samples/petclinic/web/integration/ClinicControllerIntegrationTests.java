@@ -19,7 +19,6 @@ import org.springframework.validation.MapBindingResult;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-
 public class ClinicControllerIntegrationTests {
 
 	private static final int	TEST_CLINIC_ID	= 1;

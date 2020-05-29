@@ -1,9 +1,5 @@
-package org.springframework.samples.petclinic.web;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+package org.springframework.samples.petclinic.web;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,14 +34,14 @@ public class CauseControllerTests {
 	private CauseController		causeController;
 
 	@MockBean
-	private CauseService			causeService;
-	
+	private CauseService		causeService;
+
 	@MockBean
-	private DonationService			donationService;
-	
+	private DonationService		donationService;
+
 	@Autowired
 	private MockMvc				mockMvc;
-	
+
 	private Cause				cause;
 	
 	private Donation				donation;
@@ -70,11 +66,10 @@ public class CauseControllerTests {
 		BDDMockito.given(this.donationService.findDonationById(CauseControllerTests.TEST_DONATION_ID)).willReturn(this.donation);
 
 	}
-	
 
 	@WithMockUser(value = "spring")
-    @Test
-    void testInitCreationForm() throws Exception {
+	@Test
+	void testInitCreationForm() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/causes/new")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("cause")).andExpect(MockMvcResultMatchers.view().name("causes/editCause"));
 	}
     
@@ -94,7 +89,7 @@ public class CauseControllerTests {
 
 	
 	}
-	
+
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormSuccessDonation() throws Exception {
@@ -121,35 +116,35 @@ public class CauseControllerTests {
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/causes/save").with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "CauseTest").param("description", "").param("organisation", "")).andExpect(MockMvcResultMatchers.status().isOk())
 			.andExpect(MockMvcResultMatchers.model().attributeHasErrors("cause")).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("cause", "organisation")).andExpect(MockMvcResultMatchers.view().name("causes/editCause"));
 	}
-	
-	
-	
+
 	@WithMockUser(value = "spring")
 	@Test
-	void testProcessUpdateHotelFormSuccess() throws Exception {
+	void testProcessUpdateCauseFormSuccess() throws Exception {
 		this.mockMvc
-			.perform(
-				MockMvcRequestBuilders.post("/causes/{causeId}/edit", CauseControllerTests.TEST_CAUSE_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "CauseTest").param("description", "Descripcion Test Cause").param("organisation", "Organisation Test Cause").param("budgetTarget", "1000.0").param("budgetArchivied", "0.0"))
+			.perform(MockMvcRequestBuilders.post("/causes/{causeId}/edit", CauseControllerTests.TEST_CAUSE_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "CauseTest").param("description", "Descripcion Test Cause")
+				.param("organisation", "Organisation Test Cause").param("budgetTarget", "1000.0").param("budgetArchivied", "0.0"))
 			.andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/causes/{causeId}"));
 	}
 
-	
 	@WithMockUser(value = "spring")
 	@Test
-	void testProcessUpdateHotelFormHasErrors() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/causes/{causeId}/edit", CauseControllerTests.TEST_CAUSE_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "CauseTest").param("description", "Descripcion Test Cause").param("organisation", "").param("budgetTarget", "1000.0").param("budgetArchivied", "0.0"))
+	void testProcessUpdateCauseFormHasErrors() throws Exception {
+		this.mockMvc
+			.perform(MockMvcRequestBuilders.post("/causes/{causeId}/edit", CauseControllerTests.TEST_CAUSE_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "CauseTest").param("description", "Descripcion Test Cause")
+				.param("organisation", "").param("budgetTarget", "1000.0").param("budgetArchivied", "0.0"))
 			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.model().attributeHasErrors("cause")).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("cause", "organisation"))
 			.andExpect(MockMvcResultMatchers.view().name("causes/editCause"));
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
-	void testShowOwner() throws Exception {
+	void testShowCause() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/causes/{causeId}", CauseControllerTests.TEST_CAUSE_ID)).andExpect(MockMvcResultMatchers.status().isOk())
-			.andExpect(MockMvcResultMatchers.model().attribute("cause", Matchers.hasProperty("name", Matchers.is("NombreCause")))).andExpect(MockMvcResultMatchers.model().attribute("cause", Matchers.hasProperty("description", Matchers.is("Description Cause"))))
-			.andExpect(MockMvcResultMatchers.model().attribute("cause", Matchers.hasProperty("organisation", Matchers.is("Organisation Cause")))).andExpect(MockMvcResultMatchers.model().attribute("cause", Matchers.hasProperty("budgetTarget", Matchers.is(1000.0)))).andExpect(MockMvcResultMatchers.model().attribute("cause", Matchers.hasProperty("budgetArchivied", Matchers.is(0.0))))
+			.andExpect(MockMvcResultMatchers.model().attribute("cause", Matchers.hasProperty("name", Matchers.is("NombreCause"))))
+			.andExpect(MockMvcResultMatchers.model().attribute("cause", Matchers.hasProperty("description", Matchers.is("Description Cause"))))
+			.andExpect(MockMvcResultMatchers.model().attribute("cause", Matchers.hasProperty("organisation", Matchers.is("Organisation Cause"))))
+			.andExpect(MockMvcResultMatchers.model().attribute("cause", Matchers.hasProperty("budgetTarget", Matchers.is(1000.0)))).andExpect(MockMvcResultMatchers.model().attribute("cause", Matchers.hasProperty("budgetArchivied", Matchers.is(0.0))))
 			.andExpect(MockMvcResultMatchers.view().name("causes/editCause"));
 	}
-	
-	
+
 }
