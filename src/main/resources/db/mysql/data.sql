@@ -83,8 +83,6 @@ INSERT INTO hotels(id,name,capacity,count,location) VALUES (3, 'You Happy Pet', 
 INSERT INTO hotels(id,name,capacity,count,location) VALUES (4, 'Pet Hostel', 13, 4, 'Malaga');
 INSERT INTO hotels(id,name,capacity,count,location) VALUES (5, 'El nunca jamás', 40, 10, 'Valencia');
 
-INSERT INTO visits(id,visit_date,description,pet_id,hotel_id) VALUES (1, '2020-10-10', 'estaba mal', 1, 1);
-
 INSERT INTO pet_history(id,date,details,summary,pet_id) VALUES (1, '2010-09-07', 'details', 'summary',  1);
 INSERT INTO pet_history(id,date,details,summary,pet_id) VALUES (2, '2011-09-07',  'details', 'summary 2',1);
 INSERT INTO pet_history(id,date,details,summary,pet_id) VALUES (3, '2012-09-07',  'details', 'summary 3', 1);
@@ -95,11 +93,23 @@ INSERT INTO cause(id,name,budget_archivied,budget_target,description,organisatio
 INSERT INTO cause(id,name,budget_archivied,budget_target,description,organisation) VALUES (4, 'Imagine dogs', 0.0, 3000.0, 'Description Cause', 'Organisation Cause');
 INSERT INTO cause(id,name,budget_archivied,budget_target,description,organisation) VALUES (5, 'No pain', 0.0, 2000.0, 'Description Cause', 'Organisation Cause');
 
-INSERT INTO reservations(id,telephone,reservation_date,status,response_Client,owner_id,clinic_id) VALUES (1,'664455667','2020-06-24','pending','adios',1,1);
+INSERT INTO reservations(id,telephone,reservation_date,status,response_Client,owner_id,clinic_id) VALUES (1,'664455667','2020-06-24','pending','',1,1);
+INSERT INTO reservations(id,telephone,reservation_date,status,response_Client,owner_id,clinic_id) VALUES (2,'556639289','2020-07-11','pending','Lo quiero para antes de las 10:00',2,2);
+INSERT INTO reservations(id,telephone,reservation_date,status,response_Client,owner_id,clinic_id) VALUES (3,'345967822','2020-05-10','pending','Mi mascota necesita una revision de oidos',5,3);
+INSERT INTO reservations(id,telephone,reservation_date,status,response_Client,owner_id,clinic_id) VALUES (4,'66005667','2020-06-10','pending','',3,1);
+INSERT INTO reservations(id,telephone,reservation_date,status,response_Client,owner_id,clinic_id) VALUES (5,'99887766','2020-06-03','pending','Tiene una pierna que le duele',4,1);
+INSERT INTO reservations(id,telephone,reservation_date,status,response_Client,owner_id,clinic_id) VALUES (6,'11446754','2020-05-29','pending','Tiene muchas pulgas',2,2);
+INSERT INTO reservations(id,telephone,reservation_date,status,response_Client,owner_id,clinic_id) VALUES (7,'76890633','2020-05-30','pending','',1,1);
+
+
 
 INSERT INTO providers(id,name,city,telephone,description, clinic_id) VALUES(1,'mercadona','Sevilla','664455669','comida para los animales', 1);
 INSERT INTO providers(id,name,city,telephone,description, clinic_id) VALUES(2,'UtilesApp','Sevilla','112233445','Material clinico', 1);
 INSERT INTO providers(id,name,city,telephone,description, clinic_id) VALUES(3,'mercadona','Madrid','778866552','comida para los animales', 2);
+INSERT INTO providers(id,name,city,telephone,description, clinic_id) VALUES(4,'mercadona','Barcelona','544654433','comida para los animales', 3);
+INSERT INTO providers(id,name,city,telephone,description, clinic_id) VALUES(5,'PetsUtiles','Madrid','443366433','Material para mascotas', 2);
+INSERT INTO providers(id,name,city,telephone,description, clinic_id) VALUES(6,'mercadona','Valencia','778866552','comida para los animales', 4);
+INSERT INTO providers(id,name,city,telephone,description, clinic_id) VALUES(7,'PetsUtiles','Valencia','544533564','Material para mascosatas', 4);
 
 
 INSERT INTO donations(id,name,amount,cause_id) VALUES (1, 'Donacion Juan', 100.0, 1);

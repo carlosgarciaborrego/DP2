@@ -18,6 +18,7 @@
                 <petclinic:inputField label="Description" name="description"/>
                 <petclinic:inputField label="Organisation" name="organisation"/>
                 <petclinic:inputField label="BudgetTarget" name="budgetTarget"/>
+                <petclinic:inputField label="BudgetArchivied" name="budgetArchivied"/>
                 
             </div>
 
@@ -44,6 +45,8 @@
                 <petclinic:inputFieldDisabled label="Description" name="description"/>
                 <petclinic:inputFieldDisabled label="Organisation" name="organisation"/>
                 <petclinic:inputFieldDisabled label="BudgetTarget" name="budgetTarget"/>
+                <petclinic:inputFieldDisabled label="BudgetArchivied" name="budgetArchivied"/>
+                
             </div>
             
             </security:authorize>
