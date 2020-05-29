@@ -47,7 +47,24 @@
                         <dd><c:out value="${pet.type.name}"/></dd>
                     </dl>
                 </td>
-                
+                   <td valign="top">
+                    <table class="table-condensed">
+                        <thead>
+                        <tr>
+                            <th>Pet History</th>
+                        </tr>
+                        </thead>
+                        <tr>
+                            <td>
+                                <spring:url value="/vet/{vetId}/pets/{petId}/pethistory" var="petUrl">
+                                    <spring:param name="vetId" value="${vet.id}"/>
+                                    <spring:param name="petId" value="${pet.id}"/>
+                                </spring:url>
+                                <a href="${fn:escapeXml(petUrl)}">Pet History</a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
             </tr>
 
         </c:forEach>

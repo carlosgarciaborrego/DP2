@@ -835,7 +835,7 @@ class ValidatorTests {
 		cli.setEmail("cli1@gmail.com");
 		cli.setEmergency("666777666");
 		cli.setLocation("sevilla");
-		cli.setTelephone("565656561");
+		cli.setTelephone("");
 		provider.setClinic(cli);
 
 		Validator validator = this.createValidator();

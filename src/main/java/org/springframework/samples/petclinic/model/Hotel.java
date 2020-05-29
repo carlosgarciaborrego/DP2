@@ -28,6 +28,7 @@ public class Hotel extends NamedEntity {
 
 	@Column(name = "count")
 	@Range(min = 0)
+	@NotNull
 	private Integer	count;
 
 

@@ -45,6 +45,7 @@ public class HotelControllerIntegrationTests {
 		newHotel.setName("Calle Andalucia");
 		newHotel.setLocation("Estepa");
 		newHotel.setCapacity(8);
+		newHotel.setCount(0);
 		BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "");
 		String view = this.hotelcontroller.salvarHotel(newHotel, bindingResult, model);
 		Assert.assertEquals(view, "redirect:/hotels/");
@@ -74,7 +75,7 @@ public class HotelControllerIntegrationTests {
 	@Test
 	void testProcessUpdateFormSuccess() throws Exception {
 		ModelMap model = new ModelMap();
-		Hotel newHotel = new Hotel();
+		Hotel newHotel = this.hotelService.findHotelById(HotelControllerIntegrationTests.TEST_HOTEL_ID);
 		newHotel.setName("Calle Granada");
 		newHotel.setLocation("Jaén");
 		newHotel.setCapacity(7);
