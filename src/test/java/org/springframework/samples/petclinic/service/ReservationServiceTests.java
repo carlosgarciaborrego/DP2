@@ -33,7 +33,7 @@ public class ReservationServiceTests {
 	@Test
 	void testCountWithInitialData() {
 		int count = this.reservationService.reservationCount();
-		Assertions.assertEquals(count, 1);
+		Assertions.assertEquals(count, 8);
 	}
 
 		@Test
@@ -49,7 +49,7 @@ public class ReservationServiceTests {
 			assertThat(reservation1.getTelephone()).isEqualTo("664455667");
 			assertThat(reservation1.getReservationDate()).isEqualTo("2020-06-24");
 			assertThat(reservation1.getStatus()).isEqualTo("pending");
-			assertThat(reservation1.getResponseClient()).isEqualTo("adios");
+			assertThat(reservation1.getResponseClient()).isEqualTo("");
 		}
 
 	
@@ -59,7 +59,7 @@ public class ReservationServiceTests {
 		assertThat(reservation1.getTelephone()).isEqualTo("664455667");
 		assertThat(reservation1.getReservationDate()).isEqualTo("2020-06-24");
 		assertThat(reservation1.getStatus()).isEqualTo("pending");
-		assertThat(reservation1.getResponseClient()).isEqualTo("adios");
+		assertThat(reservation1.getResponseClient()).isEqualTo("");
 	}
 	
 	@Test
@@ -91,7 +91,7 @@ public class ReservationServiceTests {
 
 
 		this.reservationService.save(reservation);
-		assertThat(reservation.getId().longValue()).isEqualTo(2);
+		assertThat(reservation.getId().longValue()).isEqualTo(8);
 	}
 	
 	@Test

@@ -18,7 +18,6 @@ package org.springframework.samples.petclinic.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -84,13 +83,15 @@ class VetServiceTests {
 
 	@Test
 	void shouldFindVetWithCorrectId() {
-		Optional<Vet> hotel1 = this.vetService.findVetById(1);
+		Vet hotel1 = this.vetService.findVetById(1).get();
 
-		Assertions.assertThat(hotel1.isPresent());
-		Assertions.assertThat(hotel1.get().getAddress()).isEqualTo("110 W. Liberty St.");
-		Assertions.assertThat(hotel1.get().getCity()).isEqualTo("Madison");
-		Assertions.assertThat(hotel1.get().getFirstName()).isEqualTo("James");
-		Assertions.assertThat(hotel1.get().getLastName()).isEqualTo("Carter");
+		Assertions.assertThat(hotel1.getAddress()).isEqualTo("110 W. Liberty St.");
+		Assertions.assertThat(hotel1.getCity()).isEqualTo("Madison");
+		Assertions.assertThat(hotel1.getFirstName()).isEqualTo("James");
+		Assertions.assertThat(hotel1.getTelephone()).isEqualTo("6085551023");
+		Assertions.assertThat(hotel1.getLastName()).isEqualTo("Carter");
+		Assertions.assertThat(hotel1.getSpecialties().get(0)).isEqualTo("none");
+		Assertions.assertThat(hotel1.getClinic().getId()).isEqualTo(1);
 	}
 
 	@Test
@@ -112,25 +113,26 @@ class VetServiceTests {
 
 	@Test
 	void shouldUpdateVet() {
-		Iterable<Vet> hotels = this.vetService.findVets();
+		Iterable<Vet> vets = this.vetService.findVets();
 		Collection<Vet> nuevaLista = new ArrayList<Vet>();
 
-		for (Vet h : hotels) {
+		for (Vet h : vets) {
 			nuevaLista.add(h);
 		}
 
-		Vet hotel1 = EntityUtils.getById(nuevaLista, Vet.class, 1);
-		Vet hotel2 = EntityUtils.getById(nuevaLista, Vet.class, 1);
-		hotel1.setAddress("adress");
-		hotel1.setCity("city");
-		hotel1.setFirstName("Esto es un nuevo nombre");
-		hotel1.setTelephone("666666666");
+		Vet vet1 = EntityUtils.getById(nuevaLista, Vet.class, 1);
+		Vet vet2 = EntityUtils.getById(nuevaLista, Vet.class, 1);
+		vet1.setAddress("adress");
+		vet1.setCity("city");
+		vet1.setTelephone("6085551023");
+		vet1.setFirstName("Esto es un nuevo nombre");
+		vet1.setTelephone("666666666");
 
-		this.vetService.saveVet(hotel1);
+		this.vetService.saveVet(vet1);
 
-		Assertions.assertThat(hotel2.getAddress()).isEqualTo(hotel1.getAddress());
-		Assertions.assertThat(hotel2.getCity()).isEqualTo(hotel1.getCity());
-		Assertions.assertThat(hotel2.getFirstName()).isEqualTo(hotel1.getFirstName());
+		Assertions.assertThat(vet2.getAddress()).isEqualTo(vet1.getAddress());
+		Assertions.assertThat(vet2.getCity()).isEqualTo(vet1.getCity());
+		Assertions.assertThat(vet2.getFirstName()).isEqualTo(vet1.getFirstName());
 	}
 
 	@Test
