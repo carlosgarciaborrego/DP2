@@ -110,8 +110,7 @@ public class ClinicControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessDeleteSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/clinic/{clinicId}/delete", ClinicControllerTests.TEST_CLINIC_ID)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-			.andExpect(MockMvcResultMatchers.view().name("clinic/" + ClinicControllerTests.TEST_CLINIC_ID + "/delete"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/clinic/{clinicId}/delete", 2)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("clinic/" + 2 + "/delete"));
 	}
 
 }

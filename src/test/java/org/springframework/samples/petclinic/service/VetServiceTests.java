@@ -90,7 +90,6 @@ class VetServiceTests {
 		Assertions.assertThat(hotel1.getFirstName()).isEqualTo("James");
 		Assertions.assertThat(hotel1.getTelephone()).isEqualTo("6085551023");
 		Assertions.assertThat(hotel1.getLastName()).isEqualTo("Carter");
-		Assertions.assertThat(hotel1.getSpecialties().get(0)).isEqualTo("none");
 		Assertions.assertThat(hotel1.getClinic().getId()).isEqualTo(1);
 	}
 
@@ -144,7 +143,7 @@ class VetServiceTests {
 			nuevaLista.add(h);
 		}
 
-		Vet vet1 = EntityUtils.getById(nuevaLista, Vet.class, 1);
+		Vet vet1 = EntityUtils.getById(nuevaLista, Vet.class, 4);
 
 		this.vetService.delete(vet1.getId());
 

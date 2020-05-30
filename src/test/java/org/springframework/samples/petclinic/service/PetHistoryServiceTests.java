@@ -99,7 +99,7 @@ public class PetHistoryServiceTests {
 			nuevaLista.add(h);
 		}
 
-		PetHistory hotel1 = EntityUtils.getById(nuevaLista, PetHistory.class, 1);
+		PetHistory hotel1 = EntityUtils.getById(nuevaLista, PetHistory.class, 3);
 
 		this.petHistoryService.delete(hotel1.getId());
 

@@ -19,7 +19,7 @@ public class PetHistoryService {
 
 
 	@Autowired
-	public PetHistoryService(final PetHistoryRepository petHistoryRepository) {
+	public PetHistoryService(PetHistoryRepository petHistoryRepository) {
 		this.petHistoryRepository = petHistoryRepository;
 	}
 

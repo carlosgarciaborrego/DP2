@@ -596,7 +596,7 @@ class ValidatorTests {
 		Assertions.assertThat(constraintViolations.size()).isEqualTo(2);
 		ConstraintViolation<Clinic> violation = constraintViolations.iterator().next();
 		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("telephone");
-		Assertions.assertThat(violation.getMessage()).isEqualTo("numeric value out of bounds (<10 digits>.<0 digits> expected)");
+		Assertions.assertThat(violation.getMessage()).isEqualTo("must not be empty");
 	}
 
 	@Test

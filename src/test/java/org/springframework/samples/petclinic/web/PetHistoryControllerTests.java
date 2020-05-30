@@ -29,23 +29,26 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @WebMvcTest(controllers = PetHistoryController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 public class PetHistoryControllerTests {
 
-	@MockBean
-	private PetHistoryService	petHistoryService;
+	@Autowired
+	private PetHistoryController	petHistoryController;
 
 	@MockBean
-	private PetService			petService;
+	private PetHistoryService		petHistoryService;
 
 	@MockBean
-	private VetService			vetService;
+	private PetService				petService;
+
+	@MockBean
+	private VetService				vetService;
 
 	@Autowired
-	private MockMvc				mockMvc;
+	private MockMvc					mockMvc;
 
-	private static final int	TEST_PET_ID			= 1;
+	private static final int		TEST_PET_ID			= 1;
 
-	private static final int	TEST_VET_ID			= 1;
+	private static final int		TEST_VET_ID			= 1;
 
-	private static final int	TEST_PET_HISTORY_ID	= 1;
+	private static final int		TEST_PET_HISTORY_ID	= 1;
 
 
 	@BeforeEach
@@ -97,7 +100,9 @@ public class PetHistoryControllerTests {
 			.andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("petHistory", "details")).andExpect(MockMvcResultMatchers.view().name("petHistory/editPetHistory"));
 	}
 
-	@WithMockUser(value = "spring")
+	@WithMockUser(username = "vet1", authorities = {
+		"veterinarian"
+	})
 	@Test
 	void testInitUpdatePetHistoryForm() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/vet/{vetId}/pets/{petId}/pethistory/{petHistoryId}", PetHistoryControllerTests.TEST_PET_ID, PetHistoryControllerTests.TEST_VET_ID, PetHistoryControllerTests.TEST_PET_HISTORY_ID))
@@ -110,7 +115,7 @@ public class PetHistoryControllerTests {
 	void testProcessUpdatePetHistoryFormSuccess() throws Exception {
 		this.mockMvc
 			.perform(MockMvcRequestBuilders.post("/vet/{vetId}/pets/{petId}/pethistory/{petHistoryId}", PetHistoryControllerTests.TEST_PET_ID, PetHistoryControllerTests.TEST_VET_ID, PetHistoryControllerTests.TEST_PET_HISTORY_ID)
-				.with(SecurityMockMvcRequestPostProcessors.csrf()).param("summary", "Esta muy malito").param("details", "details"))
+				.with(SecurityMockMvcRequestPostProcessors.csrf()).param("summary", "Esta muy malito").param("details", "details").param("id", "1"))
 			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("redirect:/vet/" + PetHistoryControllerTests.TEST_VET_ID + "/pets/" + PetHistoryControllerTests.TEST_PET_ID + "/pethistory"));
 	}
 

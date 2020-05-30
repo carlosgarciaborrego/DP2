@@ -100,14 +100,17 @@ public class CauseController {
 			modelMap.addAttribute("donation", donation);
 			return "causes/donateCause";
 		} else {
+			if(donation.getCause()!=null) {
 
 			Cause cause = causeService.findCauseById(donation.getCause().getId());
 			
 			cause.setBudgetArchivied(cause.getBudgetArchivied() + donation.getAmount());
 			donation.setCause(cause);
+			this.causeService.save(cause);
+			}
 			
 			this.donationService.save(donation);
-			this.causeService.save(cause);
+		
 			
 			modelMap.addAttribute("message", "Donation successfully saved!");
 			view = this.listadoCauses(modelMap);

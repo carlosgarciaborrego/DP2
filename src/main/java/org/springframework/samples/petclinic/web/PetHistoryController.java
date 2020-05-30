@@ -34,7 +34,7 @@ public class PetHistoryController {
 
 
 	@Autowired
-	public PetHistoryController(final PetHistoryService petHistoryService, final PetService petService, final VetService vetService) {
+	public PetHistoryController(PetHistoryService petHistoryService,PetService petService,VetService vetService) {
 
 		this.petHistoryService = petHistoryService;
 		this.petService = petService;
