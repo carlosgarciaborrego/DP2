@@ -77,7 +77,7 @@ public class ReservationControllerE2ETest {
 	void testInitUpdateReservationForm() throws Exception {
 
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/reservations/{reservationId}/edit", ReservationControllerE2ETest.TEST_RESERVATION_ID)).andExpect(MockMvcResultMatchers.status().isOk())
-			.andExpect(MockMvcResultMatchers.model().attributeExists("reservation")).andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("responseClient", Matchers.is("adios"))))
+			.andExpect(MockMvcResultMatchers.model().attributeExists("reservation")).andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("responseClient", Matchers.is(""))))
 			.andExpect(MockMvcResultMatchers.view().name("reservations/editCita"));
 	}
 
@@ -105,9 +105,8 @@ public class ReservationControllerE2ETest {
 			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("telephone", Matchers.is("664455667"))))
 			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("reservationDate", Matchers.is(localDate))))
 			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("status", Matchers.is("pending"))))
-			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("responseClient", Matchers.is("adios"))))
-			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("owner", Matchers.is(owner)))).andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("clinic", Matchers.is(clinic))))
-			.andExpect(MockMvcResultMatchers.view().name("reservations/editCita"));
+			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("responseClient", Matchers.is("")))).andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("owner", Matchers.is(owner))))
+			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("clinic", Matchers.is(clinic)))).andExpect(MockMvcResultMatchers.view().name("reservations/editCita"));
 	}
 
 }
