@@ -30,7 +30,7 @@ public class ProviderServiceTests {
 	@Test
 	void testCountWithInitialData() {
 		int count = this.providerService.providerCount();
-		Assertions.assertEquals(count, 3);
+		Assertions.assertEquals(count, 8);
 	}
 
 	@Test
@@ -75,7 +75,7 @@ public class ProviderServiceTests {
 		provider.setClinic(cli);
 		
 		this.providerService.save(provider);
-		assertThat(provider.getId().longValue()).isEqualTo(4);
+		assertThat(provider.getId().longValue()).isEqualTo(8);
 	}
 	
 	@Test

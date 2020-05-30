@@ -24,13 +24,12 @@ public class HotelServiceTests {
 	@Autowired
 	protected HotelService hotelService;
 
-	//Solo existe un Hotel en la Base de Datos
-	//Nota: Tras guardar, hacer control+Z para deshacer el error que aparece
+
 	
 	@Test
 	void testCountWithInitialData() {
 		int count = this.hotelService.hotelCount();
-		Assertions.assertEquals(count, 5);
+		Assertions.assertEquals(count, 6);
 	}
 
 	@Test
@@ -55,7 +54,7 @@ public class HotelServiceTests {
 		assertThat(hotel1.getName()).isEqualTo("Calle Cadiz");
 		assertThat(hotel1.getLocation()).isEqualTo("Sevilla");
 		assertThat(hotel1.getCount()).isBetween(0, hotel1.getCapacity());
-		assertThat(hotel1.getCapacity()).isGreaterThan(hotel1.getCount());
+		assertThat(hotel1.getCapacity()).isEqualTo(10);
 	}
 
 	@Test
@@ -63,6 +62,7 @@ public class HotelServiceTests {
 		Hotel hotel = new Hotel();
 		hotel.setName("Calle Betis");
 		hotel.setCapacity(8);
+		hotel.setCount(3);
 		hotel.setLocation("Estepa");
 		
 		this.hotelService.save(hotel);

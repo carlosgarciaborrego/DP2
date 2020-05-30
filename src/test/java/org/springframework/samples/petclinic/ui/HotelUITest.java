@@ -33,7 +33,14 @@ public class HotelUITest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
+		//Formato para mac
 		System.setProperty("webdriver.gecko.driver", "/Users/carlosjesusgarciaborrego/Downloads/Drivers/geckodriver");
+
+		//Formato para windows
+		//String pathToGeckoDriver = "D:\\Ingenieria de Software 19-20\\DP2\\";
+		//System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "\\geckodriver.exe");
+
+		//Común
 		this.driver = new FirefoxDriver();
 		this.baseUrl = "https://www.google.com/";
 		this.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -87,6 +94,9 @@ public class HotelUITest {
 		this.driver.findElement(By.id("location")).click();
 		this.driver.findElement(By.id("location")).clear();
 		this.driver.findElement(By.id("location")).sendKeys("");
+		this.driver.findElement(By.id("count")).click();
+		this.driver.findElement(By.id("count")).clear();
+		this.driver.findElement(By.id("count")).sendKeys("-1");
 		this.driver.findElement(By.id("capacity")).click();
 		this.driver.findElement(By.id("capacity")).clear();
 		this.driver.findElement(By.id("capacity")).sendKeys("-1");
@@ -100,6 +110,9 @@ public class HotelUITest {
 		this.driver.findElement(By.id("location")).click();
 		this.driver.findElement(By.id("location")).clear();
 		this.driver.findElement(By.id("location")).sendKeys("Sevilla");
+		this.driver.findElement(By.id("count")).click();
+		this.driver.findElement(By.id("count")).clear();
+		this.driver.findElement(By.id("count")).sendKeys("0");
 		this.driver.findElement(By.id("capacity")).click();
 		this.driver.findElement(By.id("capacity")).clear();
 		this.driver.findElement(By.id("capacity")).sendKeys("6");
