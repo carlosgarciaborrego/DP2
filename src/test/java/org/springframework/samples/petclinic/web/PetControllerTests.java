@@ -16,6 +16,7 @@ import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.PetService;
+import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
@@ -41,6 +42,9 @@ class PetControllerTests {
 
 	@MockBean
 	private PetService			petService;
+
+	@MockBean
+	private VetService			vetService;
 
 	@MockBean
 	private OwnerService		ownerService;
