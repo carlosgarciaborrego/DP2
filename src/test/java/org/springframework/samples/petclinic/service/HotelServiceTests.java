@@ -29,7 +29,7 @@ public class HotelServiceTests {
 	@Test
 	void testCountWithInitialData() {
 		int count = this.hotelService.hotelCount();
-		Assertions.assertEquals(count, 6);
+		Assertions.assertEquals(count, 5);
 	}
 
 	@Test
@@ -96,17 +96,14 @@ public class HotelServiceTests {
 	
 	@Test
 	void shouldDeleteHotel() {
-		Iterable<Hotel> hotels = this.hotelService.findAll();
+		Hotel hotel1 = this.hotelService.findHotelById(1); 
 		Collection<Hotel> nuevaLista = new ArrayList<Hotel>();
-
-		for (Hotel h : hotels) {
-			nuevaLista.add(h);
-		}
 		
-		Hotel hotel1 = EntityUtils.getById(nuevaLista, Hotel.class, 1);
+		nuevaLista.add(hotel1);
 		
 		this.hotelService.delete(hotel1);
 		assertThat(nuevaLista.isEmpty());
+
 	}
 	
 }
