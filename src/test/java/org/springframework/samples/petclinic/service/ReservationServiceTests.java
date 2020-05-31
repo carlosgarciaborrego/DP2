@@ -63,7 +63,7 @@ public class ReservationServiceTests {
 	}
 	
 	@Test
-	void shouldInsertHotel() {
+	void shouldInsertReservation() {
 		Reservation reservation  = new Reservation();
 		reservation.setTelephone("111222333");
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
@@ -122,16 +122,12 @@ public class ReservationServiceTests {
 	
 	@Test
 	void shouldDeleteReservation() {
-		Iterable<Reservation> reservations = this.reservationService.findAll();
+		Reservation reservation1 = this.reservationService.findReservationById(1); 
 		Collection<Reservation> nuevaLista = new ArrayList<Reservation>();
-
-		for (Reservation res : reservations) {
-			nuevaLista.add(res);
-		}
 		
-		Reservation res1 = EntityUtils.getById(nuevaLista, Reservation.class, 1);
+		nuevaLista.add(reservation1);
 		
-		this.reservationService.delete(res1);
+		this.reservationService.delete(reservation1);
 		assertThat(nuevaLista.isEmpty());
 	}
 	
