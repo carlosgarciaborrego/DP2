@@ -1,26 +1,35 @@
 package org.springframework.samples.petclinic.ui;
 
-import static org.junit.Assert.fail;
-
 import java.util.concurrent.TimeUnit;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.Assert;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class DonationNegativeUITest {
+	
+	@LocalServerPort
+	private int				port;
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
   private StringBuffer verificationErrors = new StringBuffer();
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     driver = new FirefoxDriver();
     baseUrl = "https://www.google.com/";
@@ -29,7 +38,7 @@ public class DonationNegativeUITest {
 
   @Test
   public void DonationNegativeUI() throws Exception {
-    driver.get("http://localhost:8080/petclinic/causes");
+	    driver.get("http://localhost:" + this.port + "/petclinic/");
     driver.findElement(By.linkText("Login")).click();
     driver.findElement(By.xpath("//div")).click();
     driver.findElement(By.xpath("//div")).click();
@@ -55,12 +64,12 @@ public class DonationNegativeUITest {
     driver.findElement(By.xpath("//button[@type='submit']")).click();
   }
 
-  @After
+  @AfterEach
   public void tearDown() throws Exception {
     driver.quit();
     String verificationErrorString = verificationErrors.toString();
     if (!"".equals(verificationErrorString)) {
-      fail(verificationErrorString);
+      Assert.fail(verificationErrorString);
     }
   }
 
