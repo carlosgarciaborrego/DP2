@@ -35,7 +35,7 @@ PetClinic :: a Spring Framework demonstration
    
 
     <spring:url value="/resources/libraries/chart.js/2.7.2/js/chart.bundle.min.js" var="chart"/>
-    <link href="${chart}"/>
+    <link rel="license" href="${chart}"/>
     
 	 	
 </head>
