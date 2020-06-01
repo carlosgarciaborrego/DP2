@@ -37,7 +37,7 @@ public class HotelUITest {
 		//	System.setProperty("webdriver.gecko.driver", "/Users/carlosjesusgarciaborrego/Downloads/Drivers/geckodriver");
 
 		//Formato para windows
-		String pathToGeckoDriver = "D:\\";
+		String pathToGeckoDriver = "C:\\";
 		System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "\\geckodriver.exe");
 
 		//Común
