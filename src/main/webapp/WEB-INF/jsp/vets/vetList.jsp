@@ -40,26 +40,27 @@
 				 <a href="${fn:escapeXml(clinicUrl)}" class="btn btn-default">Clinic</a>
        
                  <security:authorize access="!hasAuthority('owner')">
-               <security:authorize access="hasAuthority('admin')">
-                   <spring:url value="vet/delete/{vetId}" var="deleteUrl">
-				        <spring:param name="vetId" value="${vet.id}"/>
-				    </spring:url>
-				    <a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Delete</a>
-				</security:authorize>
+               
 			
             	<security:authorize access="hasAuthority('admin')">
-                 <spring:url value="/vet/{vetId}/specialty/new" htmlEscape="true" var="addSpecialtyUrl">
-                <spring:param name="vetId" value="${vet.id}"/>
-                </spring:url>
-                 <a class="btn btn-default" href='${addSpecialtyUrl}'>Agregar especialidad</a>
-                </security:authorize>
-                
-                
-                 	<spring:url value="vet/show/{vetId}" var="showUrl">
+	                 <spring:url value="/vet/{vetId}/specialty/new" htmlEscape="true" var="addSpecialtyUrl">
+	                <spring:param name="vetId" value="${vet.id}"/>
+	                </spring:url>
+	                 <a class="btn btn-default" href='${addSpecialtyUrl}'>Agregar especialidad</a>
+	                </security:authorize>
+	                
+	                <spring:url value="vet/show/{vetId}" var="showUrl">
 				        <spring:param name="vetId" value="${vet.id}"/>
 				    </spring:url>
 				    <a href="${fn:escapeXml(showUrl)}" class="btn btn-default">Show</a>
 				    </security:authorize>  
+				    
+				    <security:authorize access="hasAuthority('admin')">
+	                  <spring:url value="vet/delete/{vetId}" var="deleteUrl">
+				        <spring:param name="vetId" value="${vet.id}"/>
+				    </spring:url>
+				    <a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Delete</a>
+				</security:authorize>
                  </td>
                
             </tr>

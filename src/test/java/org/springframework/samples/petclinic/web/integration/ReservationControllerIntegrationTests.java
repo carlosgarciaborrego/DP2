@@ -17,6 +17,7 @@ import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.ReservationService;
 import org.springframework.samples.petclinic.web.ReservationController;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -53,6 +54,9 @@ public class ReservationControllerIntegrationTests {
 	}
 
 	@Test
+	@WithMockUser(username = "owner1", authorities = {
+		"owner"
+	})
 	void testProcessCreationFormSuccess() throws Exception {
 		ModelMap model = new ModelMap();
 		Reservation reservation = new Reservation();
@@ -73,6 +77,9 @@ public class ReservationControllerIntegrationTests {
 	}
 
 	@Test
+	@WithMockUser(username = "owner1", authorities = {
+		"owner"
+	})
 	void testProcessCreationFormHasError() throws Exception {
 		ModelMap model = new ModelMap();
 		Reservation reservation = new Reservation();

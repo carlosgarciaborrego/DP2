@@ -76,7 +76,7 @@ public class CauseControllerTests {
 	@WithMockUser(value = "spring")
     @Test
     void testInitCreationFormDonation() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("causes/donate/{causeId}", CauseControllerTests.TEST_CAUSE_ID)).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("cause")).andExpect(MockMvcResultMatchers.view().name("causes/donateCause"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/causes/donate/{causeId}", CauseControllerTests.TEST_CAUSE_ID)).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("donation")).andExpect(MockMvcResultMatchers.view().name("causes/donateCause"));
 	}
 	
 	
@@ -93,19 +93,16 @@ public class CauseControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormSuccessDonation() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("causes/donation/save/{causeId}", CauseControllerTests.TEST_CAUSE_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "DonationTest").param("amount", "150.0"))
-			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("redirect:/causes/listadoCauses"));;
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/causes/donate").with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "DonationTest").param("amount", "150.0"))
+			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("causes/listadoCauses"));;
 	
-//		this.mockMvc.perform(MockMvcRequestBuilders.post("/owners/{ownerId}/pets/new", PetControllerTests.TEST_OWNER_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "Betty").param("type", "hamster").param("birthDate", "2015/02/12"))
-//		.andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/owners/{ownerId}"));
-
 	
 	}
 	
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormHasErrorsDonation() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("causes/donation/save/{causeId}", CauseControllerTests.TEST_CAUSE_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "Donation Prueba Controller").param("ammount", "vhjlhj")).andExpect(MockMvcResultMatchers.status().isOk())
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/causes/donate").with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "Donation Prueba Controller").param("ammount", "vhjlhj")).andExpect(MockMvcResultMatchers.status().isOk())
 			.andExpect(MockMvcResultMatchers.model().attributeHasErrors("donation")).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("donation", "amount")).andExpect(MockMvcResultMatchers.view().name("causes/donateCause"));
 	}
 	

@@ -44,6 +44,7 @@ public class HotelControllerTests {
 		this.hotel.setId(HotelControllerTests.TEST_HOTEL_ID);
 		this.hotel.setName("Externa");
 		this.hotel.setCapacity(10);
+		this.hotel.setCount(0);
 		this.hotel.setLocation("Sevilla");
 
 		BDDMockito.given(this.hotelService.findHotelById(HotelControllerTests.TEST_HOTEL_ID)).willReturn(this.hotel);

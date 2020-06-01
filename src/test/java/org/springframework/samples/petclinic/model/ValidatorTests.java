@@ -196,6 +196,7 @@ class ValidatorTests {
 		hotel.setName("Calle Betis");
 		hotel.setLocation("Sevilla");
 		hotel.setCapacity(-1);
+		hotel.setCount(3);
 
 		Validator validator = this.createValidator();
 		Set<ConstraintViolation<Hotel>> constraintViolations = validator.validate(hotel);
@@ -206,12 +207,30 @@ class ValidatorTests {
 	}
 
 	@Test
+	void shouldNotValidateWhenCountIsNegative() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Hotel hotel = new Hotel();
+		hotel.setName("Calle Betis");
+		hotel.setLocation("Sevilla");
+		hotel.setCapacity(1);
+		hotel.setCount(-3);
+
+		Validator validator = this.createValidator();
+		Set<ConstraintViolation<Hotel>> constraintViolations = validator.validate(hotel);
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
+		ConstraintViolation<Hotel> violation = constraintViolations.iterator().next();
+		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("count");
+		Assertions.assertThat(violation.getMessage()).isEqualTo("must be between 0 and 9223372036854775807");
+	}
+
+	@Test
 	void shouldNotValidateWhenLocationEmpty() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Hotel hotel = new Hotel();
 		hotel.setLocation("");
 		hotel.setName("Calle Andalucia");
 		hotel.setCapacity(10);
+		hotel.setCount(2);
 
 		Validator validator = this.createValidator();
 		Set<ConstraintViolation<Hotel>> constraintViolations = validator.validate(hotel);
@@ -228,6 +247,7 @@ class ValidatorTests {
 		hotel.setLocation("Sevilla");
 		hotel.setName("");
 		hotel.setCapacity(10);
+		hotel.setCount(1);
 
 		Validator validator = this.createValidator();
 		Set<ConstraintViolation<Hotel>> constraintViolations = validator.validate(hotel);
@@ -237,8 +257,6 @@ class ValidatorTests {
 		Assertions.assertThat(violation.getMessage()).isEqualTo("must not be empty");
 	}
 
-	//No se puede dar que el atributo Count sea negativo, por tanto no se hace test
-
 	//Positive Causes
 	@Test
 	void shouldWorkProperly() {
@@ -247,6 +265,7 @@ class ValidatorTests {
 		hotel.setLocation("Sevilla");
 		hotel.setName("Calle Garcia");
 		hotel.setCapacity(10);
+		hotel.setCount(0);
 
 		Validator validator = this.createValidator();
 		Set<ConstraintViolation<Hotel>> constraintViolations = validator.validate(hotel);
@@ -562,7 +581,7 @@ class ValidatorTests {
 	//Negative
 
 	@Test
-	void nonValidateTelephoneClinic() {
+	void notValidateTelephoneClinic() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Clinic c = new Clinic();
 		c.setCapacity(3);
@@ -581,7 +600,7 @@ class ValidatorTests {
 	}
 
 	@Test
-	void nonValidateCapacityClinic() {
+	void notValidateCapacityClinic() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Clinic c = new Clinic();
 		c.setCapacity(-3);
@@ -835,7 +854,7 @@ class ValidatorTests {
 		cli.setEmail("cli1@gmail.com");
 		cli.setEmergency("666777666");
 		cli.setLocation("sevilla");
-		cli.setTelephone("565656561");
+		cli.setTelephone("");
 		provider.setClinic(cli);
 
 		Validator validator = this.createValidator();

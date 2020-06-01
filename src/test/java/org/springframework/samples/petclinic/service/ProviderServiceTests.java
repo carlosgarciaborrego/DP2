@@ -30,7 +30,7 @@ public class ProviderServiceTests {
 	@Test
 	void testCountWithInitialData() {
 		int count = this.providerService.providerCount();
-		Assertions.assertEquals(count, 4);
+		Assertions.assertEquals(count, 8);
 	}
 
 	@Test
@@ -75,7 +75,7 @@ public class ProviderServiceTests {
 		provider.setClinic(cli);
 		
 		this.providerService.save(provider);
-		assertThat(provider.getId().longValue()).isEqualTo(4);
+		assertThat(provider.getId().longValue()).isEqualTo(8);
 	}
 	
 	@Test
@@ -104,14 +104,10 @@ public class ProviderServiceTests {
 	
 	@Test
 	void shouldDeleteProvider() {
-		Iterable<Provider> providers = this.providerService.findAll();
+		Provider provider1 = this.providerService.findProviderById(1); 
 		Collection<Provider> nuevaLista = new ArrayList<Provider>();
-
-		for (Provider p : providers) {
-			nuevaLista.add(p);
-		}
 		
-		Provider provider1 = EntityUtils.getById(nuevaLista, Provider.class, 1);
+		nuevaLista.add(provider1);
 		
 		this.providerService.delete(provider1);
 		assertThat(nuevaLista.isEmpty());
