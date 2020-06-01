@@ -29,7 +29,7 @@ public class HotelServiceTests {
 	@Test
 	void testCountWithInitialData() {
 		int count = this.hotelService.hotelCount();
-		Assertions.assertEquals(count, 5);
+		Assertions.assertEquals(count, 6);
 	}
 
 	@Test
