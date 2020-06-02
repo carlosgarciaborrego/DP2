@@ -25,8 +25,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
+import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.PetService;
+import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -52,17 +54,24 @@ public class PetController {
 
 	private final PetService	petService;
 	private final OwnerService	ownerService;
+	private VetService			vetService;
 
 
 	@Autowired
-	public PetController(final PetService petService, final OwnerService ownerService) {
+	public PetController(final PetService petService, final OwnerService ownerService, final VetService vetService) {
 		this.petService = petService;
 		this.ownerService = ownerService;
+		this.vetService = vetService;
 	}
 
 	@ModelAttribute("types")
 	public Collection<PetType> populatePetTypes() {
 		return this.petService.findPetTypes();
+	}
+
+	@ModelAttribute("vets")
+	public Collection<Vet> populateVets() {
+		return this.vetService.findVets();
 	}
 
 	@ModelAttribute("owner")

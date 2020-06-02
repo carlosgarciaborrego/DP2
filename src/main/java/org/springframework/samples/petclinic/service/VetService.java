@@ -56,7 +56,7 @@ public class VetService {
 
 
 	@Autowired
-	public VetService(final VetRepository vetRepository, final SpecialtyRepository specialtyRepository, final UserService userService, final AuthoritiesService authoritiesService, final ClinicRepository clinicRepository, final PetService petService) {
+	public VetService(VetRepository vetRepository, SpecialtyRepository specialtyRepository, UserService userService, AuthoritiesService authoritiesService, ClinicRepository clinicRepository, PetService petService) {
 		super();
 		this.vetRepository = vetRepository;
 		this.specialtyRepository = specialtyRepository;

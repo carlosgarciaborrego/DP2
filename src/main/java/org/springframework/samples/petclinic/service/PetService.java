@@ -41,7 +41,7 @@ public class PetService {
 
 
 	@Autowired
-	public PetService(final PetRepository petRepository) {
+	public PetService(PetRepository petRepository) {
 		this.petRepository = petRepository;
 	}
 

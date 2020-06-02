@@ -100,8 +100,7 @@ public class VetControllerIntegrationTests {
 		v.setAddress("La botica 12");
 
 		String view = this.vetController.showVet(v, result, model);
-		Assertions.assertEquals(view, "vets/vetList");
-		Assertions.assertNotNull(model.get("vets"));
+		Assertions.assertEquals(view, "redirect:/vets");
 	}
 
 	@Test
