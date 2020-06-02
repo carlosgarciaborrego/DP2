@@ -182,10 +182,6 @@ class ValidatorTests {
 		Assertions.assertThat(violation.getMessage()).isEqualTo("numeric value out of bounds (<10 digits>.<0 digits> expected)");
 	}
 
-	// ----------------------------- Cause ------------------------------------------------
-
-	//------------------------------- Donation ---------------------------------------------
-
 	// ----------------------------- Hotels ------------------------------------------------
 
 	//Negative Causes
