@@ -3,6 +3,8 @@ package org.springframework.samples.petclinic.web;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -85,17 +87,28 @@ public class ReservationControllerTests {
 		this.ownerService.saveOwner(owner);
 		this.reservationService.save(this.reservation);
 
+		List<Owner> ownersList = new ArrayList<>();
+		ownersList.add(owner);
+
+		List<Reservation> resList = new ArrayList<Reservation>();
+		resList.add(this.reservation);
+
+		BDDMockito.given(this.reservationService.findOwnerByUserId("owner1")).willReturn(ownersList);
+		BDDMockito.given(this.reservationService.findOwnerById(1)).willReturn(owner);
+		BDDMockito.given(this.reservationService.findClinicById(1)).willReturn(cli);
 		BDDMockito.given(this.reservationService.findReservationById(ReservationControllerTests.TEST_RESERVATION_ID)).willReturn(this.reservation);
+		BDDMockito.given(this.reservationService.findAll()).willReturn(resList);
+
 	}
 
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "owner")
 	@Test
 	void testInitCreationForm() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/reservations/new")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("reservation"))
 			.andExpect(MockMvcResultMatchers.view().name("reservations/editCita"));
 	}
 
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "owner")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
 		this.mockMvc
@@ -103,7 +116,7 @@ public class ReservationControllerTests {
 			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 	}
 
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "owner")
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/reservations/new").with(SecurityMockMvcRequestPostProcessors.csrf()).param("reservationDate", "2020-06-24").param("status", "pending").param("responseClient", "hola"))
@@ -111,7 +124,7 @@ public class ReservationControllerTests {
 			.andExpect(MockMvcResultMatchers.view().name("reservations/editCita"));
 	}
 
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "owner")
 	@Test
 	void testInitUpdateReservationForm() throws Exception {
 
@@ -120,14 +133,14 @@ public class ReservationControllerTests {
 			.andExpect(MockMvcResultMatchers.view().name("reservations/editCita"));
 	}
 
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "owner")
 	@Test
 	void testProcessUpdateReservationFormSuccess() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/reservations/{reservationId}/edit", ReservationControllerTests.TEST_RESERVATION_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("status", "accepted").param("responseClient", "OK"))
 			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 	}
 
-	@WithMockUser(value = "owner1")
+	@WithMockUser(value = "owner")
 	@Test
 	void testShowReservation() throws Exception {
 		DateTimeFormatter fecha = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -144,7 +157,7 @@ public class ReservationControllerTests {
 			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("clinic", Matchers.is(clinic)))).andExpect(MockMvcResultMatchers.view().name("reservations/editCita"));
 	}
 
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "owner")
 	@Test
 	void testProcessDeleteSuccess() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/reservations/delete/{reservationId}", ReservationControllerTests.TEST_RESERVATION_ID)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())

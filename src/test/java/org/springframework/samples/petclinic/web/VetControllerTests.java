@@ -70,6 +70,7 @@ class VetControllerTests {
 		radiology.setName("radiology");
 		helen.addSpecialty(radiology);
 		Optional<Vet> vetsOpcional = Optional.of(james);
+		Optional<Specialty> speOptional = Optional.of(radiology);
 		List<Vet> vetsList = new ArrayList<>();
 		vetsList.add(james);
 		Pet p = new Pet();
@@ -83,6 +84,7 @@ class VetControllerTests {
 		BDDMockito.given(this.vetService.findVetById(james.getId())).willReturn(vetsOpcional);
 		BDDMockito.given(this.vetService.findVetByUserId("vet1")).willReturn(vetsList);
 		BDDMockito.given(this.vetService.findPetsByVetId(james.getId())).willReturn(petsList);
+		BDDMockito.given(this.vetService.findSpecialtyById(helen.getId())).willReturn(speOptional);
 
 	}
 
