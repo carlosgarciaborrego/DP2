@@ -1,6 +1,9 @@
 
 package org.springframework.samples.petclinic.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,7 +50,11 @@ public class HotelControllerTests {
 		this.hotel.setCount(0);
 		this.hotel.setLocation("Sevilla");
 
+		List<Hotel> hotels = new ArrayList<Hotel>();
+		hotels.add(this.hotel);
+
 		BDDMockito.given(this.hotelService.findHotelById(HotelControllerTests.TEST_HOTEL_ID)).willReturn(this.hotel);
+		BDDMockito.given(this.hotelService.findAll()).willReturn(hotels);
 
 	}
 
