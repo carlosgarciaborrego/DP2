@@ -96,15 +96,14 @@ public class ProviderControllerTest {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
-		this.mockMvc
-			.perform(MockMvcRequestBuilders.post("/providers/save").param("name", "mercadona").param("city", "Sevilla").with(SecurityMockMvcRequestPostProcessors.csrf()).param("telephone", "664455669").param("description", "comida para los animales"))
-			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/providers/save").param("name", "mercadona").param("city", "Sevilla").with(SecurityMockMvcRequestPostProcessors.csrf()).param("telephone", "664455669")
+			.param("description", "comida para los animales").param("clinic.id", "1")).andExpect(MockMvcResultMatchers.status().is3xxRedirection());
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/providers/save").with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "mercadona").param("city", "Sevilla").param("description", "comida para los animales"))
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/providers/save").with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "mercadona").param("city", "Sevilla").param("description", "comida para los animales").param("clinic.id", "1"))
 			.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeHasErrors("provider")).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("provider", "telephone"))
 			.andExpect(MockMvcResultMatchers.view().name("providers/editProvider"));
 	}
@@ -122,8 +121,8 @@ public class ProviderControllerTest {
 	@Test
 	void testProcessUpdateProviderFormHasErrors() throws Exception {
 		this.mockMvc
-			.perform(MockMvcRequestBuilders.post("/providers/{providerId}/edit", ProviderControllerTest.TEST_PROVIDER_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "mercadona").param("city", "Sevilla").param("description",
-				"comida para los animales"))
+			.perform(MockMvcRequestBuilders.post("/providers/{providerId}/edit", ProviderControllerTest.TEST_PROVIDER_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "mercadona").param("city", "Sevilla")
+				.param("description", "comida para los animales").param("clinic.id", "1"))
 			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.model().attributeHasErrors("provider")).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("provider", "telephone"))
 			.andExpect(MockMvcResultMatchers.view().name("providers/editProvider"));
 	}

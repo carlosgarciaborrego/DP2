@@ -112,8 +112,8 @@ public class PetHistoryControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/vet/{vetId}/pets/{petId}/pethistory/new", PetHistoryControllerTests.TEST_PET_ID, PetHistoryControllerTests.TEST_VET_ID).param("summary", "summary 1").param("date", "2010-09-07")
-			.param("details", "details").with(SecurityMockMvcRequestPostProcessors.csrf())).andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/vet/{vetId}/pets/{petId}/pethistory/new", PetHistoryControllerTests.TEST_PET_ID, PetHistoryControllerTests.TEST_VET_ID).param("summary", "summary 1").param("date", "2010/09/07")
+			.param("details", "details").with(SecurityMockMvcRequestPostProcessors.csrf())).andExpect(MockMvcResultMatchers.status().is3xxRedirection());
 	}
 
 	@WithMockUser(value = "spring")
@@ -121,7 +121,7 @@ public class PetHistoryControllerTests {
 	void testProcessCreationFormHasErrors() throws Exception {
 		this.mockMvc
 			.perform(MockMvcRequestBuilders.post("/vet/{vetId}/pets/{petId}/pethistory/new", PetHistoryControllerTests.TEST_PET_ID, PetHistoryControllerTests.TEST_VET_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("summary", "")
-				.param("date", "2010-09-07").param("details", ""))
+				.param("date", "2010/09/07").param("details", ""))
 			.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeHasErrors("petHistory")).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("petHistory", "summary"))
 			.andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("petHistory", "details")).andExpect(MockMvcResultMatchers.view().name("petHistory/editPetHistory"));
 	}
@@ -141,7 +141,7 @@ public class PetHistoryControllerTests {
 	void testProcessUpdatePetHistoryFormSuccess() throws Exception {
 		this.mockMvc
 			.perform(MockMvcRequestBuilders.post("/vet/{vetId}/pets/{petId}/pethistory/{petHistoryId}", PetHistoryControllerTests.TEST_PET_ID, PetHistoryControllerTests.TEST_VET_ID, PetHistoryControllerTests.TEST_PET_HISTORY_ID)
-				.with(SecurityMockMvcRequestPostProcessors.csrf()).param("summary", "Esta muy malito").param("details", "details").param("id", "1"))
+				.with(SecurityMockMvcRequestPostProcessors.csrf()).param("summary", "Esta muy malito").param("details", "details").param("id", "1").param("date", "2010/09/07"))
 			.andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/vet/{vetId}/pets/{petId}/pethistory"));
 	}
 
