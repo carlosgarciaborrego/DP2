@@ -61,8 +61,8 @@ public class ReservationControllerTests {
 		this.reservation = new Reservation();
 		this.reservation.setId(ReservationControllerTests.TEST_RESERVATION_ID);
 		this.reservation.setTelephone("664455667");
-		DateTimeFormatter fecha = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		String date = "2020-06-24";
+		DateTimeFormatter fecha = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		String date = "2020/06/24";
 		LocalDate localDate = LocalDate.parse(date, fecha);
 		this.reservation.setReservationDate(localDate);
 		this.reservation.setStatus("pending");
@@ -104,31 +104,39 @@ public class ReservationControllerTests {
 
 	}
 
-	@WithMockUser(value = "owner")
+	@WithMockUser(username = "owner1", authorities = {
+		"owner"
+	})
 	@Test
 	void testInitCreationForm() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/reservations/new")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("reservation"))
 			.andExpect(MockMvcResultMatchers.view().name("reservations/editCita"));
 	}
 
-	@WithMockUser(value = "owner")
+	@WithMockUser(username = "owner1", authorities = {
+		"owner"
+	})
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/reservations/new").param("telephone", "664455667").param("reservationDate", "2020/06/24").with(SecurityMockMvcRequestPostProcessors.csrf()).param("status", "pending")
 			.param("responseClient", "hola").param("clinic.id", "1").param("owner.id", "1")).andExpect(MockMvcResultMatchers.status().is3xxRedirection());
 	}
 
-	@WithMockUser(value = "owner")
+	@WithMockUser(username = "owner1", authorities = {
+		"owner"
+	})
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
 		this.mockMvc
-			.perform(MockMvcRequestBuilders.post("/reservations/new").with(SecurityMockMvcRequestPostProcessors.csrf()).param("reservationDate", "2020-06-24").param("status", "pending").param("responseClient", "hola").param("clinic.id", "1")
+			.perform(MockMvcRequestBuilders.post("/reservations/new").with(SecurityMockMvcRequestPostProcessors.csrf()).param("reservationDate", "2020/06/24").param("status", "pending").param("responseClient", "hola").param("clinic.id", "1")
 				.param("owner.id", "1"))
 			.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeHasErrors("reservation")).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("reservation", "telephone"))
 			.andExpect(MockMvcResultMatchers.view().name("reservations/editCita"));
 	}
 
-	@WithMockUser(value = "owner")
+	@WithMockUser(username = "owner1", authorities = {
+		"owner"
+	})
 	@Test
 	void testInitUpdateReservationForm() throws Exception {
 
@@ -137,18 +145,22 @@ public class ReservationControllerTests {
 			.andExpect(MockMvcResultMatchers.view().name("reservations/editCita"));
 	}
 
-	@WithMockUser(value = "owner")
+	@WithMockUser(username = "owner1", authorities = {
+		"owner"
+	})
 	@Test
 	void testProcessUpdateReservationFormSuccess() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/reservations/{reservationId}/edit", ReservationControllerTests.TEST_RESERVATION_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("status", "accepted").param("responseClient", "OK")
 			.param("clinic.id", "1").param("owner.id", "1")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 	}
 
-	@WithMockUser(value = "owner")
+	@WithMockUser(username = "owner1", authorities = {
+		"owner"
+	})
 	@Test
 	void testShowReservation() throws Exception {
-		DateTimeFormatter fecha = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		String date = "2020-06-24";
+		DateTimeFormatter fecha = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		String date = "2020/06/24";
 		LocalDate localDate = LocalDate.parse(date, fecha);
 		Reservation res = this.reservationService.findReservationById(ReservationControllerTests.TEST_RESERVATION_ID);
 		Owner owner = res.getOwner();
@@ -161,7 +173,9 @@ public class ReservationControllerTests {
 			.andExpect(MockMvcResultMatchers.model().attribute("reservation", Matchers.hasProperty("clinic", Matchers.is(clinic)))).andExpect(MockMvcResultMatchers.view().name("reservations/editCita"));
 	}
 
-	@WithMockUser(value = "owner")
+	@WithMockUser(username = "owner1", authorities = {
+		"owner"
+	})
 	@Test
 	void testProcessDeleteSuccess() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/reservations/delete/{reservationId}", ReservationControllerTests.TEST_RESERVATION_ID)).andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
