@@ -52,6 +52,8 @@ public class ReservationControllerTests {
 
 	private Reservation				reservation;
 
+	private Clinic					clinica				= new Clinic();
+
 
 	@BeforeEach
 	void setup() {
@@ -82,6 +84,7 @@ public class ReservationControllerTests {
 		cli.setLocation("sevilla");
 		cli.setTelephone("565656561");
 		this.reservation.setClinic(cli);
+		this.clinica = cli;
 
 		this.clinicService.saveClinic(cli);
 		this.ownerService.saveOwner(owner);
@@ -111,15 +114,16 @@ public class ReservationControllerTests {
 	@WithMockUser(value = "owner")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
-		this.mockMvc
-			.perform(MockMvcRequestBuilders.post("/reservations/new").param("telephone", "664455667").param("reservationDate", "2020-06-24").with(SecurityMockMvcRequestPostProcessors.csrf()).param("status", "pending").param("responseClient", "hola"))
-			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/reservations/new").param("telephone", "664455667").param("reservationDate", "2020/06/24").with(SecurityMockMvcRequestPostProcessors.csrf()).param("status", "pending")
+			.param("responseClient", "hola").param("clinic.id", "1").param("owner.id", "1")).andExpect(MockMvcResultMatchers.status().is3xxRedirection());
 	}
 
 	@WithMockUser(value = "owner")
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/reservations/new").with(SecurityMockMvcRequestPostProcessors.csrf()).param("reservationDate", "2020-06-24").param("status", "pending").param("responseClient", "hola"))
+		this.mockMvc
+			.perform(MockMvcRequestBuilders.post("/reservations/new").with(SecurityMockMvcRequestPostProcessors.csrf()).param("reservationDate", "2020-06-24").param("status", "pending").param("responseClient", "hola").param("clinic.id", "1")
+				.param("owner.id", "1"))
 			.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeHasErrors("reservation")).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("reservation", "telephone"))
 			.andExpect(MockMvcResultMatchers.view().name("reservations/editCita"));
 	}
@@ -136,8 +140,8 @@ public class ReservationControllerTests {
 	@WithMockUser(value = "owner")
 	@Test
 	void testProcessUpdateReservationFormSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/reservations/{reservationId}/edit", ReservationControllerTests.TEST_RESERVATION_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("status", "accepted").param("responseClient", "OK"))
-			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/reservations/{reservationId}/edit", ReservationControllerTests.TEST_RESERVATION_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("status", "accepted").param("responseClient", "OK")
+			.param("clinic.id", "1").param("owner.id", "1")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 	}
 
 	@WithMockUser(value = "owner")
