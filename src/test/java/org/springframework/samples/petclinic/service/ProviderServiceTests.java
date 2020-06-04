@@ -26,7 +26,7 @@ public class ProviderServiceTests {
 	@Autowired
 	protected ProviderService providerService;
 
-
+	//Este test falla para h2 pero no para mysql con el mismo data (espera 7)
 	@Test
 	void testCountWithInitialData() {
 		int count = this.providerService.providerCount();

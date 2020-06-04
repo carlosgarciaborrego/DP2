@@ -29,7 +29,7 @@ public class ReservationServiceTests {
 	protected ReservationService reservationService;
 	
 
-
+	//Este test falla para h2 pero no para mysql con el mismo data(espera 7)
 	@Test
 	void testCountWithInitialData() {
 		int count = this.reservationService.reservationCount();
