@@ -27,11 +27,6 @@ class PerformanceTests extends Simulation {
 		"Proxy-Connection" -> "keep-alive",
 		"Upgrade-Insecure-Requests" -> "1")
 
-	val headers_3 = Map(
-		"Accept" -> "*/*",
-		"Proxy-Connection" -> "Keep-Alive",
-		"User-Agent" -> "Microsoft-CryptoAPI/10.0")
-
 	object Home {
 		val home = exec(http("Home")
 			.get("/petclinic/")
@@ -42,18 +37,15 @@ class PerformanceTests extends Simulation {
 	object Login {
 		val login = exec(http("Login")
 			.get("/petclinic/login")
-			.headers(headers_0))
-		.pause(16)
-	}
-	
-	object Logged {
-		val logged = exec(http("Logged")
+			.headers(headers_0)
+			.check(css("input[name=_csrf]", "value").saveAs("stoken"))
+		).pause(16)
+		.exec(http("Logged")
 			.post("/petclinic/login")
 			.headers(headers_2)
 			.formParam("username", "admin1")
 			.formParam("password", "4dm1n")
-			.formParam("_csrf", "be108b97-8683-4f82-ae0c-89dd5178ebad"))
-
+			.formParam("_csrf", "${stoken}"))
 		.pause(25)
 	}
 	
@@ -67,12 +59,10 @@ class PerformanceTests extends Simulation {
 	object NewCauseForm {
 		val newCauseForm = exec(http("NewCauseForm")
 			.get("/petclinic/causes/new")
-			.headers(headers_0))
-		.pause(16)
-	}
-	
-	object CausesListAfterSave {
-		val causesListAfterSave = exec(http("CausesListAfterSave")
+			.headers(headers_0)
+			.check(css("input[name=_csrf]", "value").saveAs("stoken"))
+		).pause(16)
+		.exec(http("CausesListAfterSave")
 			.post("/petclinic/causes/save")
 			.headers(headers_2)
 			.formParam("id", "")
@@ -83,19 +73,17 @@ class PerformanceTests extends Simulation {
 			.formParam("budgetArchivied", "0.0")
 			.formParam("causeId", "")
 			.formParam("budgetArchivied", "0.0")
-			.formParam("_csrf", "b67ac400-ef8f-402c-b23b-4d4d8c2f20e7"))
+			.formParam("_csrf", "${stoken}"))
 		.pause(20)
 	}
 	
 	object CauseShow {
 		val causeShow = exec(http("CauseShow")
 			.get("/petclinic/causes/6")
-			.headers(headers_0))
-		.pause(21)
-	}
-	
-	object CausesListAfterUpdate {
-		val causesListAfterUpdate = exec(http("CausesListAfterUpdate")
+			.headers(headers_0)
+			.check(css("input[name=_csrf]", "value").saveAs("stoken"))
+		).pause(21)
+		.exec(http("CausesListAfterUpdate")
 			.post("/petclinic/causes/save")
 			.headers(headers_2)
 			.formParam("id", "6")
@@ -104,25 +92,23 @@ class PerformanceTests extends Simulation {
 			.formParam("organisation", "Organisation Cause")
 			.formParam("budgetTarget", "100.0")
 			.formParam("budgetArchivied", "0.0")
-			.formParam("_csrf", "b67ac400-ef8f-402c-b23b-4d4d8c2f20e7"))
+			.formParam("_csrf", "${stoken}"))
 		.pause(14)
 	}
 
 	object DonationForm {
 		val donationForm = exec(http("DonationForm")
 			.get("/petclinic/causes/donate/6")
-			.headers(headers_0))
-		.pause(23)
-	}
-	
-	object CausesListAfterDonation {
-		val causesListAfterDonation = exec(http("CausesListAfterDonation")
+			.headers(headers_0)
+			.check(css("input[name=_csrf]", "value").saveAs("stoken"))
+		).pause(23)
+		.exec(http("CausesListAfterDonation")
 			.post("/petclinic/causes/donate/")
 			.headers(headers_2)
 			.formParam("cause.id", "1")
 			.formParam("name", "Donacion 1")
 			.formParam("amount", "100.0")
-			.formParam("_csrf", "52d577ae-8d72-4734-abe6-7344bb93b834"))
+			.formParam("_csrf", "${stoken}"))
 		.pause(16)
 	}
 	
@@ -137,21 +123,17 @@ class PerformanceTests extends Simulation {
 	
 	val causesScn = scenario("CausesPerformanceTests").exec(Home.home,
 													Login.login,
-													Logged.logged,
 													CausesList.causesList,
 													NewCauseForm.newCauseForm,
-													CausesListAfterSave.causesListAfterSave,
 													CauseShow.causeShow,
-													CausesListAfterUpdate.causesListAfterUpdate,
 													CausesListAfterDelete.causesListAfterDelete)
 
 
 	val DonationScn = scenario("DonationPerformanceTests").exec(Home.home,
 														Login.login,
-														Logged.logged,
 														CausesList.causesList,
 														DonationForm.donationForm,
-														CausesListAfterDonation.causesListAfterDonation)
+														CausesListAfterDelete.causesListAfterDelete)
 
 	setUp(
 		causesScn.inject(atOnceUsers(1)),
