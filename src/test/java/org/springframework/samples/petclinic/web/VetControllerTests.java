@@ -1,6 +1,10 @@
 
 package org.springframework.samples.petclinic.web;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.assertj.core.util.Lists;
 import org.hamcrest.Matchers;
 import org.hamcrest.xml.HasXPath;
@@ -14,6 +18,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.service.ClinicService;
@@ -53,6 +58,9 @@ class VetControllerTests {
 		james.setFirstName("James");
 		james.setLastName("Carter");
 		james.setId(1);
+		james.setAddress("110 W. Liberty St.");
+		james.setTelephone("6085551023");
+		james.setCity("Madison");
 		Vet helen = new Vet();
 		helen.setFirstName("Helen");
 		helen.setLastName("Leary");
@@ -61,7 +69,23 @@ class VetControllerTests {
 		radiology.setId(1);
 		radiology.setName("radiology");
 		helen.addSpecialty(radiology);
+		Optional<Vet> vetsOpcional = Optional.of(james);
+		Optional<Specialty> speOptional = Optional.of(radiology);
+		List<Vet> vetsList = new ArrayList<>();
+		vetsList.add(james);
+		Pet p = new Pet();
+		p.setId(1);
+		p.setName("Leo");
+		p.setVet(james);
+
+		List<Pet> petsList = new ArrayList<>();
+		petsList.add(p);
 		BDDMockito.given(this.vetService.findVets()).willReturn(Lists.newArrayList(james, helen));
+		BDDMockito.given(this.vetService.findVetById(james.getId())).willReturn(vetsOpcional);
+		BDDMockito.given(this.vetService.findVetByUserId("vet1")).willReturn(vetsList);
+		BDDMockito.given(this.vetService.findPetsByVetId(james.getId())).willReturn(petsList);
+		BDDMockito.given(this.vetService.findSpecialtyById(helen.getId())).willReturn(speOptional);
+
 	}
 
 	@WithMockUser(value = "spring")
@@ -102,7 +126,7 @@ class VetControllerTests {
 	@WithMockUser(value = "veterinarian")
 	@Test
 	void testInitUpdateVetForm() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/vet/show/{vetId}", VetControllerTests.TEST_VET_ID)).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("vet"))
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/vet/show/{vetId}", VetControllerTests.TEST_VET_ID)).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("vet"))
 			.andExpect(MockMvcResultMatchers.model().attribute("vet", Matchers.hasProperty("lastName", Matchers.is("Carter")))).andExpect(MockMvcResultMatchers.model().attribute("vet", Matchers.hasProperty("firstName", Matchers.is("James"))))
 			.andExpect(MockMvcResultMatchers.model().attribute("vet", Matchers.hasProperty("address", Matchers.is("110 W. Liberty St.")))).andExpect(MockMvcResultMatchers.model().attribute("vet", Matchers.hasProperty("city", Matchers.is("Madison"))))
 			.andExpect(MockMvcResultMatchers.model().attribute("vet", Matchers.hasProperty("telephone", Matchers.is("6085551023")))).andExpect(MockMvcResultMatchers.view().name("vet/createOrUpdateVetForm"));
@@ -144,7 +168,8 @@ class VetControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessAddSpecialtyFormSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/vet/{vetId}/specialty/new", VetControllerTests.TEST_VET_ID).param("name", "Dentista").with(SecurityMockMvcRequestPostProcessors.csrf())).andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/vet/{vetId}/specialty/new", VetControllerTests.TEST_VET_ID).param("name", "Dentista").with(SecurityMockMvcRequestPostProcessors.csrf()))
+			.andExpect(MockMvcResultMatchers.status().is3xxRedirection());
 	}
 
 	@WithMockUser(value = "spring")

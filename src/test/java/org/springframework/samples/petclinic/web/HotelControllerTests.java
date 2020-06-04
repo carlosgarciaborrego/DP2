@@ -1,6 +1,9 @@
 
 package org.springframework.samples.petclinic.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,7 +50,11 @@ public class HotelControllerTests {
 		this.hotel.setCount(0);
 		this.hotel.setLocation("Sevilla");
 
+		List<Hotel> hotels = new ArrayList<Hotel>();
+		hotels.add(this.hotel);
+
 		BDDMockito.given(this.hotelService.findHotelById(HotelControllerTests.TEST_HOTEL_ID)).willReturn(this.hotel);
+		BDDMockito.given(this.hotelService.findAll()).willReturn(hotels);
 
 	}
 
@@ -67,7 +74,7 @@ public class HotelControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/hotels/save").with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "Clinica").param("count", "").param("location", "")).andExpect(MockMvcResultMatchers.status().isOk())
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/hotels/save").with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "Clinica").param("count", "0").param("capacity", "10")).andExpect(MockMvcResultMatchers.status().isOk())
 			.andExpect(MockMvcResultMatchers.model().attributeHasErrors("hotel")).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("hotel", "location")).andExpect(MockMvcResultMatchers.view().name("hotels/editHotel"));
 	}
 
@@ -83,7 +90,7 @@ public class HotelControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessUpdateHotelFormHasErrors() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/hotels/{hotelId}/edit", HotelControllerTests.TEST_HOTEL_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "Clinica").param("count", "1").param("location", ""))
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/hotels/{hotelId}/edit", HotelControllerTests.TEST_HOTEL_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "Clinica").param("count", "1").param("capacity", "10"))
 			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.model().attributeHasErrors("hotel")).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("hotel", "location"))
 			.andExpect(MockMvcResultMatchers.view().name("hotels/editHotel"));
 	}
