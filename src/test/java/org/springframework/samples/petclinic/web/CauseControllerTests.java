@@ -1,6 +1,9 @@
 
 package org.springframework.samples.petclinic.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Cause;
+import org.springframework.samples.petclinic.model.Clinic;
 import org.springframework.samples.petclinic.model.Donation;
 import org.springframework.samples.petclinic.model.Hotel;
 import org.springframework.samples.petclinic.service.CauseService;
@@ -62,8 +66,18 @@ public class CauseControllerTests {
 		this.donation.setAmount(100.0);
 		this.donation.setCause(cause);
 		
+		List<Cause> causes = new ArrayList<Cause>();
+		causes.add(this.cause);
+		
+		List<Donation> donations = new ArrayList<Donation>();
+		donations.add(this.donation);
+		
 		BDDMockito.given(this.causeService.findCauseById(CauseControllerTests.TEST_CAUSE_ID)).willReturn(this.cause);
 		BDDMockito.given(this.donationService.findDonationById(CauseControllerTests.TEST_DONATION_ID)).willReturn(this.donation);
+		BDDMockito.given(this.causeService.findAll()).willReturn(causes);
+		BDDMockito.given(this.donationService.findByIdCause(this.cause)).willReturn(donations);
+		BDDMockito.given(this.causeService.findCauseById(CauseControllerTests.TEST_CAUSE_ID)).willReturn(this.cause);
+//		BDDMockito.given(this.donationService.findDonationById(CauseControllerTests.TEST_DONATION_ID)).willReturn(this.donation);
 
 	}
 
@@ -140,7 +154,7 @@ public class CauseControllerTests {
 			.andExpect(MockMvcResultMatchers.model().attribute("cause", Matchers.hasProperty("name", Matchers.is("NombreCause"))))
 			.andExpect(MockMvcResultMatchers.model().attribute("cause", Matchers.hasProperty("description", Matchers.is("Description Cause"))))
 			.andExpect(MockMvcResultMatchers.model().attribute("cause", Matchers.hasProperty("organisation", Matchers.is("Organisation Cause"))))
-			.andExpect(MockMvcResultMatchers.model().attribute("cause", Matchers.hasProperty("budgetTarget", Matchers.is(1000.0)))).andExpect(MockMvcResultMatchers.model().attribute("cause", Matchers.hasProperty("budgetArchivied", Matchers.is(0.0))))
+			.andExpect(MockMvcResultMatchers.model().attribute("cause", Matchers.hasProperty("budgetTarget", Matchers.is(1000.0)))).andExpect(MockMvcResultMatchers.model().attribute("cause", Matchers.hasProperty("budgetArchivied", Matchers.is(100.0))))
 			.andExpect(MockMvcResultMatchers.view().name("causes/editCause"));
 	}
 
