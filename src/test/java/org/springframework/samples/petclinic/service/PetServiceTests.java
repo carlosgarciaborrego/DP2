@@ -18,6 +18,7 @@ package org.springframework.samples.petclinic.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,14 +27,16 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Hotel;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.model.Vet;
-import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
 import org.springframework.samples.petclinic.util.EntityUtils;
@@ -71,6 +74,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 class PetServiceTests {        
         @Autowired
 	protected PetService petService;
@@ -78,6 +82,10 @@ class PetServiceTests {
         @Autowired
 	protected OwnerService ownerService;	
 
+
+        @Autowired
+    	protected HotelService hotelService;
+        
 	@Test
 	void shouldFindPetWithCorrectId() {
 		Pet pet7 = this.petService.findPetById(7);
@@ -193,36 +201,6 @@ class PetServiceTests {
 			anotherPet.setName("wario");
 			petService.savePet(anotherPet);
 		});		
-	}
-
-	@Test
-	@Transactional
-	public void shouldAddNewVisitForPet() {
-		Pet pet7 = this.petService.findPetById(7);
-		int found = pet7.getVisits().size();
-		Visit visit = new Visit();
-		pet7.addVisit(visit);
-		visit.setDescription("test");
-		this.petService.saveVisit(visit);
-            try {
-                this.petService.savePet(pet7);
-            } catch (DuplicatedPetNameException ex) {
-                Logger.getLogger(PetServiceTests.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-		pet7 = this.petService.findPetById(7);
-		assertThat(pet7.getVisits().size()).isEqualTo(found + 1);
-		assertThat(visit.getId()).isNotNull();
-	}
-
-	@Test
-	void shouldFindVisitsByPetId() throws Exception {
-		Collection<Visit> visits = this.petService.findVisitsByPetId(7);
-		assertThat(visits.size()).isEqualTo(2);
-		Visit[] visitArr = visits.toArray(new Visit[visits.size()]);
-		assertThat(visitArr[0].getPet()).isNotNull();
-		assertThat(visitArr[0].getDate()).isNotNull();
-		assertThat(visitArr[0].getPet().getId()).isEqualTo(7);
 	}
 
 }

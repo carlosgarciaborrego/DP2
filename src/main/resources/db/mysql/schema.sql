@@ -1,9 +1,20 @@
+CREATE TABLE users(
+	username varchar_ignorecase(255) NOT NULL PRIMARY KEY,
+	password varchar_ignorecase(255) NOT NULL,
+	enabled BOOLEAN NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS vets (
-  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  first_name VARCHAR(30),
-  last_name VARCHAR(30),
-  INDEX(last_name)
-) engine=InnoDB;
+  id int(11) NOT NULL AUTO_INCREMENT,
+  first_name varchar(255) DEFAULT NULL,
+  last_name varchar(255) DEFAULT NULL,
+  address varchar(255) DEFAULT NULL,
+  city varchar(255) DEFAULT NULL,
+  telephone varchar(255) DEFAULT NULL,
+  clinic_id int(11) DEFAULT NULL,
+  username varchar(255) DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 
 CREATE TABLE IF NOT EXISTS specialties (
   id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -53,3 +64,21 @@ CREATE TABLE IF NOT EXISTS visits (
   description VARCHAR(255),
   FOREIGN KEY (pet_id) REFERENCES pets(id)
 ) engine=InnoDB;
+
+CREATE TABLE IF NOT EXISTS cause (
+  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(30),
+  description VARCHAR(255),
+  organisation VARCHAR(255),
+  budgetTarget DOUBLE(8),
+  budgetAchieved DOUBLE(8), 
+) engine=InnoDB;
+
+CREATE TABLE IF NOT EXISTS donations (
+  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  cause_id INT(4) UNSIGNED NOT NULL,
+  amount DOUBLE(8),
+  FOREIGN KEY (cause_id) REFERENCES cause(id),
+  INDEX(name) 
+) engine=InnoDB;
+
