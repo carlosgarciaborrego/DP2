@@ -103,10 +103,9 @@ public class ClinicControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessUpdateClinicFormSuccess() throws Exception {
-		this.mockMvc
-			.perform(MockMvcRequestBuilders.post("/clinic/{clinicId}", ClinicControllerTests.TEST_CLINIC_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "Clinica Santa Clara").param("location", "Burgos")
-				.with(SecurityMockMvcRequestPostProcessors.csrf()).param("telephone", "666666666").param("emergency", "999999999").param("capacity", "3").param("email", "hola@hotmail.com"))
-			.andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/clinic"));
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/clinic/{clinicId}", ClinicControllerTests.TEST_CLINIC_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "Clinica Santa Clara").param("location", "Burgos")
+			.param("telephone", "666666666").param("emergency", "999999999").param("capacity", "3").param("email", "hola@hotmail.com")).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+			.andExpect(MockMvcResultMatchers.view().name("redirect:/clinic"));
 	}
 
 	@WithMockUser(value = "spring")
