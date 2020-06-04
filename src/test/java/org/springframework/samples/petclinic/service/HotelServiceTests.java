@@ -25,7 +25,7 @@ public class HotelServiceTests {
 	protected HotelService hotelService;
 
 
-	
+	// Este test falla para h2 pero no para mysql con el mismo data (espera 5)
 	@Test
 	void testCountWithInitialData() {
 		int count = this.hotelService.hotelCount();
