@@ -1,3 +1,4 @@
+
 package org.springframework.samples.petclinic.ui;
 
 import java.util.concurrent.TimeUnit;
@@ -32,7 +33,7 @@ public class CausePositiveUITest {
 		@BeforeEach
 		public void setUp() throws Exception {
 			
-			String pathToGeckoDriver = "C:\\Ingenieria de Software 19-20\\DP2\\";
+			String pathToGeckoDriver = "C:\\";
 			System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "\\geckodriver.exe");
 
 			

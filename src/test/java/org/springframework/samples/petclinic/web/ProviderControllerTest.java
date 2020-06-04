@@ -1,6 +1,9 @@
 
 package org.springframework.samples.petclinic.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,6 +30,8 @@ public class ProviderControllerTest {
 
 	private static final int	TEST_PROVIDER_ID	= 1;
 
+	private static final int	TEST_CLINIC_ID		= 1;
+
 	@Autowired
 	private ProviderController	providerController;
 
@@ -41,6 +46,8 @@ public class ProviderControllerTest {
 
 	private Provider			provider;
 
+	private Clinic				clinic;
+
 
 	@BeforeEach
 	void setup() {
@@ -51,19 +58,32 @@ public class ProviderControllerTest {
 		this.provider.setCity("Sevilla");
 		this.provider.setTelephone("664455669");
 		this.provider.setDescription("comida para los animales");
-		Clinic cli = new Clinic();
-		cli.setId(1);
-		cli.setCapacity(20);
-		cli.setName("Holly Clinic");
-		cli.setEmail("clinic1@gmail.com");
-		cli.setEmergency("665544331");
-		cli.setLocation("Sevilla");
-		cli.setTelephone("955910011");
-		this.provider.setClinic(cli);
 
-		this.clinicService.saveClinic(cli);
+		this.clinic = new Clinic();
+		this.clinic.setId(1);
+		this.clinic.setCapacity(20);
+		this.clinic.setName("Holly Clinic");
+		this.clinic.setEmail("clinic1@gmail.com");
+		this.clinic.setEmergency("665544331");
+		this.clinic.setLocation("Sevilla");
+		this.clinic.setTelephone("955910011");
+		//		Set<Provider> conjProv = new HashSet<Provider>();
+		//		this.clinic.setProviders(conjProv);
+		//		Set<Reservation> conjRes = new HashSet<Reservation>();
+		//		this.clinic.setReservations(conjRes);
+		this.clinicService.saveClinic(this.clinic);
+		this.provider.setClinic(this.clinic);
 
+		List<Provider> providers = new ArrayList<Provider>();
+		providers.add(this.provider);
+		List<Clinic> clinics = new ArrayList<Clinic>();
+		clinics.add(this.clinic);
+
+		BDDMockito.given(this.clinicService.findClinicById(ProviderControllerTest.TEST_CLINIC_ID)).willReturn(this.clinic);
 		BDDMockito.given(this.providerService.findProviderById(ProviderControllerTest.TEST_PROVIDER_ID)).willReturn(this.provider);
+		BDDMockito.given(this.clinicService.findAll()).willReturn(clinics);
+		BDDMockito.given(this.providerService.findAll()).willReturn(providers);
+
 	}
 
 	@WithMockUser(value = "spring")
@@ -76,15 +96,14 @@ public class ProviderControllerTest {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
-		this.mockMvc
-			.perform(MockMvcRequestBuilders.post("/providers/save").param("name", "mercadona").param("city", "Sevilla").with(SecurityMockMvcRequestPostProcessors.csrf()).param("telephone", "664455669").param("description", "comida para los animales"))
-			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/providers/save").param("name", "mercadona").param("city", "Sevilla").with(SecurityMockMvcRequestPostProcessors.csrf()).param("telephone", "664455669")
+			.param("description", "comida para los animales").param("clinic.id", "1")).andExpect(MockMvcResultMatchers.status().is3xxRedirection());
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/providers/save").with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "mercadona").param("city", "Sevilla").param("description", "comida para los animales"))
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/providers/save").with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "mercadona").param("city", "Sevilla").param("description", "comida para los animales").param("clinic.id", "1"))
 			.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeHasErrors("provider")).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("provider", "telephone"))
 			.andExpect(MockMvcResultMatchers.view().name("providers/editProvider"));
 	}
@@ -102,8 +121,8 @@ public class ProviderControllerTest {
 	@Test
 	void testProcessUpdateProviderFormHasErrors() throws Exception {
 		this.mockMvc
-			.perform(MockMvcRequestBuilders.post("/providers/{providerId}/edit", ProviderControllerTest.TEST_PROVIDER_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "mercadona").param("city", "Sevilla").param("description",
-				"comida para los animales"))
+			.perform(MockMvcRequestBuilders.post("/providers/{providerId}/edit", ProviderControllerTest.TEST_PROVIDER_ID).with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "mercadona").param("city", "Sevilla")
+				.param("description", "comida para los animales").param("clinic.id", "1"))
 			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.model().attributeHasErrors("provider")).andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("provider", "telephone"))
 			.andExpect(MockMvcResultMatchers.view().name("providers/editProvider"));
 	}

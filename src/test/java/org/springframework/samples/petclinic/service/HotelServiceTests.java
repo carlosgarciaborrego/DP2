@@ -24,13 +24,12 @@ public class HotelServiceTests {
 	@Autowired
 	protected HotelService hotelService;
 
-	//Solo existe un Hotel en la Base de Datos
-	//Nota: Tras guardar, hacer control+Z para deshacer el error que aparece
+
 	
 	@Test
 	void testCountWithInitialData() {
 		int count = this.hotelService.hotelCount();
-		Assertions.assertEquals(count, 5);
+		Assertions.assertEquals(count, 6);
 	}
 
 	@Test
@@ -55,7 +54,7 @@ public class HotelServiceTests {
 		assertThat(hotel1.getName()).isEqualTo("Calle Cadiz");
 		assertThat(hotel1.getLocation()).isEqualTo("Sevilla");
 		assertThat(hotel1.getCount()).isBetween(0, hotel1.getCapacity());
-		assertThat(hotel1.getCapacity()).isGreaterThan(hotel1.getCount());
+		assertThat(hotel1.getCapacity()).isEqualTo(10);
 	}
 
 	@Test
@@ -63,6 +62,7 @@ public class HotelServiceTests {
 		Hotel hotel = new Hotel();
 		hotel.setName("Calle Betis");
 		hotel.setCapacity(8);
+		hotel.setCount(3);
 		hotel.setLocation("Estepa");
 		
 		this.hotelService.save(hotel);
@@ -96,17 +96,14 @@ public class HotelServiceTests {
 	
 	@Test
 	void shouldDeleteHotel() {
-		Iterable<Hotel> hotels = this.hotelService.findAll();
+		Hotel hotel1 = this.hotelService.findHotelById(1); 
 		Collection<Hotel> nuevaLista = new ArrayList<Hotel>();
-
-		for (Hotel h : hotels) {
-			nuevaLista.add(h);
-		}
 		
-		Hotel hotel1 = EntityUtils.getById(nuevaLista, Hotel.class, 1);
+		nuevaLista.add(hotel1);
 		
 		this.hotelService.delete(hotel1);
 		assertThat(nuevaLista.isEmpty());
+
 	}
 	
 }

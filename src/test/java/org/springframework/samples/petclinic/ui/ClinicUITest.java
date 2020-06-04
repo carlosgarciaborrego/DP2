@@ -33,12 +33,14 @@ public class ClinicUITest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		//		String path = "D:\\Ingenieria de Software 19-20\\DP2\\";
-		//		System.setProperty("webdriver.chrome.driver", path + "chromedriver.exe");
-		//		this.driver = new ChromeDriver();
-		String pathToGeckoDriver = "D:\\Ingenieria de Software 19-20\\DP2\\";
+		//Formato para mac
+		//		System.setProperty("webdriver.gecko.driver", "/Users/carlosjesusgarciaborrego/Downloads/Drivers/geckodriver");
+
+		//	Formato para windows
+		String pathToGeckoDriver = "C:\\";
 		System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "\\geckodriver.exe");
 
+		//Común
 		this.driver = new FirefoxDriver();
 		this.baseUrl = "https://www.google.com/";
 		this.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
