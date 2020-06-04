@@ -6,7 +6,7 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.jdbc.Predef._
 
-class CauseDonationsTest extends Simulation {
+class DonationsPerformanceTest extends Simulation {
 
 	val httpProtocol = http
 		.baseUrl("http://www.dp2.com")
@@ -56,24 +56,28 @@ class CauseDonationsTest extends Simulation {
 		.pause(22)
 	}
 
-	
-	object CauseShow {
-		val causeShow = exec(http("CauseShow")
-			.get("/petclinic/causes/6")
+	object DonationForm {
+		val donationForm = exec(http("DonationForm")
+			.get("/petclinic/causes/donate/6")
 			.headers(headers_0)
 			.check(css("input[name=_csrf]", "value").saveAs("stoken"))
-		).pause(21)
+		).pause(23)
+		.exec(http("CausesListAfterDonation")
+			.post("/petclinic/causes/donate/")
+			.headers(headers_2)
+			.formParam("cause.id", "1")
+			.formParam("name", "Donacion 1")
+			.formParam("amount", "100.0")
+			.formParam("_csrf", "${stoken}"))
+		.pause(16)
 	}
 	
-	
-	
-	val causesScn = scenario("CausesPerformanceTests").exec(Home.home,
-													Login.login,
-													CausesList.causesList,
-													CauseShow.causeShow)
 
-
+	val DonationScn = scenario("DonationPerformanceTests").exec(Home.home,
+														Login.login,
+														CausesList.causesList,
+														DonationForm.donationForm)
 
 	setUp(
-		causesScn.inject(atOnceUsers(1))).protocols(httpProtocol)
+		DonationScn.inject(atOnceUsers(1))).protocols(httpProtocol)
 }
