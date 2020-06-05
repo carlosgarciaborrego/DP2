@@ -59,6 +59,7 @@ public class CauseControllerTests {
 		this.cause.setDescription("Description Cause");
 		this.cause.setOrganisation("Organisation Cause");
 		this.cause.setBudgetTarget(1000.0);
+		this.cause.setBudgetArchivied(0.0);
 		
 		this.donation = new Donation();
 		this.donation.setId(CauseControllerTests.TEST_DONATION_ID);
@@ -97,8 +98,8 @@ public class CauseControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/causes/save").param("name", "CauseTest").param("description", "Descripcion Test Cause").with(SecurityMockMvcRequestPostProcessors.csrf()).param("organisation", "Organisation Test Cause").param("budgetTarget", "1000.0"))
-			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/causes/save").param("name", "CauseTest").param("description", "Descripcion Test Cause").with(SecurityMockMvcRequestPostProcessors.csrf()).param("organisation", "Organisation Test Cause").param("budgetTarget", "1000.0").param("budgetArchivied", "0.0"))
+			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("causes/listadoCauses"));;
 	
 
 	
@@ -107,8 +108,8 @@ public class CauseControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormSuccessDonation() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/causes/donate").with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "DonationTest").param("amount", "150.0"))
-			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("causes/listadoCauses"));;
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/causes/donate").with(SecurityMockMvcRequestPostProcessors.csrf()).param("name", "DonationTest").param("amount", "150.0").param("cause.id", "1").param("cause.budgetArchivied", "0.0"))
+			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful()).andExpect(MockMvcResultMatchers.view().name("causes/listadoCauses"));
 	
 	
 	}
