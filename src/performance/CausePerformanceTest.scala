@@ -12,6 +12,9 @@ class CausePerformanceTest extends Simulation {
 		.baseUrl("http://www.dp2.com")
 		.inferHtmlResources(BlackList(""".*.css""", """.*.js""", """.*.ico""", """.*.png"""), WhiteList())
 		.acceptHeader("text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+		.acceptEncodingHeader("gzip, deflate")
+		.acceptLanguageHeader("es-ES,es;q=0.9")
+		.upgradeInsecureRequestsHeader("1")
 		.userAgentHeader("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36")
 
 	val headers_0 = Map(
@@ -62,7 +65,7 @@ class CausePerformanceTest extends Simulation {
 			.headers(headers_0)
 			.check(css("input[name=_csrf]", "value").saveAs("stoken"))
 		).pause(16)
-		.exec(http("CausesListAfterSave")
+			.exec(http("CausesListAfterSave")
 			.post("/petclinic/causes/save")
 			.headers(headers_2)
 			.formParam("id", "")
@@ -77,16 +80,16 @@ class CausePerformanceTest extends Simulation {
 		.pause(20)
 	}
 	
-	object CauseShowAndUpdate {
-		val causeShowAndUpdate = exec(http("CauseShow")
-			.get("/petclinic/causes/6")
-			.headers(headers_0)
+	object CauseShow {
+		val causeShow = exec(http("CauseShow")
+			.get("/petclinic/causes/5")
+			.headers(headers_2)
 			.check(css("input[name=_csrf]", "value").saveAs("stoken"))
 		).pause(21)
 		.exec(http("CausesListAfterUpdate")
 			.post("/petclinic/causes/save")
 			.headers(headers_2)
-			.formParam("id", "6")
+			.formParam("id", "5")
 			.formParam("name", "Donacion 2")
 			.formParam("description", "Description Cause")
 			.formParam("organisation", "Organisation Cause")
@@ -100,7 +103,7 @@ class CausePerformanceTest extends Simulation {
 	
 	object CausesListAfterDelete {
 		val causesListAfterDelete = exec(http("CausesListAfterDelete")
-			.get("/petclinic/causes/delete/6")
+			.get("/petclinic/causes/delete/5")
 			.headers(headers_0))
 		.pause(8)
 	}
@@ -111,11 +114,17 @@ class CausePerformanceTest extends Simulation {
 													Login.login,
 													CausesList.causesList,
 													NewCauseForm.newCauseForm,
-													CauseShowAndUpdate.causeShowAndUpdate,
-													CausesListAfterDelete.causesListAfterDelete)
+													CauseShow.causeShow)
 
 
 
-	setUp(
-		causesScn.inject(atOnceUsers(1))).protocols(httpProtocol)
+	setUp(		
+		causesScn.inject(rampUsers(1200) during(100 seconds))).protocols(httpProtocol)
+															.assertions(
+															global.responseTime.max.lt(5000),
+															global.responseTime.mean.lt(1000),
+															global.successfulRequests.percent.gt(95)
+															)
+																								
+														
 }
