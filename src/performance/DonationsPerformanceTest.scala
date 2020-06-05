@@ -58,7 +58,7 @@ class DonationsPerformanceTest extends Simulation {
 
 	object DonationForm {
 		val donationForm = exec(http("DonationForm")
-			.get("/petclinic/causes/donate/6")
+			.get("/petclinic/causes/donate/5")
 			.headers(headers_0)
 			.check(css("input[name=_csrf]", "value").saveAs("stoken"))
 		).pause(23)
@@ -73,11 +73,16 @@ class DonationsPerformanceTest extends Simulation {
 	}
 	
 
-	val DonationScn = scenario("DonationPerformanceTests").exec(Home.home,
+	val DonationScn = scenario("DonationsPerformanceTest").exec(Home.home,
 														Login.login,
 														CausesList.causesList,
 														DonationForm.donationForm)
 
 	setUp(
-		DonationScn.inject(atOnceUsers(1))).protocols(httpProtocol)
+		DonationScn.inject(rampUsers(8000) during(100 seconds))).protocols(httpProtocol)
+													.assertions(
+													global.responseTime.max.lt(5000),
+													global.responseTime.mean.lt(1000),
+													global.successfulRequests.percent.gt(95)
+													)
 }
